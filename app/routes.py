@@ -17,6 +17,5 @@ def root():
 
 @app.route('/colour')
 def colour():
-    colours = Colour.query.all()
-    return (colours)
-
+    colours = models.Colour.query.all()
+    return render_template("colour.html", colours=colours)
