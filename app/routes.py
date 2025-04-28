@@ -12,7 +12,7 @@ import app.models as models
 
 @app.route('/')
 def root():
-    return("This is the homepage")
+    return render_template('home.html')
 
 
 @app.route('/colour')
