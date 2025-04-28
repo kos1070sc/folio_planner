@@ -12,4 +12,4 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(30), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    privilege = db.Column(db.Integer, default=0)  # 0 is normal user 1 is admin
+    privilege = db.Column(db.Integer, default=0)  # 0 is normal user, 1 is admin
