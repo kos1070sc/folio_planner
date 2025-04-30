@@ -1,10 +1,10 @@
 from app import app
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import os
 import secrets
-import app.models as models
 app.secret_key = secrets.token_hex(32)
+
 # Creates a random key that is 64 characters long to encrypt session data
 # This makes more secure and protects against seesion hijacking 
 
@@ -12,6 +12,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "folio.db")
 db.init_app(app)
+
+import app.models as models
 
 @app.route('/')
 def root():
