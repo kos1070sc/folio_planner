@@ -29,11 +29,9 @@ def colour():
 def create_account():
     return render_template('create_account.html')
     
-
-
+    
 @app.route('/submit_create_account',  methods=["POST"])
 def create_account_submit():
-    print("fish")
     #get username and password from html form
     username = request.form['username']
     password = request.form['password']
@@ -52,3 +50,25 @@ def create_account_submit():
 
     return render_template_string('''Account created please login .<a href=
                                     "http://127.0.0.1:5000"''')
+
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/submit_login', methods=["POST"])
+def submit_login():
+    #get username and password
+    username = request.form['username']
+    password = request.form['password']
+    #looks for the user in the database 
+    user = models.User.query.filter_by(name=username).first()
+    #check if username and passwords matches with database
+    if user and user.check_password(password):
+        #create session 
+        session['user_id'] = user.id
+        session['user_name'] = user.name
+        return render_template_string("logged in successfully")
+    else:
+        return render_template_string('''Invalid name or password please try again 
+                                      <a href="http://127.0.0.1:5000"''')
