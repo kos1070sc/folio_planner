@@ -29,10 +29,10 @@
 .left_link:hover, .right_link:hover{
     background-color: #9897fc;
     color: #353535;
-    height: 80px;
+    height: 83px;
     display: flex;
     align-items: center; /* align the items in the center vertically */
-    transform: translateY(-2px); /* make the link pop up when hovered over */
+    transform: translateY(-3px); /* make the link pop up when hovered over */
 }
 
 .right_link{ 
@@ -61,12 +61,66 @@ h1 {
     outline: none;
     width: 200px;
     height: 40px;
-    border-radius: 6px 6px 6px 6px;
+    border-radius: 30px;
     box-shadow: 0px 2px 2px 0px;
     font-size: 15px;
+    width:75%;
+    height: 3rem;
 }
 
 .submit_button:hover{
     background-color:green;
     color: white;
+}
+
+.login_container{
+    border: 2px solid black;
+    display: grid;
+    align-items: center;
+    width: fit-content;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px 5px grey;
+    width: 30%;
+}
+
+.login_body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; 
+}
+
+.login_container h1{
+    background-color: #7371FC;
+    text-align: center;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    border-radius: 6px;
+}
+
+.login_container hr{
+    height: 3px;
+    background-color: black;
+}
+
+.login_container form{
+    text-align: center;
+    padding: 10% 10% 10% 10%;
+    font-size: 1.5rem;
+}
+
+.login_container p{
+    font-size: 1.2rem;
+}
+
+
+.text_box{
+    height: 3rem;
+    width:75%;
+    border-radius: 30px;
+}
+
+::placeholder{
+    font-size: 1.3rem;
+    padding-left: 5%;
 }

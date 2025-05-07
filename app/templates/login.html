@@ -6,27 +6,29 @@
     <title>Document</title>
     <link rel = "stylesheet" href = "/static/style.css">
 </head>
-<body>
-    <h1>Login</h1>
-    <form action = "/submit_login" method = 'POST'>
-        <label for="username">Username</label>
-        <br><br>
-        <input type="text" id = "username" name = "username"
-            minlength="3" maxlength="30"
-            placeholder="Choose a username (3-30 chars)">
-        <br><br>
-        
-        <label for="password">Password</label>
-        <br><br>
-        <input type="text" id = "password" name = "password"
-            minlength="3" maxlength="30"
-            placeholder="Choose a password (3-30 chars)">
-        <br><br>
-        
-        
-        <input type="submit" value = "Login" class = "submit_button">
+<body class = "login_body">
+  
+    <div class = "login_container">
+        <h1>Login</h1>
+        <hr>
+        <form action = "/submit_login" method = 'POST'>
+            <br>
+            <input type="text" id = "username" name = "username"
+                minlength="3" maxlength="30"
+                placeholder="Choose a username (3-30 chars)"
+                class = "text_box">
+            <br><br>
+            <input type="text" id = "password" name = "password"
+                minlength="3" maxlength="30"
+                placeholder="Choose a password (3-30 chars)"
+                class = "text_box">
+            <br><br><br>
+            <input type="submit" value = "Login" class = "submit_button">
+            <br><br>
+            <p>Don't have an account? <a href="http://127.0.0.1:5000/create_account">Create Account Here<a></p>
+        </form>
+    </div>
 
-    </form>
     
 </body>
 </html>
