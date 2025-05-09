@@ -57,20 +57,20 @@ h1 {
 
 /* create_account.html */
 .submit_button{
-    background-color: limegreen;
+    background-color: gold;
     outline: none;
     width: 200px;
     height: 40px;
     border-radius: 30px;
     box-shadow: 0px 2px 2px 0px;
     font-size: 15px;
-    width:75%;
+    width:80%;
     height: 3rem;
 }
 
 .submit_button:hover{
-    background-color:green;
-    color: white;
+    background-color:rgb(189, 161, 2);
+    transform: translateY(-1px);
 }
 
 .login_container{
@@ -81,6 +81,7 @@ h1 {
     border-radius: 10px;
     box-shadow: 0px 0px 5px 5px grey;
     width: 30%;
+    backdrop-filter: blur(10px); /* Frosted glass effect for the container */
 }
 
 .login_body{
@@ -88,10 +89,11 @@ h1 {
     align-items: center;
     justify-content: center;
     min-height: 100vh; 
+    background-image: url("/static/images/mountains.jpg");     /* Background img */
+    background-size: cover;     /* Sets the size of the background to cover the page */
 }
 
 .login_container h1{
-    background-color: #7371FC;
     text-align: center;
     padding-top: 3%;
     padding-bottom: 3%;
@@ -101,6 +103,7 @@ h1 {
 .login_container hr{
     height: 3px;
     background-color: black;
+    padding:0%;
 }
 
 .login_container form{
@@ -118,9 +121,12 @@ h1 {
     height: 3rem;
     width:75%;
     border-radius: 30px;
+    font-size:  1.3rem;
+    padding-left: 5%;
+    
 }
 
 ::placeholder{
     font-size: 1.3rem;
-    padding-left: 5%;
 }
+

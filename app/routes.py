@@ -35,9 +35,12 @@ def create_account_submit():
     #get username and password from html form
     username = request.form['username']
     password = request.form['password']
+    #checks if the user has entered both a username and password
+    if not username or not password:
+        return render_template_string('''please enter a username and a password''')
     #checks if username is already in the database
     #queries the database for the first match
-    if models.User.query.filter_by(name=username).first():
+    elif models.User.query.filter_by(name=username).first():
         return render_template_string('''Username already exist <a href=
                                     http://127.0.0.1:5000/create_account''')
     else:
@@ -56,11 +59,15 @@ def create_account_submit():
 def login():
     return render_template('login.html')
 
-@app.route('/submit_login', methods=["POST"])
+@app.route('/submit_login', methods=["GET", "POST"])
 def submit_login():
     #get username and password
     username = request.form['username']
     password = request.form['password']
+    #checks if the user has entered both a username and password
+    if not username or not password:
+        flash('''please enter a username and a password''')
+        return redirect(url_for('login.html'))
     #looks for the user in the database 
     user = models.User.query.filter_by(name=username).first()
     #check if username and passwords matches with database
