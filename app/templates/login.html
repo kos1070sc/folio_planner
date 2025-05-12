@@ -11,7 +11,10 @@
     <div class = "login_container">
         <h1>Login</h1>
         <hr>
-        <form action = "/submit_login" method = 'POST'>
+        {% for message in get_flashed_messages() %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <form action = "/login" method = 'POST'>
             <br>
             <input type="text" id = "username" name = "username"
                 minlength="3" maxlength="30"
@@ -29,6 +32,5 @@
         </form>
     </div>
 
-    
 </body>
 </html>

@@ -55,27 +55,27 @@ def create_account_submit():
                                     "http://127.0.0.1:5000"''')
 
 
-@app.route('/login')
+@app.route('/login', methods=["GET", "POST"])
 def login():
-    return render_template('login.html')
-
-@app.route('/submit_login', methods=["GET", "POST"])
-def submit_login():
-    #get username and password
-    username = request.form['username']
-    password = request.form['password']
-    #checks if the user has entered both a username and password
-    if not username or not password:
-        flash('''please enter a username and a password''')
-        return redirect(url_for('login.html'))
-    #looks for the user in the database 
-    user = models.User.query.filter_by(name=username).first()
-    #check if username and passwords matches with database
-    if user and user.check_password(password):
-        #create session 
-        session['user_id'] = user.id
-        session['user_name'] = user.name
-        return render_template_string("logged in successfully")
+    if request.method == "POST":
+        username = request.form['username']
+        password = request.form['password']
+        #checks if the user has entered both a username and password
+        if not username or not password:
+            flash('''please enter a username and a password''')
+            print("fish")
+            return redirect(url_for('login'))
+        #looks for the user in the database 
+        user = models.User.query.filter_by(name=username).first()
+        #check if username and passwords matches with database
+        if user and user.check_password(password):
+            #create session 
+            session['user_id'] = user.id
+            session['user_name'] = user.name
+            flash("logged in successfully")
+            return render_template_string("logged in successfully")
+        else:
+            return render_template_string('''Invalid name or password please try again 
+                                        <a href="http://127.0.0.1:5000"''')
     else:
-        return render_template_string('''Invalid name or password please try again 
-                                      <a href="http://127.0.0.1:5000"''')
+        return render_template('login.html')
