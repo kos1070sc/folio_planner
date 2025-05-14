@@ -11,15 +11,20 @@
     <div class = "login_container">
         <h1 class>Create Account</h1>
         <hr class>
+        <br><br>
+        {% for message in get_flashed_messages() %}
+        <div class = "error_message_container">
+            <p class = "error_message">{{ message }}</p>
+        </div>
+        {% endfor %}
         <form action = "/submit_create_account" method = 'POST'>
-            <br>
             <input type="text" id = "username" name = "username"
                 minlength="3" maxlength="30"
                 placeholder="Choose a username (3-30 chars)"
                 class = "text_box">
             <br>
             <br>
-            <input type="text" id = "password" name = "password"
+            <input type="pasword" id = "password" name = "password"
                 minlength="3" maxlength="30"
                 placeholder="Choose a password (3-30 chars)"
                 class = "text_box">

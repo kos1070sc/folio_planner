@@ -11,11 +11,13 @@
     <div class = "login_container">
         <h1>Login</h1>
         <hr>
+        <br><br>
         {% for message in get_flashed_messages() %}
-            <p>{{ message }}</p>
+        <div class = "error_message_container">
+            <p class = "error_message">{{ message }}</p>
+        </div>
         {% endfor %}
         <form action = "/login" method = 'POST'>
-            <br>
             <input type="text" id = "username" name = "username"
                 minlength="3" maxlength="30"
                 placeholder="Username"

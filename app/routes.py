@@ -37,12 +37,13 @@ def create_account_submit():
     password = request.form['password']
     #checks if the user has entered both a username and password
     if not username or not password:
-        return render_template_string('''please enter a username and a password''')
+        flash("⚠️ Please enter a user and password")
+        return redirect(url_for("create_account"))
     #checks if username is already in the database
     #queries the database for the first match
     elif models.User.query.filter_by(name=username).first():
-        return render_template_string('''Username already exist <a href=
-                                    http://127.0.0.1:5000/create_account''')
+        flash("⚠️ Usermame already exist. Please choose another one")
+        return redirect(url_for("create_account"))
     else:
         # store username and hashed password, admin previlege = 0 (normal user)
         new_user = models.User(name=username, privilege=0)
@@ -62,8 +63,7 @@ def login():
         password = request.form['password']
         #checks if the user has entered both a username and password
         if not username or not password:
-            flash('''please enter a username and a password''')
-            print("fish")
+            flash("⚠️ Please enter a username and a password")
             return redirect(url_for('login'))
         #looks for the user in the database 
         user = models.User.query.filter_by(name=username).first()
@@ -72,10 +72,14 @@ def login():
             #create session 
             session['user_id'] = user.id
             session['user_name'] = user.name
-            flash("logged in successfully")
-            return render_template_string("logged in successfully")
+            return redirect(url_for("dashboard"))
         else:
-            return render_template_string('''Invalid name or password please try again 
-                                        <a href="http://127.0.0.1:5000"''')
+            flash("⚠️ Incorrect name or password")
+            return redirect(url_for('login'))
     else:
         return render_template('login.html')
+    
+@app.route('/dashboard')
+def dashboard():
+    accounts = models.User.query.all()
+    return render_template("dashboard.html", accounts=accounts)
