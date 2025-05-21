@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    <h1>Logged in successfully</h1>
-    <h1>Account information</h1>
-    {% for account in accounts %}
-            <li>{{ account.name }} </li>
-    {% endfor %}
-</body>
+{%extends "user_layout.html"%}
+{%block content%}
+<div>
+    <h1>Welcome back {{account_info.name}}!</h1>
+</div>
+{%endblock%}

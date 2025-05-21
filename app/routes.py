@@ -5,7 +5,6 @@ import os
 import secrets
 # Creates a random key that is 64 characters long to encrypt session data
 # This makes more secure and protects against seesion hijacking 
-
 app.secret_key = secrets.token_hex(32)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -17,7 +16,7 @@ import app.models as models
 
 @app.route('/')
 def root():
-    return render_template('home.html')
+    return render_template('root.html')
 
 
 @app.route('/colour')
@@ -72,6 +71,7 @@ def login():
             #create session 
             session['user_id'] = user.id
             session['user_name'] = user.name
+            print(session)
             return redirect(url_for("dashboard"))
         else:
             flash("⚠️ Incorrect name or password")
@@ -79,7 +79,18 @@ def login():
     else:
         return render_template('login.html')
     
+    
 @app.route('/dashboard')
 def dashboard():
-    accounts = models.User.query.all()
-    return render_template("dashboard.html", accounts=accounts)
+    #check if user has logged in 
+    #if not return them to the login page
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    else:
+        account_info = models.User.query.get(session['user_id'])
+        print(account_info)
+        return render_template('dashboard.html', account_info=account_info)
+
+@app.route("/planner")
+def planner():
+    return render_template("planner.html")
