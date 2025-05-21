@@ -248,7 +248,10 @@ h1 {
     text-align: center;
 }
 
-.panel_1_series_1, .panel_1_series_3{
+
+/* series */
+/* a4 portrait height */
+.panel_1_series_1, .panel_1_series_3, .panel_3_series_1, .panel_3_series_3{
     outline-style: solid;
     outline-width: 2px;
     height: 251.7px;
@@ -256,7 +259,8 @@ h1 {
     gap: 0.5rem;
 }
 
-.panel_1_series_2{
+/* a4 landscape height */
+.panel_1_series_2, .panel_2_series_1, .panel_2_series_2, .panel_3_series_2{
     outline-style: solid;
     outline-width: 2px;
     height: 177.9px;
@@ -264,6 +268,17 @@ h1 {
     gap: 0.5rem;
 }
 
+/* a3 portrait height */
+.panel_2_series_3{
+    outline-style: solid;
+    outline-width: 2px;
+    height: 325px;
+    display: flex;
+    gap: 0.5rem;
+}
+
+
+/* paintings */
 .a4_portrait{
     outline-style: solid;
     outline-width: 2px;
@@ -274,5 +289,35 @@ h1 {
     outline-style: solid;
     outline-width: 2px;
     width: 251.7px;
+}
+
+.a5_portrait{
+    outline-style: solid;
+    outline-width: 2px;
+    width: 125.85px;
+}
+
+.a3_landscape{
+    outline-style: solid;
+    outline-width: 2px;
+    width: 356px;
+}
+
+.a3_portrait{
+    outline-style: solid;
+    outline-width: 2px;
+    width: 251.7px;
+}
+
+.a3_square{
+    outline-style: solid;
+    outline-width: 2px;
+    width: 251.7px;
+}
+
+.a3_wide{
+    outline-style: solid;
+    outline-width: 2px;
+    width: 504px;
 }
     
