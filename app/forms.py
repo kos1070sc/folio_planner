@@ -20,3 +20,8 @@ class LoginForm(FlaskForm):
         Length(min = 8, message = "⚠️ Please enter a password of at least 8 characters please")
         ]) 
     submit = SubmitField("Submit")
+
+class CreateNewForm(FlaskForm):
+    theme = StringField('Theme', validators=[
+        DataRequired(message = "⚠️ Please enter a theme")
+    ])

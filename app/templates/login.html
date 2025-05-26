@@ -7,34 +7,33 @@
     <link rel = "stylesheet" href = "/static/style.css">
 </head>
 <body class = "login_body">
+
     <div class = "login_container">
         <h1>Login</h1>
         <hr>
         <br><br>
-        <form action = "/login" method = 'POST'>
-            <!-- <input type="text" id = "username" name = "username"
-                minlength="3" maxlength="30"
-                placeholder="Username"
-                class = "text_box"> -->
-            
-           {{ 
-                form.username(id = "username", class_="text_box", placeholder="Username")
-            }} 
+            <!-- form error messages -->
+        <!-- {% if form.username.errors %}
+            {% for error in form.username.errors %}
+                <div class = "error_message_container">
+                    <p class = "error_message">{{ error }}</p>
+                </div>
+            {% endfor %}
+        {% endif %} -->
 
-            {% if form.username.error %}
-                {% for errors in form.username.error %}
-                    <div class = "error_message_container">
-                        <p class = "error_message">{{ error }}</p>
-                    </div>
-                {% endfor %}
-            {% endif %}
+     <!-- flash error messages -->
+        {% for message in get_flashed_messages() %}
+            <div class = "error_message_container">
+                <p class = "error_message">{{ message }}</p>
+            </div>
+        {% endfor %}
+        <form method = 'POST'>
+            {{ form.hidden_tag() }}
+           {{ form.username(id = "username", class_="text_box", placeholder="Username")}} 
             <br><br>
-            <input type="password" id = "password" name = "password"
-                minlength="3" maxlength="30"
-                placeholder="Password"
-                class = "text_box">
+            {{ form.password(id = "password", class_="text_box", placeholder="Password")}} 
             <br><br><br>
-            <input type="submit" value = "Login" class = "submit_button">
+            {{ form.submit(id = "submit", class_="submit_button")}} 
             <br><br>
             <p>Don't have an account? <a href="http://127.0.0.1:5000/create_account">Create Account Here<a></p>
         </form>
