@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{%extends "user_layout.html"%}
+{%block content%}
+<form action="{{ url_for('create_new') }}" method = "POST">
+    <label for="theme">What is the theme of this folio</label>
+    <br>
+    <input type="text" id = "theme" name = "theme">
+    <input type="submit" value="Create" class="submit_button">
+</form>
+{%endblock%}

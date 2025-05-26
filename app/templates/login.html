@@ -7,21 +7,27 @@
     <link rel = "stylesheet" href = "/static/style.css">
 </head>
 <body class = "login_body">
-  
     <div class = "login_container">
         <h1>Login</h1>
         <hr>
         <br><br>
-        {% for message in get_flashed_messages() %}
-        <div class = "error_message_container">
-            <p class = "error_message">{{ message }}</p>
-        </div>
-        {% endfor %}
         <form action = "/login" method = 'POST'>
-            <input type="text" id = "username" name = "username"
+            <!-- <input type="text" id = "username" name = "username"
                 minlength="3" maxlength="30"
                 placeholder="Username"
-                class = "text_box">
+                class = "text_box"> -->
+            
+           {{ 
+                form.username(id = "username", class_="text_box", placeholder="Username")
+            }} 
+
+            {% if form.username.error %}
+                {% for errors in form.username.error %}
+                    <div class = "error_message_container">
+                        <p class = "error_message">{{ error }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
             <br><br>
             <input type="password" id = "password" name = "password"
                 minlength="3" maxlength="30"

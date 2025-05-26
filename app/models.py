@@ -25,3 +25,9 @@ class User(db.Model):
         #This compares the password to the stored hash to check if a password is correct
         #If it mathes it will return True if not then False 
 
+
+class Folio(db.Model):
+    __tablename__ = "Folio"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    theme = db.Column(db.String(30), unique=True, nullable=False)

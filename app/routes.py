@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template, request, redirect, url_for, session, flash, render_template_string
 from flask_sqlalchemy import SQLAlchemy
+from app.forms import LoginForm
 import os
 import secrets
 # Creates a random key that is 64 characters long to encrypt session data
@@ -13,6 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "fo
 db.init_app(app)
 
 import app.models as models
+
 
 @app.route('/')
 def root():
@@ -57,9 +59,11 @@ def create_account_submit():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        username = request.form['username']
-        password = request.form['password']
+    form = LoginForm() #get the form thingy 
+    #check entered meets the requirements 
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
         #checks if the user has entered both a username and password
         if not username or not password:
             flash("⚠️ Please enter a username and a password")
@@ -77,7 +81,7 @@ def login():
             flash("⚠️ Incorrect name or password")
             return redirect(url_for('login'))
     else:
-        return render_template('login.html')
+        return render_template('login.html', form=form)
     
     
 @app.route('/dashboard')
@@ -94,3 +98,15 @@ def dashboard():
 @app.route("/planner")
 def planner():
     return render_template("planner.html")
+
+@app.route("/create_new", methods=["GET", "POST"])
+def create_new():
+    if request.method == "POST":
+        theme = request.form.get("theme")
+        # Check if anything is in theme
+        if theme:
+            print(theme)
+            return render_template("planner.html")
+        else:
+            return render_template_string("Please enter a theme")
+    return render_template("create_new.html")
