@@ -12,14 +12,23 @@
         <h1>Login</h1>
         <hr>
         <br><br>
-            <!-- form error messages -->
-        <!-- {% if form.username.errors %}
+    <!-- form error messages -->
+        {% if form.username.errors %}
             {% for error in form.username.errors %}
                 <div class = "error_message_container">
                     <p class = "error_message">{{ error }}</p>
                 </div>
             {% endfor %}
-        {% endif %} -->
+        {% endif %}
+
+
+        {% if form.password.errors %}
+            {% for error in form.password.errors %}
+                <div class = "error_message_container">
+                    <p class = "error_message">{{ error }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
 
      <!-- flash error messages -->
         {% for message in get_flashed_messages() %}
@@ -28,8 +37,8 @@
             </div>
         {% endfor %}
         <form method = 'POST'>
-            {{ form.hidden_tag() }}
-           {{ form.username(id = "username", class_="text_box", placeholder="Username")}} 
+            {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
+            {{ form.username(id = "username", class_="text_box", placeholder="Username")}} 
             <br><br>
             {{ form.password(id = "password", class_="text_box", placeholder="Password")}} 
             <br><br><br>
