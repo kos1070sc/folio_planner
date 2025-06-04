@@ -84,16 +84,16 @@ def login():
         return render_template('login.html', form=form)
     
     
-@app.route('/dashboard')
-def dashboard():
-    #check if user has logged in 
-    #if not return them to the login page
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-    else:
-        account_info = models.User.query.get(session['user_id'])
-        print(account_info)
-        return render_template('dashboard.html', account_info=account_info)
+# @app.route('/dashboard')
+# def dashboard():
+#     #check if user has logged in 
+#     #if not return them to the login page
+#     if 'user_id' not in session:
+#         return redirect(url_for('login'))
+#     else:
+#         account_info = models.User.query.get(session['user_id'])
+#         print(account_info)
+#         return render_template('dashboard.html', account_info=account_info)
 
 @app.route("/planner")
 def planner():
@@ -103,12 +103,44 @@ def planner():
 def create_new():
     form = CreateNew()
     if form.validate_on_submit():
+        user_id = session["user_id"]
         theme = form.theme.data
+        #check is user has entered a theme
         if theme:
             print(theme)
+            #creates new folio in database with the theme entered
+            new_theme = models.Folio(theme=theme, user_id=user_id)
+            db.session.add(new_theme)
+            db.session.commit()
             return render_template("planner.html")
+        # display an error message if no theme
         else:
             flash("⚠️ Please enter a theme")
             return redirect(url_for("create_new"))
     else:
         return render_template("create_new.html", form=form)
+    
+
+@app.route("/my_folios/<int:user_id>")
+def my_folios(user_id):
+    #get the user id - to this to check if user is logged in 
+    user_id = session.get("user_id")
+    #if there is not user id - redirect user to login
+    if not user_id:
+        flash("Please login first")
+        return redirect(url_for("login"))
+    else:
+        folio = models.Folio.query.filter_by(user_id=user_id)
+        return render_template("my_folios.html", folio=folio)
+    
+@app.route("/dashboard/<int:user_id>")
+def dashboard(user_id)
+    user_id = session.get("user_id")
+    if not user_id:
+        flash("Please login first")
+        return redirect(url_for("login"))
+    else:
+        user_info = models.User.query.all()
+        return render_template("dashboard", user_info=user_info, user_id=user_id)
+        
+    

@@ -1,0 +1,11 @@
+{%extends "user_layout.html"%}
+{%block content%}
+
+<h1>My folios</h1>
+
+{% for folio in folio %}
+    <li>{{ folio.theme }}</li>
+{% endfor %}
+
+
+{%endblock%}

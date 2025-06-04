@@ -118,11 +118,13 @@ h1 {
     width: 85%; 
     margin: auto; /* Centers horizontally */
     padding: 0 calc(7.5% - 20px); /* Balanced padding on both sides 0 for top/bottom */
-    background-color: rgb(250, 191, 255);
+    backdrop-filter: blur(10px); /* Frosted glass effect for the container */
+    box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
     justify-content: center;
     align-items: center;
     box-sizing: border-box; /* Includes the padding in width calculation */
     flex-direction: column;
+    transform: translateY(5px)
 }
 
 
