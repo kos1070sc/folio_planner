@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, request, redirect, url_for, session, flash, render_template_string
 from flask_sqlalchemy import SQLAlchemy
-from app.forms import LoginForm
+from app.forms import LoginForm, CreateAccount, CreateNew
 import os
 import secrets
 # Creates a random key that is 64 characters long to encrypt session data
@@ -26,35 +26,35 @@ def colour():
     colours = models.Colour.query.all()
     return render_template("colour.html", colours=colours)
 
-@app.route('/create_account')
+    
+    
+@app.route('/create_account',  methods=["GET", "POST"])
 def create_account():
-    return render_template('create_account.html')
-    
-    
-@app.route('/submit_create_account',  methods=["POST"])
-def create_account_submit():
-    #get username and password from html form
-    username = request.form['username']
-    password = request.form['password']
+    form = CreateAccount() #get the form thingy 
+    #check entered meets the requirements 
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
     #checks if the user has entered both a username and password
-    if not username or not password:
-        flash("⚠️ Please enter a user and password")
-        return redirect(url_for("create_account"))
-    #checks if username is already in the database
-    #queries the database for the first match
-    elif models.User.query.filter_by(name=username).first():
-        flash("⚠️ Usermame already exist. Please choose another one")
-        return redirect(url_for("create_account"))
-    else:
-        # store username and hashed password, admin previlege = 0 (normal user)
-        new_user = models.User(name=username, privilege=0)
-        new_user.set_password(password)
-        #commit to the database
-        db.session.add(new_user)
-        db.session.commit()
-
-    return render_template_string('''Account created please login .<a href=
-                                    "http://127.0.0.1:5000"''')
+        if not username or not password:
+            flash("⚠️ Please enter a user and password")
+            return redirect(url_for("create_account"))
+        #checks if username is already in the database
+        #queries the database for the first match
+        elif models.User.query.filter_by(name=username).first():
+            flash("⚠️ Usermame already exist. Please choose another one")
+            return redirect(url_for("create_account"))
+        else:
+            print("yes")
+            # store username and hashed password, admin previlege = 0 (normal user)
+            new_user = models.User(name=username, privilege=0)
+            new_user.set_password(password)
+            #commit to the database
+            db.session.add(new_user)
+            db.session.commit()
+            flash("Account created please login")
+            return redirect(url_for("login"))
+    return render_template("create_account.html", form=form)
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -101,12 +101,14 @@ def planner():
 
 @app.route("/create_new", methods=["GET", "POST"])
 def create_new():
-    if request.method == "POST":
-        theme = request.form.get("theme")
-        # Check if anything is in theme
+    form = CreateNew()
+    if form.validate_on_submit():
+        theme = form.theme.data
         if theme:
             print(theme)
             return render_template("planner.html")
         else:
-            return render_template_string("Please enter a theme")
-    return render_template("create_new.html")
+            flash("⚠️ Please enter a theme")
+            return redirect(url_for("create_new"))
+    else:
+        return render_template("create_new.html", form=form)

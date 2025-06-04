@@ -7,10 +7,18 @@
 </head>
 {%extends "user_layout.html"%}
 {%block content%}
-<form action="{{ url_for('create_new') }}" method = "POST">
-    <label for="theme">What is the theme of this folio</label>
-    <br>
-    <input type="text" id = "theme" name = "theme">
-    <input type="submit" value="Create" class="submit_button">
+
+{% if form.theme.errors %}
+    {% for error in form.theme.errors %}
+        <div class = "error_message_container">
+            <p class = "error_message">{{ error }}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+<form method = "POST" action="/create_new">
+    {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
+
+    {{ form.theme(id = "theme", class_="text_box", placeholder="What is the theme?")}} 
+    {{ form.submit(id = "submit", class_="submit_button")}} 
 </form>
 {%endblock%}

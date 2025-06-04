@@ -29,5 +29,28 @@ class User(db.Model):
 class Folio(db.Model):
     __tablename__ = "Folio"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
     theme = db.Column(db.String(30), unique=True, nullable=False)
+
+
+class Panel(db.Model):
+    __tablename__ = "Panel"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    folio_id = db.Column(db.Integer, db.ForeignKey('Folio.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
+    panel_number = db.Column(db.Integer)
+
+
+class Painting(db.Model):
+    __tablename__ = "Painting"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    panel_id = db.Column(db.Integer, db.ForeignKey('Panel.id'))
+    folio_id = db.Column(db.Integer, db.ForeignKey('Folio.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
+    title = db.Column(db.String(30))
+    position = db.Column(db.Integer)
+    size = db.Column(db.String)
+    term_due = db.Column(db.Integer)
+    week_due = db.Column(db.Integer)
+    composition = db.Column(db.Text)
+    image = db.Column(db.String)
