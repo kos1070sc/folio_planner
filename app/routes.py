@@ -134,7 +134,7 @@ def my_folios(user_id):
         return render_template("my_folios.html", folio=folio)
     
 @app.route("/dashboard/<int:user_id>")
-def dashboard(user_id)
+def dashboard(user_id):
     user_id = session.get("user_id")
     if not user_id:
         flash("Please login first")
