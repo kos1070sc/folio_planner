@@ -53,7 +53,3 @@ class CreateNew(FlaskForm):
         DataRequired(message = "⚠️ Please enter a theme")
     ])
     submit = SubmitField("Submit")
-
-
-
-
