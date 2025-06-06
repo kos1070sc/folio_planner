@@ -10,8 +10,8 @@
     <!-- navbar -->
 		<nav>
 			<div class = "navbar">
-				<a class = "left_link" href = "http://127.0.0.1:5000/">Homepage</a>
-				<a class = "left_link" href = "http://127.0.0.1:5000/">Dash Board</a>
+				<a class = "left_link" href = "{{ url_for('dashboard', user_id=user_id) }}">Dash Board</a>
+				<a class = "left_link" href = "{{ url_for('my_folios', user_id=user_id) }}">My Folios</a>
 				<a class = "left_link" href = "http://127.0.0.1:5000/create_new">Create New</a>
 				<a class = "left_link" href = "http://127.0.0.1:5000/">Settings</a>
 				<a class = "left_link" href= "http://127.0.0.1:5000/">Help</a>
@@ -23,6 +23,8 @@
 			<!-- pages in navbar -->
 		</nav>
 		<main class = "content">
+			<h1>{{ user_id }}</h1>
+			<h1>under user id</h1>
 			{%block content%}{%endblock%}
 		</main> <!-- content goes here -->
 </body>

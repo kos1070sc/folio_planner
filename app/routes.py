@@ -76,7 +76,7 @@ def login():
             session['user_id'] = user.id
             session['user_name'] = user.name
             print(session)
-            return redirect(url_for("dashboard"))
+            return redirect(url_for("dashboard", user_id=session["user_id"]))
         else:
             flash("⚠️ Incorrect name or password")
             return redirect(url_for('login'))
@@ -135,12 +135,10 @@ def my_folios(user_id):
     
 @app.route("/dashboard/<int:user_id>")
 def dashboard(user_id):
-    user_id = session.get("user_id")
-    if not user_id:
+    session_user_id = session.get("user_id")
+    if not session_user_id:
         flash("Please login first")
         return redirect(url_for("login"))
     else:
-        user_info = models.User.query.all()
-        return render_template("dashboard", user_info=user_info, user_id=user_id)
-        
-    
+        user_info = models.User.query.get(session['user_id'])
+        return render_template("dashboard.html", user_info=user_info, user_id=user_id)
