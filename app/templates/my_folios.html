@@ -2,10 +2,22 @@
 {%block content%}
 
 <h1>My folios</h1>
-
-{% for folio in folio %}
-    <li>{{ folio.theme }}</li>
-{% endfor %}
-
+<!-- folios display area -->
+<div class = "folios_area">
+    {% if folio %}
+        <div class="folio_grid">
+            	{% for folio in folio%}
+                <div class = "folio_card">
+                    <h3>{{ folio.theme }}</h3>
+                </div>
+                {% endfor %}
+        </div>
+    {% else %}
+    <div class="empty_message">
+        <p>You don't have any folios yet</p>
+        <a href="{{ url_for('create_new')}}">Click here to create one</a>
+    </div>
+    {% endif %}
+</div>
 
 {%endblock%}
