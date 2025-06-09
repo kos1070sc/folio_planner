@@ -146,3 +146,9 @@ def dashboard(user_id):
     else:
         user_info = models.User.query.get(session['user_id'])
         return render_template("dashboard.html", user_info=user_info, user_id=user_id)
+    
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for('root'))
