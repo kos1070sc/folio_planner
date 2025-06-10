@@ -2,7 +2,7 @@
     margin: 0%;
 }
 
-/* what the fadein animation does*/
+
 
 /* root.html*/ 
 .root_body{
@@ -11,27 +11,83 @@
     background-size: cover;
 }
 
+/* what the colour in animation does */
+@keyframes colourin {
+    /* slightly shrunk at invisible at the start */
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+        /* purple here to match background */
+        text-shadow: 2px 2px 4px rgba(133, 43, 226, 0.5);
+    }
+    /* goes to normal size */
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        text-shadow: 2px 2px 4px rgba(133, 43, 226, 0.2);
+    }
+}
+
+/* subheading animation */
+@keyframes fadeslideup{
+    /* Starting state is invisible and 20px below final position */
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+        /* purple here to match background */
+        text-shadow: 0 0 10px rgba(133, 43, 226, 0.3);
+    }
+    /* final state it is fully visiable and in normal position */
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        text-shadow: 1px 1px 2px rgba(133, 43, 226, 0.1);
+    }
+}
+
+@keyframes floating{
+    /* makes text float up and down and rotate back and fourth */
+    0% {
+        transform: translateY(0) rotate(0.25deg);
+    }
+
+    50%{
+        transform: translateY(-8px) rotate(-0.25deg);
+    }
+
+    100%{
+        transform: translateY(0) rotate(0.25deg);
+    }
+}
+
+
 .root_main_heading{
     font-size: 4rem;
     padding-top: 5%;
     text-align: center;
-    animation: colourin 2.5s ease-in-out forwards
+    animation: 
+        colourin 2s ease-in-out forwards, 
+        /* floatin animation plays after colourin (2.5s) */
+        floating 6s ease-in-out infinite 2.5s;
 }
 
 .root_subheading{
     text-align: center;
     font-size: 2.5rem;
-    animation: fadein ease-in forwards;
-    animation-duration: 1.5s;
+    opacity: 0;
+    animation: 
+        fadeslideup 1.5s ease-out 2s forwards, /* starts after the main heading animation plays */
+        /* begin to float after it slides up */
+        floating 5s ease-in-out infinite 4s; 
 }
 
 .root_navbar{
-    background-color: none;
     display: flex;
     align-items: center; /* align the items in the center vertically */
     padding-left: 10%;
     height: 80px;
     box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
+    backdrop-filter: blur(10px); /* Forest effect for navbar */
 }
 
 .root_content{
@@ -73,7 +129,7 @@
     align-items: center; /* align the items in the center vertically */
     padding-left: 10%;
     height: 80px;
-    box-shadow: 0px 2px 10px rgba(250, 216, 254, 0.1);
+    box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
     backdrop-filter: blur(10px); /* Forest effect for navbar */
 }
 
@@ -90,7 +146,7 @@
 }
 
 .left_link:hover, .right_link:hover{
-    background-color: rgb(220, 188, 250, 0.7);
+    background-color: rgb(220, 188, 250);
     color: #353535;
     height: 83px;
     display: flex;
@@ -127,10 +183,10 @@ h1 {
 
     margin: auto; /* Centers horizontally */
     padding: 0 calc(7.5% - 20px); /* Balanced padding on both sides 0 for top/bottom */
-    backdrop-filter: blur(10px); /* Frosted glass effect for the container */
+    /* backdrop-filter: blur(20px);  */
+    /* Frosted glass effect for the container */
 
-
-
+    
     box-shadow: 0px, 2px, 15px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 
