@@ -296,7 +296,7 @@ h1 {
     text-align: center;
 }
 
-/* planner.html */
+/* edit_folio.html */
 
 .folio{
     display: flex;
@@ -392,6 +392,12 @@ h1 {
     outline-style: solid;
     outline-width: 2px;
     width: 504px;
+}
+
+.a4_portrait img{
+    width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 

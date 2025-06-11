@@ -7,13 +7,26 @@
 </head>
 {%extends "user_layout.html"%}
 {%block content%}
-<h1 class = "title">Folio Planner</h1>
+<h1 class = "title">Edit Folio - {{ folio.theme }}</h1>
+
 <div class = folio>
 
     <div class ="panel_1">
         <div class = "panel_1_series_1">
-            <div class = "a4_portrait"></div>
-            <div class = "a4_portrait"></div>
+            <div class = "a4_portrait">
+                {% for painting in paintings if painting.position == 1 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class = "a4_portrait">
+                <img src="/static/images/portrait.jpg" alt="portrait">
+            </div>
+            
             <div class = "a4_portrait"></div>
         </div>
 

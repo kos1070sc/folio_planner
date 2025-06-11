@@ -84,9 +84,6 @@ def login():
         return render_template('login.html', form=form)
     
 
-@app.route("/planner")
-def planner():
-    return render_template("planner.html")
 
 @app.route("/create_new", methods=["GET", "POST"])
 def create_new():
@@ -147,18 +144,33 @@ def dashboard(user_id):
         user_info = models.User.query.get(session['user_id'])
         return render_template("dashboard.html", user_info=user_info, user_id=user_id)
     
-@app.route("/edit_folio/ <int:user_id> /<int:folio_id>")
+@app.route("/edit_folio/<int:user_id>/<int:folio_id>")
 def edit_folio(user_id, folio_id):
     session_user_id = session.get("user_id")
-    folio_user_id = models.Folio.query(user_id)
+    # check if logged in
     if not session_user_id:
         flash("⚠️ Please log in to edit a folio")
         return redirect(url_for("login"))
-    elif session_user_id != folio_user_id:
+    
+    # get all info from that user based on their id from URL
+    user = db.session.get(models.User, user_id)
+    # If user doesn't exist show error message and redirect to dashboard
+    if not user:
+        flash("⚠️ User not found")
+        return redirect(url_for("dashboard"))
+
+    # Get folio info by id in the url 
+    # 404 if not found
+    folio = models.Folio.query.get_or_404(folio_id)
+    # Verify if that folio belong to the user
+    if session_user_id != folio.user_id:
         flash("⚠️ You can only edit your own folio")
-        return render_template("dashboard.html", user_id=session_user_id)
-    else:
-        # Query the databse for image paths for each painting (have to join the three tables)
+        return redirect(url_for("dashboard", user_id = session_user_id))
+
+    # get all paintings from that folio and order them by their position 
+    paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
+    return render_template("edit_folio.html", user_id = session_user_id, paintings=paintings, folio=folio)
+    # Query the database for image paths 
 
 @app.route("/logout")
 def logout():

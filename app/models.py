@@ -41,7 +41,7 @@ class Folio(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
     theme = db.Column(db.String(30), unique=True, nullable=False)
     # Configure relationships with other tables
-    user_id = relationship("User")
+    user = relationship("User")
 
 
 class Panel(db.Model):
@@ -51,8 +51,8 @@ class Panel(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
     panel_number = db.Column(db.Integer)
     # Configure relationships with other tables
-    folio_id = relationship("Folio")
-    user_id = relationship("User")
+    folio = relationship("Folio")
+    user = relationship("User")
 
 
 class Painting(db.Model):
@@ -69,6 +69,6 @@ class Painting(db.Model):
     composition = db.Column(db.Text)
     image = db.Column(db.String)
     # Configure relationships with other tables
-    panel_id = relationship("Panel")
-    folio_id = relationship("Folio")
-    user_id = relationship("User")
+    panel = relationship("Panel")
+    folio = relationship("Folio")
+    user = relationship("User")
