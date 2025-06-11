@@ -48,15 +48,15 @@
 @keyframes floating{
     /* makes text float up and down and rotate back and fourth */
     0% {
-        transform: translateY(0) rotate(0.25deg);
+        transform: translateY(0) rotate(0.1deg);
     }
 
     50%{
-        transform: translateY(-8px) rotate(-0.25deg);
+        transform: translateY(-5px) rotate(-0.1deg);
     }
 
     100%{
-        transform: translateY(0) rotate(0.25deg);
+        transform: translateY(0) rotate(0.1deg);
     }
 }
 

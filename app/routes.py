@@ -147,6 +147,18 @@ def dashboard(user_id):
         user_info = models.User.query.get(session['user_id'])
         return render_template("dashboard.html", user_info=user_info, user_id=user_id)
     
+@app.route("/edit_folio/ <int:user_id> /<int:folio_id>")
+def edit_folio(user_id, folio_id):
+    session_user_id = session.get("user_id")
+    folio_user_id = models.Folio.query(user_id)
+    if not session_user_id:
+        flash("⚠️ Please log in to edit a folio")
+        return redirect(url_for("login"))
+    elif session_user_id != folio_user_id:
+        flash("⚠️ You can only edit your own folio")
+        return render_template("dashboard.html", user_id=session_user_id)
+    else:
+        # Query the databse for image paths for each painting (have to join the three tables)
 
 @app.route("/logout")
 def logout():
