@@ -88,7 +88,7 @@ def login():
 @app.route("/create_new", methods=["GET", "POST"])
 def create_new():
     form = CreateNew()
-    user_id = session.get("user_id")
+    session_user_id = session.get("user_id")
     # if there is not user id - redirect user to login
     if not user_id:
         flash("Please login first")
@@ -99,10 +99,26 @@ def create_new():
         if theme:
             print(theme)
             #creates new folio in database with the theme entered
-            new_theme = models.Folio(theme=theme, user_id=user_id)
-            db.session.add(new_theme)
+            new_folio = models.Folio(theme=theme, user_id=user_id)
+            db.session.add(new_folio)
             db.session.commit()
-            return render_template("planner.html", user_id=user_id)
+
+            # creates 3 panels with panel_number 1 to 3 
+            # puts inside a list and added to database
+            panels = []
+            for i in range(1,4):
+                panel = models.Panel(folio_id = new_folio.id,
+                             user_id = session_user_id,
+                             panel_number = i)
+                panels.append(panel)
+                db.session.add(panel)
+                db.session.commit()
+
+            # creates 21 paintings with pos
+
+            # let user edit their newly created folio
+            # passes on the folio object as well
+            return render_template("edit_folio.html", user_id=session_user_id, folio=new_folio)
         # display an error message if no theme
         else:
             flash("⚠️ Please enter a theme")

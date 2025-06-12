@@ -8,7 +8,7 @@
         <div class="folio_grid">
             	{% for folio in folio%}
                 <div class = "folio_card">
-                    <h3>{{ folio.theme }}</h3>
+                    <h3> <a href="http://127.0.0.1:5000/edit_folio/{{user_id}}/{{folio.id}}">{{ folio.theme }}</a></h3>
                 </div>
                 {% endfor %}
         </div>
