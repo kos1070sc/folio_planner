@@ -16,7 +16,7 @@
             <div class = "a4_portrait">
                 {% for painting in paintings if painting.position == 1 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image">
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
                     {% else %}
                     <p>Upload an image</p>
                     {% endif %}
@@ -24,61 +24,221 @@
             </div>
 
             <div class = "a4_portrait">
-                <img src="/static/images/portrait.jpg" alt="portrait" class = "folio_image">
+                {% for painting in paintings if painting.position == 2 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
             </div>
             
-            <div class = "a4_portrait"></div>
+            <div class = "a4_portrait">
+                {% for painting in paintings if painting.position == 3 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
 
+
         <div class = "panel_1_series_2">
-            <div class = "a4_landscape"></div>
             <div class = "a4_landscape">
-                <img src="/static/images/sistine_chapel.jpg" alt="sistine_chapel" class = "folio_image">
+                {% for painting in paintings if painting.position == 4 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class = "a4_landscape">
+                {% for painting in paintings if painting.position == 5 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
 
         <div class = "panel_1_series_3">
-            <div class = "a4_portrait"></div>
-            <div class = "a3_landscape"></div>
+            <div class = "a4_portrait">
+                {% for painting in paintings if painting.position == 6 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div class = "a3_landscape">
+                {% for painting in paintings if painting.position == 7 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 
     <div class ="panel_2">
         <div class = "panel_2_series_1">
-            <div class = "a4_landscape"></div>
-            <div class = "a4_landscape"></div>
+            <div class = "a4_landscape">
+                {% for painting in paintings if painting.position == 8 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class = "a4_landscape">
+                {% for painting in paintings if painting.position == 9 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
 
         <div class = "panel_2_series_2">
-            <div class = "a5_portrait"></div>
-            <div class = "a4_landscape"></div>
-            <div class = "a5_portrait"></div>
+            <div class = "a5_portrait">
+                {% for painting in paintings if painting.position == 10 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class = "a4_landscape">
+                {% for painting in paintings if painting.position == 11 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class = "a5_portrait">
+                {% for painting in paintings if painting.position == 12 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
 
         <div class = "panel_2_series_3">
             <div class = "a3_portrait">
-                <img src="/static/images/napolean.jpg" alt="napolean crossing the alps" class = "folio_image">
+                {% for painting in paintings if painting.position == 13 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
             </div>
-            <div class = "a3_portrait"></div>
+            <div class = "a3_portrait">
+                {% for painting in paintings if painting.position == 14 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 
     <div class ="panel_3">
         <div class = "panel_3_series_1">
-            <div class = "a3_square"></div>
-            <div class = "a3_square"></div>
+            <div class = "a3_square">
+                {% for painting in paintings if painting.position == 15 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class = "a3_square">
+                {% for painting in paintings if painting.position == 16 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
         <div class = "panel_3_series_2">
-            <div class = "a5_portrait"></div>
-            <div class = "a5_portrait"></div>
-            <div class = "a5_portrait"></div>
-            <div class = "a5_portrait"></div>
+            <div class = "a5_portrait">
+                {% for painting in paintings if painting.position == 17 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class = "a5_portrait">
+                {% for painting in paintings if painting.position == 18 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class = "a5_portrait">
+                {% for painting in paintings if painting.position == 19 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class = "a5_portrait">
+                {% for painting in paintings if painting.position == 20 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
         <div class = "panel_3_series_3">
             <div class = "a3_wide">
-                <img src="/static/images/sistine_chapel.jpg" alt="sistine_chapel" class = "folio_image">
+                {% for painting in paintings if painting.position == 21 %}
+                    {% if painting.image %}
+                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    {% else %}
+                    <p>Upload an image</p>
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>
 </div>
 {%endblock%}
+
+/static/images/portrait.jpg
+/static/images/napolean.jpg
+/static/images/sistine_chapel.jpg
+

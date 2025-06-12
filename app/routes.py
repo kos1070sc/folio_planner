@@ -90,7 +90,7 @@ def create_new():
     form = CreateNew()
     session_user_id = session.get("user_id")
     # if there is not user id - redirect user to login
-    if not user_id:
+    if not session_user_id:
         flash("Please login first")
         return redirect(url_for("login"))
     if form.validate_on_submit():
@@ -99,32 +99,71 @@ def create_new():
         if theme:
             print(theme)
             #creates new folio in database with the theme entered
-            new_folio = models.Folio(theme=theme, user_id=user_id)
+            new_folio = models.Folio(theme=theme, user_id=session_user_id)
             db.session.add(new_folio)
             db.session.commit()
 
             # creates 3 panels with panel_number 1 to 3 
             # puts inside a list and added to database
-            panels = []
             for i in range(1,4):
                 panel = models.Panel(folio_id = new_folio.id,
                              user_id = session_user_id,
                              panel_number = i)
-                panels.append(panel)
                 db.session.add(panel)
-                db.session.commit()
+            db.session.commit()
 
-            # creates 21 paintings with pos
-
+            # creates 21 paintings with positions 1 to 21 
+            for i in range(1,22):
+                # paintings have different due dates 
+                # these need to be assigned outside the model instuctor call
+                if i < 8:
+                    term_number = 1
+                elif 7 < i < 15:
+                    term_number = 2 
+                else:
+                    term_number = 3
+                if i in [1,2,3,8,9,15,16]:
+                    week_number = 3
+                elif i in [4,5,10,11,12,17,18,19,20]:
+                    week_number = 6
+                else:
+                    week_number = 10
+                if i in [4,5, 8, 9, 11]:
+                    composition_assignment = "A4 Landscape"
+                elif i in[1,2,3,6]:
+                    composition_assignment = "A4 Portrait"
+                elif i == 7:
+                    composition_assignment = "A3 Landscape"
+                elif i in [13, 14]:
+                    composition_assignment = "A3 Portrait"
+                elif i in [15,16]:
+                    composition_assignment = "A3 Square"
+                elif i in [10,12,17,18,19,20]:
+                    composition_assignment = "A5 Portrait"
+                else:
+                    composition_assignment = "Wide A3 Landscape"
+                
+                painting = models.Painting(
+                    folio_id = new_folio.id,
+                    user_id = session_user_id,
+                    position = i, 
+                    title = "Untitled painting",
+                    term_due = term_number,
+                    week_due = week_number,
+                    composition = composition_assignment,
+                    image = None
+                )
+                # send to database
+                db.session.add(painting)
+            db.session.commit()
             # let user edit their newly created folio
             # passes on the folio object as well
-            return render_template("edit_folio.html", user_id=session_user_id, folio=new_folio)
+            return redirect(url_for("edit_folio", user_id=session_user_id, folio=new_folio))
         # display an error message if no theme
         else:
             flash("⚠️ Please enter a theme")
-            return render_template("create_new.html", form=form, user_id=user_id)
-
-    return render_template("create_new.html", form=form, user_id=user_id)
+            return render_template("create_new.html", form=form, user_id=session_user_id)
+    return render_template("create_new.html", form=form, user_id=session_user_id)
     
 
 @app.route("/my_folios/<int:user_id>")
