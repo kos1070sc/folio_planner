@@ -8,8 +8,7 @@ import secrets
 # This makes more secure and protects against seesion hijacking 
 app.secret_key = secrets.token_hex(32)
 
-# makes a function that injects the user_id of the logged in user
-# so that all templates can excess
+# a function that injects the user_id of the logged in user so that all templates can excess
 @app.context_processor
 def add_session_user():
     #get the user_id form the session, if they are logged in

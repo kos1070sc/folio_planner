@@ -7,12 +7,12 @@
 </head>
 {%extends "user_layout.html"%}
 {%block content%}
+<div>
+    <h1>Welcome back {{user_info.name}}!</h1>
+</div>
 {% for message in get_flashed_messages() %}
     <div class = "error_message_container">
         <p class = "error_message">{{ message }}</p>
     </div>
 {% endfor %}
-<div>
-    <h1>Welcome back {{user_info.name}}!</h1>
-</div>
 {%endblock%}

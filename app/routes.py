@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, request, redirect, url_for, session, flash, render_template_string
 from flask_sqlalchemy import SQLAlchemy
-from app.forms import LoginForm, CreateAccount, CreateNew
+from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload
 import os
 import secrets
 # Creates a random key that is 64 characters long to encrypt session data
@@ -158,7 +158,7 @@ def create_new():
             db.session.commit()
             # let user edit their newly created folio
             # passes on the folio object as well
-            return redirect(url_for("edit_folio", user_id=session_user_id, folio=new_folio))
+            return render_template("edit_folio.html", user_id=session_user_id, folio=new_folio)
         # display an error message if no theme
         else:
             flash("⚠️ Please enter a theme")
@@ -201,6 +201,7 @@ def dashboard(user_id):
     
 @app.route("/edit_folio/<int:user_id>/<int:folio_id>")
 def edit_folio(user_id, folio_id):
+    form = ImageUpload()
     session_user_id = session.get("user_id")
     # check if logged in
     if not session_user_id:
@@ -224,7 +225,7 @@ def edit_folio(user_id, folio_id):
 
     # get all paintings from that folio and order them by their position 
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
-    return render_template("edit_folio.html", user_id = session_user_id, paintings=paintings, folio=folio)
+    return render_template("edit_folio.html", user_id = session_user_id, paintings=paintings, folio=folio,form=form)
     # Query the database for image paths 
 
 @app.route("/logout")

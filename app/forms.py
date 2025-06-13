@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Length, EqualTo
+from flask_wtf.file import FileField
 
 #form for login
 class LoginForm(FlaskForm):
@@ -53,3 +54,7 @@ class CreateNew(FlaskForm):
         DataRequired(message = "⚠️ Please enter a theme")
     ])
     submit = SubmitField("Submit")
+
+#Upload Image
+class ImageUpload(FlaskForm):
+    painting_image = FileField("Painting Image")

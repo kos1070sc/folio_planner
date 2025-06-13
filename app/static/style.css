@@ -227,7 +227,7 @@ h1 {
     align-items: center;
     width: fit-content;
     border-radius: 10px;
-    box-shadow: 0px 0px 5px 5px grey;
+    box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
     width: 30%;
     backdrop-filter: blur(10px); /* Frosted glass effect for the container */
 }
