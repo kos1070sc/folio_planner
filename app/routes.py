@@ -12,7 +12,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "folio.db")
 db.init_app(app)
-
 import app.models as models
 
 
@@ -30,17 +29,17 @@ def colour():
     
 @app.route('/create_account',  methods=["GET", "POST"])
 def create_account():
-    form = CreateAccount() #get the form thingy 
-    #check entered meets the requirements 
+    form = CreateAccount()  # get the form thingy
+    # check entered meets the requirements
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-    #checks if the user has entered both a username and password
+    # checks if the user has entered both a username and password
         if not username or not password:
             flash("⚠️ Please enter a user and password")
             return redirect(url_for("create_account"))
-        #checks if username is already in the database
-        #queries the database for the first match
+        # checks if username is already in the database
+        # queries the database for the first match
         elif models.User.query.filter_by(name=username).first():
             flash("⚠️ Usermame already exist. Please choose another one")
             return redirect(url_for("create_account"))
@@ -49,7 +48,7 @@ def create_account():
             # store username and hashed password, admin previlege = 0 (normal user)
             new_user = models.User(name=username, privilege=0)
             new_user.set_password(password)
-            #commit to the database
+            # commit to the database
             db.session.add(new_user)
             db.session.commit()
             flash("Account created please login")
@@ -59,20 +58,20 @@ def create_account():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    form = LoginForm() #get the form thingy 
-    #check entered meets the requirements 
+    form = LoginForm()  # get the form thingy 
+    # check entered meets the requirements 
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        #checks if the user has entered both a username and password
+        # checks if the user has entered both a username and password
         if not username or not password:
             flash("⚠️ Please enter a username and a password")
             return redirect(url_for('login'))
-        #looks for the user in the database 
+        # looks for the user in the database 
         user = models.User.query.filter_by(name=username).first()
-        #check if username and passwords matches with database
+        # check if username and passwords matches with database
         if user and user.check_password(password):
-            #create session 
+            # create session 
             session['user_id'] = user.id
             session['user_name'] = user.name
             print(session)
@@ -82,7 +81,6 @@ def login():
             return redirect(url_for('login'))
     else:
         return render_template('login.html', form=form)
-    
 
 
 @app.route("/create_new", methods=["GET", "POST"])
@@ -95,63 +93,63 @@ def create_new():
         return redirect(url_for("login"))
     if form.validate_on_submit():
         theme = form.theme.data
-        #check is user has entered a theme
+        # check is user has entered a theme
         if theme:
             print(theme)
-            #creates new folio in database with the theme entered
+            # creates new folio in database with the theme entered
             new_folio = models.Folio(theme=theme, user_id=session_user_id)
             db.session.add(new_folio)
             db.session.commit()
 
             # creates 3 panels with panel_number 1 to 3 
             # puts inside a list and added to database
-            for i in range(1,4):
-                panel = models.Panel(folio_id = new_folio.id,
-                             user_id = session_user_id,
-                             panel_number = i)
+            for i in range(1, 4):
+                panel = models.Panel(folio_id=new_folio.id,
+                             user_id=session_user_id,
+                             panel_number=i)
                 db.session.add(panel)
             db.session.commit()
 
             # creates 21 paintings with positions 1 to 21 
-            for i in range(1,22):
+            for i in range(1, 22):
                 # paintings have different due dates 
                 # these need to be assigned outside the model instuctor call
                 if i < 8:
                     term_number = 1
                 elif 7 < i < 15:
-                    term_number = 2 
+                    term_number = 2
                 else:
                     term_number = 3
-                if i in [1,2,3,8,9,15,16]:
+                if i in [1, 2, 3, 8, 9, 15, 16]:
                     week_number = 3
-                elif i in [4,5,10,11,12,17,18,19,20]:
+                elif i in [4, 5, 10, 11, 12, 17, 18, 19, 20]:
                     week_number = 6
                 else:
                     week_number = 10
-                if i in [4,5, 8, 9, 11]:
+                if i in [4, 5, 8, 9, 11]:
                     composition_assignment = "A4 Landscape"
-                elif i in[1,2,3,6]:
+                elif i in [1, 2, 3, 6]:
                     composition_assignment = "A4 Portrait"
                 elif i == 7:
                     composition_assignment = "A3 Landscape"
                 elif i in [13, 14]:
                     composition_assignment = "A3 Portrait"
-                elif i in [15,16]:
+                elif i in [15, 16]:
                     composition_assignment = "A3 Square"
-                elif i in [10,12,17,18,19,20]:
+                elif i in [10, 12, 17, 18, 19, 20]:
                     composition_assignment = "A5 Portrait"
                 else:
                     composition_assignment = "Wide A3 Landscape"
                 
                 painting = models.Painting(
-                    folio_id = new_folio.id,
-                    user_id = session_user_id,
-                    position = i, 
-                    title = "Untitled painting",
-                    term_due = term_number,
-                    week_due = week_number,
-                    composition = composition_assignment,
-                    image = None
+                    folio_id=new_folio.id,
+                    user_id=session_user_id,
+                    position=i, 
+                    title="Untitled painting",
+                    term_due=term_number,
+                    week_due=week_number,
+                    composition=composition_assignment,
+                    image=None
                 )
                 # send to database
                 db.session.add(painting)
@@ -177,7 +175,7 @@ def my_folios(user_id):
     # check if session id matches id in url
     elif session_user_id != user_id:
         flash("You can only view your own folios")
-        return redirect(url_for("dashboard", user_id = session_user_id))
+        return redirect(url_for("dashboard", user_id=session_user_id))
     else:
         folio = models.Folio.query.filter_by(user_id=user_id)
     # need to pass user_id to my_folios.html for user_layout.html to use 
@@ -194,7 +192,7 @@ def dashboard(user_id):
     # check if session id matches id in url
     elif session_user_id != user_id:
         flash("You can only view your own dashboard")
-        return redirect(url_for("dashboard", user_id = session_user_id))
+        return redirect(url_for("dashboard", user_id=session_user_id))
     else:
         user_info = models.User.query.get(session['user_id'])
         return render_template("dashboard.html", user_info=user_info, user_id=user_id)
@@ -207,7 +205,6 @@ def edit_folio(user_id, folio_id):
     if not session_user_id:
         flash("⚠️ Please log in to edit a folio")
         return redirect(url_for("login"))
-    
     # get all info from that user based on their id from URL
     user = db.session.get(models.User, user_id)
     # If user doesn't exist show error message and redirect to dashboard
@@ -215,18 +212,19 @@ def edit_folio(user_id, folio_id):
         flash("⚠️ User not found")
         return redirect(url_for("dashboard"))
 
-    # Get folio info by id in the url 
+    # Get folio info by id in the url
     # 404 if not found
     folio = models.Folio.query.get_or_404(folio_id)
     # Verify if that folio belong to the user
     if session_user_id != folio.user_id:
         flash("⚠️ You can only edit your own folio")
-        return redirect(url_for("dashboard", user_id = session_user_id))
+        return redirect(url_for("dashboard", user_id=session_user_id))
 
     # get all paintings from that folio and order them by their position 
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
-    return render_template("edit_folio.html", user_id = session_user_id, paintings=paintings, folio=folio,form=form)
-    # Query the database for image paths 
+    return render_template("edit_folio.html", user_id=session_user_id, paintings=paintings, folio=folio,form=form)
+    # Query the database for image paths
+
 
 @app.route("/logout")
 def logout():
