@@ -10,17 +10,22 @@
 <h1 class = "title">Edit Folio - {{ folio.theme }}</h1>
 
 <div class = folio>
-
     <div class ="panel_1">
+
         <div class = "panel_1_series_1">
             <div class = "a4_portrait">
                 {% for painting in paintings if painting.position == 1 %}
                     {% if painting.image %}
                     <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "1">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -29,11 +34,16 @@
             <div class = "a4_portrait">
                 {% for painting in paintings if painting.position == 2 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 2 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "2">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -42,11 +52,16 @@
             <div class = "a4_portrait">
                 {% for painting in paintings if painting.position == 3 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 3 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "3">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -58,11 +73,16 @@
             <div class = "a4_landscape">
                 {% for painting in paintings if painting.position == 4 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 4 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "4">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -71,11 +91,16 @@
             <div class = "a4_landscape">
                 {% for painting in paintings if painting.position == 5 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 5 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "5">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -86,11 +111,16 @@
             <div class = "a4_portrait">
                 {% for painting in paintings if painting.position == 6 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 6 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "6">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -99,11 +129,16 @@
             <div class = "a3_landscape">
                 {% for painting in paintings if painting.position == 7 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 7 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "7">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -116,11 +151,16 @@
             <div class = "a4_landscape">
                 {% for painting in paintings if painting.position == 8 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 8 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "8">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -128,11 +168,16 @@
             <div class = "a4_landscape">
                 {% for painting in paintings if painting.position == 9 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 9 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "9">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -143,11 +188,16 @@
             <div class = "a5_portrait">
                 {% for painting in paintings if painting.position == 10 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 10 image" class = "folio_image">
                     {% else %}
-                    <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "10">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -155,11 +205,16 @@
             <div class = "a4_landscape">
                 {% for painting in paintings if painting.position == 11 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 11 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "11">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -167,11 +222,16 @@
             <div class = "a5_portrait">
                 {% for painting in paintings if painting.position == 12 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 12 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "12">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -182,11 +242,16 @@
             <div class = "a3_portrait">
                 {% for painting in paintings if painting.position == 13 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 13 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "13">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -194,11 +259,16 @@
             <div class = "a3_portrait">
                 {% for painting in paintings if painting.position == 14 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 14 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "14">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -211,11 +281,16 @@
             <div class = "a3_square">
                 {% for painting in paintings if painting.position == 15 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 15 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "15">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -223,11 +298,16 @@
             <div class = "a3_square">
                 {% for painting in paintings if painting.position == 16 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 16 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "16">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -237,11 +317,16 @@
             <div class = "a5_portrait">
                 {% for painting in paintings if painting.position == 17 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 17 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "17">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -249,11 +334,16 @@
             <div class = "a5_portrait">
                 {% for painting in paintings if painting.position == 18 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 18 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "18">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -261,11 +351,16 @@
             <div class = "a5_portrait">
                 {% for painting in paintings if painting.position == 19 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 19 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "19">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -273,11 +368,16 @@
             <div class = "a5_portrait">
                 {% for painting in paintings if painting.position == 20 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 20 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "20">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -287,11 +387,16 @@
             <div class = "a3_wide">
                 {% for painting in paintings if painting.position == 21 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                    <img src="{{painting.image}}" alt="painting 21 image" class = "folio_image">
                     {% else %}
-                        <form method = 'POST'>
+                        <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-                            {{ form.painting_image(id = "painting_image", class_="painting_image")}} 
+                            <!-- hidden input that gets the position of the painting -->
+                            <input type="hidden" name = "position" value = "21">
+                            <div class = "upload">
+                                {{ form.painting_image(id = "painting_image", class_="file_input")}} 
+                            </div>
+                            {{ form.submit() }}
                         </form>
                     {% endif %}
                 {% endfor %}
@@ -301,7 +406,4 @@
 </div>
 {%endblock%}
 
-/static/images/portrait.jpg
-/static/images/napolean.jpg
-/static/images/sistine_chapel.jpg
 

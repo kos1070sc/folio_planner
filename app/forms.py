@@ -58,3 +58,4 @@ class CreateNew(FlaskForm):
 #Upload Image
 class ImageUpload(FlaskForm):
     painting_image = FileField("Painting Image")
+    submit = SubmitField('Submit')

@@ -1,6 +1,7 @@
 from app import app
 from flask import render_template, request, redirect, url_for, session, flash, render_template_string
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
 from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload
 import os
 import secrets
@@ -13,6 +14,7 @@ db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "folio.db")
 db.init_app(app)
 import app.models as models
+
 
 
 @app.route('/')
@@ -219,6 +221,40 @@ def edit_folio(user_id, folio_id):
     if session_user_id != folio.user_id:
         flash("⚠️ You can only edit your own folio")
         return redirect(url_for("dashboard", user_id=session_user_id))
+    
+    # image upload if form is submitted
+    if form.validate_on_submit():
+        # get painting postion of the upload
+        position = request.form.get('position')
+        # grab the uploaded image file
+        file = request.files['image']
+        # check if there's anything uploaded
+        if file.filename == "":
+            flash("⚠️ No selected file")
+            return redirect(url_for("edit_folio", user_id=session_user_id, folio=folio))
+        # funtion that checks if file is allowed
+
+        def allowed_file(filename):
+            if "." not in filename:
+                return False
+            # split the file name into two parts between the . then get the extension
+            file_extension = filename.rsplit('.', 1)[1].lower()
+
+            # list of allowed extensions 
+            allowed_extensions = ['png', 'jpg', 'jpeg']
+            if file_extension in allowed_extensions:
+                return True
+            else:
+                return False
+        # check if the file exists and if it has the allowed extension
+        if file and allowed_file(file.filename):
+            # make filename cleaner (no spaces, special chaaracters)
+            # to this to block malicious filenames that could excute code
+            orginal_filename = secure_filename(file.filename)
+            # split the filename into two parts so that we can rename it later
+            filename_part, extension_part = os.path.splitext(orginal_filename)
+
+
 
     # get all paintings from that folio and order them by their position 
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
