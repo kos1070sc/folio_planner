@@ -224,8 +224,6 @@ def edit_folio(user_id, folio_id):
     
     # image upload if form is submitted
     if form.validate_on_submit():
-        # get painting postion of the upload
-        position = request.form.get('position')
         # grab the uploaded image file
         file = request.files['painting_image']
         # check if there's anything uploaded
@@ -233,7 +231,6 @@ def edit_folio(user_id, folio_id):
             flash("⚠️ No selected file")
             return redirect(url_for("edit_folio", user_id=session_user_id, folio_id=folio_id))
         # funtion that checks if file is allowed
-
         def allowed_file(filename):
             if "." not in filename:
                 return False

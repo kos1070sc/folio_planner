@@ -400,13 +400,19 @@ h1 {
     object-fit: cover;
 }
 
+.file_input {
+    /* Makes it the width of the container */
+    width: 100%; 
+    padding-bottom: 10px;
+}
+
 
 /* my_folios.html */
 .folios_area{
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 10px;
 }
 
 .folio_grid {
