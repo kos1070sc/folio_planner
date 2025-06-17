@@ -199,7 +199,7 @@ def dashboard(user_id):
         user_info = models.User.query.get(session['user_id'])
         return render_template("dashboard.html", user_info=user_info, user_id=user_id)
     
-@app.route("/edit_folio/<int:user_id>/<int:folio_id>")
+@app.route("/edit_folio/<int:user_id>/<int:folio_id>", methods=['GET', 'POST'])
 def edit_folio(user_id, folio_id):
     form = ImageUpload()
     session_user_id = session.get("user_id")
@@ -227,11 +227,11 @@ def edit_folio(user_id, folio_id):
         # get painting postion of the upload
         position = request.form.get('position')
         # grab the uploaded image file
-        file = request.files['image']
+        file = request.files['painting_image']
         # check if there's anything uploaded
         if file.filename == "":
             flash("⚠️ No selected file")
-            return redirect(url_for("edit_folio", user_id=session_user_id, folio=folio))
+            return redirect(url_for("edit_folio", user_id=session_user_id, folio_id=folio_id))
         # funtion that checks if file is allowed
 
         def allowed_file(filename):
@@ -239,7 +239,6 @@ def edit_folio(user_id, folio_id):
                 return False
             # split the file name into two parts between the . then get the extension
             file_extension = filename.rsplit('.', 1)[1].lower()
-
             # list of allowed extensions 
             allowed_extensions = ['png', 'jpg', 'jpeg']
             if file_extension in allowed_extensions:
@@ -253,14 +252,35 @@ def edit_folio(user_id, folio_id):
             orginal_filename = secure_filename(file.filename)
             # split the filename into two parts so that we can rename it later
             filename_part, extension_part = os.path.splitext(orginal_filename)
-
-
-
+            # assigns a number to filename in case there is a double up
+            file_number = 1
+            while True:
+                numbered_filename = f"{filename_part}_{file_number}{extension_part}"
+                # check if this path is taken
+                if os.path.exists(numbered_filename):
+                    # if yes loops continue
+                    file_number += 1
+                else:
+                    break
+            save_path = f"app/static/images/{numbered_filename}"
+            database_path = f"/static/images/{numbered_filename}"
+            # save file
+            file.save(save_path)
+            # get painting id to update the image path
+            painting_id = request.form.get("painting_id")
+            # fetch that painting
+            painting = models.Painting.query.get(painting_id)
+            # update image path column 
+            painting.image = database_path
+            db.session.commit()         
+            flash("Image uploaded successfully")
+            return redirect(url_for("edit_folio", user_id=session_user_id, folio_id=folio_id))
+        else:
+            flash("File type not supported")
     # get all paintings from that folio and order them by their position 
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
     return render_template("edit_folio.html", user_id=session_user_id, paintings=paintings, folio=folio,form=form)
     # Query the database for image paths
-
 
 @app.route("/logout")
 def logout():
