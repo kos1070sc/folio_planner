@@ -19,7 +19,13 @@
             <div class = "a4_portrait">
                 {% for painting in paintings if painting.position == 1 %}
                     {% if painting.image %}
-                    <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                        <div class = "image_container">
+                            <div class="delete_option">
+                                {{ form.delete_image( class = "delete_button") }}
+                            </div>
+                            <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                        </div>
+                        
                     {% else %}
                         <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->

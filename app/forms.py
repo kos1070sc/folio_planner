@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Length, EqualTo
 from flask_wtf.file import FileField
 
@@ -59,3 +59,4 @@ class CreateNew(FlaskForm):
 class ImageUpload(FlaskForm):
     painting_image = FileField("Painting Image")
     submit = SubmitField('Submit')
+    delete_image = SubmitField("Delete Image")
