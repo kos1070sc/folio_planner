@@ -1,12 +1,12 @@
 from app import app
-from flask import render_template, request, redirect, url_for, session, flash, render_template_string
+from flask import render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload
 import os
 import secrets
 # Creates a random key that is 64 characters long to encrypt session data
-# This makes more secure and protects against seesion hijacking 
+# This makes more secure and protects against seesion hijacking
 app.secret_key = secrets.token_hex(32)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -14,7 +14,6 @@ db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "folio.db")
 db.init_app(app)
 import app.models as models
-
 
 
 @app.route('/')
@@ -27,8 +26,7 @@ def colour():
     colours = models.Colour.query.all()
     return render_template("colour.html", colours=colours)
 
-    
-    
+
 @app.route('/create_account',  methods=["GET", "POST"])
 def create_account():
     form = CreateAccount()  # get the form thingy
@@ -47,7 +45,8 @@ def create_account():
             return redirect(url_for("create_account"))
         else:
             print("yes")
-            # store username and hashed password, admin previlege = 0 (normal user)
+            # store username and hashed password
+            # admin previlege = 0 (normal user)
             new_user = models.User(name=username, privilege=0)
             new_user.set_password(password)
             # commit to the database
@@ -60,8 +59,8 @@ def create_account():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    form = LoginForm()  # get the form thingy 
-    # check entered meets the requirements 
+    form = LoginForm()  # get the form thingy
+    # check entered meets the requirements
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
@@ -69,11 +68,11 @@ def login():
         if not username or not password:
             flash("⚠️ Please enter a username and a password")
             return redirect(url_for('login'))
-        # looks for the user in the database 
+        # looks for the user in the database
         user = models.User.query.filter_by(name=username).first()
         # check if username and passwords matches with database
         if user and user.check_password(password):
-            # create session 
+            # create session
             session['user_id'] = user.id
             session['user_name'] = user.name
             print(session)
@@ -103,18 +102,18 @@ def create_new():
             db.session.add(new_folio)
             db.session.commit()
 
-            # creates 3 panels with panel_number 1 to 3 
+            # creates 3 panels with panel_number 1 to 3
             # puts inside a list and added to database
             for i in range(1, 4):
                 panel = models.Panel(folio_id=new_folio.id,
-                             user_id=session_user_id,
-                             panel_number=i)
+                                     user_id=session_user_id,
+                                     panel_number=i)
                 db.session.add(panel)
             db.session.commit()
 
-            # creates 21 paintings with positions 1 to 21 
+            # creates 21 paintings with positions 1 to 21
             for i in range(1, 22):
-                # paintings have different due dates 
+                # paintings have different due dates
                 # these need to be assigned outside the model instuctor call
                 if i < 8:
                     term_number = 1
@@ -142,11 +141,10 @@ def create_new():
                     composition_assignment = "A5 Portrait"
                 else:
                     composition_assignment = "Wide A3 Landscape"
-                
                 painting = models.Painting(
                     folio_id=new_folio.id,
                     user_id=session_user_id,
-                    position=i, 
+                    position=i,
                     title="Untitled painting",
                     term_due=term_number,
                     week_due=week_number,
@@ -158,17 +156,23 @@ def create_new():
             db.session.commit()
             # let user edit their newly created folio
             # passes on the folio object as well
-            return render_template("edit_folio.html", user_id=session_user_id, folio=new_folio)
+            return render_template("edit_folio.html",
+                                   user_id=session_user_id,
+                                   folio=new_folio)
         # display an error message if no theme
         else:
             flash("⚠️ Please enter a theme")
-            return render_template("create_new.html", form=form, user_id=session_user_id)
-    return render_template("create_new.html", form=form, user_id=session_user_id)
-    
+            return render_template("create_new.html",
+                                   form=form,
+                                   user_id=session_user_id)
+    return render_template("create_new.html",
+                           form=form,
+                           user_id=session_user_id)
+
 
 @app.route("/my_folios/<int:user_id>")
 def my_folios(user_id):
-    # get the user id 
+    # get the user id
     session_user_id = session.get("user_id")
     # if there is not user id - redirect user to login
     if not session_user_id:
@@ -180,12 +184,13 @@ def my_folios(user_id):
         return redirect(url_for("dashboard", user_id=session_user_id))
     else:
         folio = models.Folio.query.filter_by(user_id=user_id)
-    # need to pass user_id to my_folios.html for user_layout.html to use 
+    # need to pass user_id to my_folios.html for user_layout.html to use
         return render_template("my_folios.html", folio=folio, user_id=user_id)
-    
+
+
 @app.route("/dashboard/<int:user_id>")
 def dashboard(user_id):
-    # get the user id 
+    # get the user id
     session_user_id = session.get("user_id")
     # if there is not user id - redirect user to login
     if not session_user_id:
@@ -197,8 +202,11 @@ def dashboard(user_id):
         return redirect(url_for("dashboard", user_id=session_user_id))
     else:
         user_info = models.User.query.get(session['user_id'])
-        return render_template("dashboard.html", user_info=user_info, user_id=user_id)
-    
+        return render_template("dashboard.html",
+                               user_info=user_info,
+                               user_id=user_id)
+
+
 @app.route("/edit_folio/<int:user_id>/<int:folio_id>", methods=['GET', 'POST'])
 def edit_folio(user_id, folio_id):
     form = ImageUpload()
@@ -213,7 +221,6 @@ def edit_folio(user_id, folio_id):
     if not user:
         flash("⚠️ User not found")
         return redirect(url_for("dashboard"))
-
     # Get folio info by id in the url
     # 404 if not found
     folio = models.Folio.query.get_or_404(folio_id)
@@ -221,7 +228,6 @@ def edit_folio(user_id, folio_id):
     if session_user_id != folio.user_id:
         flash("⚠️ You can only edit your own folio")
         return redirect(url_for("dashboard", user_id=session_user_id))
-    
     # image upload if form is submitted
     if form.validate_on_submit():
         # grab the uploaded image file
@@ -229,14 +235,18 @@ def edit_folio(user_id, folio_id):
         # check if there's anything uploaded
         if file.filename == "":
             flash("⚠️ No selected file")
-            return redirect(url_for("edit_folio", user_id=session_user_id, folio_id=folio_id))
+            return redirect(url_for("edit_folio",
+                                    user_id=session_user_id,
+                                    folio_id=folio_id))
         # funtion that checks if file is allowed
+
         def allowed_file(filename):
             if "." not in filename:
                 return False
-            # split the file name into two parts between the . then get the extension
+            # split the file name into two parts between the .
+            # then get the extension
             file_extension = filename.rsplit('.', 1)[1].lower()
-            # list of allowed extensions 
+            # list of allowed extensions
             allowed_extensions = ['png', 'jpg', 'jpeg']
             if file_extension in allowed_extensions:
                 return True
@@ -267,17 +277,23 @@ def edit_folio(user_id, folio_id):
             painting_id = request.form.get("painting_id")
             # fetch that painting
             painting = models.Painting.query.get(painting_id)
-            # update image path column 
+            # update image path column
             painting.image = database_path
-            db.session.commit()         
+            db.session.commit()
             flash("Image uploaded successfully")
-            return redirect(url_for("edit_folio", user_id=session_user_id, folio_id=folio_id))
+            return redirect(url_for("edit_folio",
+                                    user_id=session_user_id,
+                                    folio_id=folio_id))
         else:
             flash("File type not supported")
-    # get all paintings from that folio and order them by their position 
+    # get all paintings from that folio and order them by their position
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
-    return render_template("edit_folio.html", user_id=session_user_id, paintings=paintings, folio=folio,form=form)
+    return render_template("edit_folio.html",
+                           user_id=session_user_id,
+                           paintings=paintings,
+                           folio=folio, form=form)
     # Query the database for image paths
+
 
 @app.route("/logout")
 def logout():

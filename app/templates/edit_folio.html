@@ -8,10 +8,13 @@
 {%extends "user_layout.html"%}
 {%block content%}
 <h1 class = "title">Edit Folio - {{ folio.theme }}</h1>
-
+{% for message in get_flashed_messages() %}
+    <div class = "error_message_container">
+        <p class = "error_message">{{ message }}</p>
+    </div>
+{% endfor %}
 <div class = folio>
     <div class ="panel_1">
-
         <div class = "panel_1_series_1">
             <div class = "a4_portrait">
                 {% for painting in paintings if painting.position == 1 %}
