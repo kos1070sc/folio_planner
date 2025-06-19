@@ -398,6 +398,9 @@ h1 {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block; /* removes extra space under image */
+    transition: opacity 0.3s ease; /* smooth transition */
+    display: flex;
 }
 
 .file_input {
@@ -415,20 +418,35 @@ h1 {
 .delete_option{
     opacity: 0;
     position: absolute;
-    padding-top: 10px;
-    padding-left: 10px;
-}
-
-.image_container:hover .delete_option{
-    opacity: 1;
+    z-index: 10; /* Make the delete go infront of the image */
+    transition: opacity 0.3s ease; /* smooth transition */;
+    top: 50%; /* move down 50% of parent's height */
+    left: 50%;/* move right 50% of parent's width */
+    /* move up 50% of child's height */
+    /* move left 50% of child's height */
+    /* do this to center the button */
+    transform: translate(-50%,-50%);
 }
 
 .image_container:hover .folio_image{
     opacity: 0.5;
 }
 
+.image_container:hover .delete_option{
+    opacity: 1;
+}
+
 .delete_button{
     background-color: red;
+    opacity: 1;
+    border-radius: 7px;
+    padding: 5px 12px;
+    border: none;
+    cursor: pointer; /* becomes a pointer when hovered over*/
+}
+
+.delete_button:hover{
+    background-color: rgb(253, 92, 92);
 }
 
 /* my_folios.html */

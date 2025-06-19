@@ -59,4 +59,6 @@ class CreateNew(FlaskForm):
 class ImageUpload(FlaskForm):
     painting_image = FileField("Painting Image")
     submit = SubmitField('Submit')
+
+class DeleteImage(FlaskForm):
     delete_image = SubmitField("Delete Image")

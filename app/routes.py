@@ -2,7 +2,7 @@ from app import app
 from flask import render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
-from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload
+from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload, DeleteImage
 import os
 import secrets
 # Creates a random key that is 64 characters long to encrypt session data
@@ -210,7 +210,9 @@ def dashboard(user_id):
 @app.route("/edit_folio/<int:user_id>/<int:folio_id>", methods=['GET', 'POST'])
 def edit_folio(user_id, folio_id):
     form = ImageUpload()
+    delete_form = DeleteImage()
     session_user_id = session.get("user_id")
+    painting_id = request.form.get("painting_id")
     # check if logged in
     if not session_user_id:
         flash("⚠️ Please log in to edit a folio")
@@ -230,7 +232,7 @@ def edit_folio(user_id, folio_id):
         return redirect(url_for("dashboard", user_id=session_user_id))
     # image upload if form is submitted
     if form.validate_on_submit():
-        # grab the uploaded image file
+        # grab the uploaded image file form upload file form
         file = request.files['painting_image']
         # check if there's anything uploaded
         if file.filename == "":
@@ -274,7 +276,6 @@ def edit_folio(user_id, folio_id):
             # save file
             file.save(save_path)
             # get painting id to update the image path
-            painting_id = request.form.get("painting_id")
             # fetch that painting
             painting = models.Painting.query.get(painting_id)
             # update image path column
@@ -286,12 +287,27 @@ def edit_folio(user_id, folio_id):
                                     folio_id=folio_id))
         else:
             flash("File type not supported")
+    
+    if delete_form.validate_on_submit():
+        painting = models.Painting.query.get(painting_id)
+        # get path to delete
+        delete_path = f"app/{painting.image}"
+        # delete the image
+        os.remove(delete_path)
+        # assign none to painting image to delete from database
+        painting.image = None
+        db.session.commit()
+        flash("Image deleted successfully")
+
+
     # get all paintings from that folio and order them by their position
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
     return render_template("edit_folio.html",
                            user_id=session_user_id,
                            paintings=paintings,
-                           folio=folio, form=form)
+                           folio=folio,
+                           form=form,
+                           delete_form=delete_form)
     # Query the database for image paths
 
 

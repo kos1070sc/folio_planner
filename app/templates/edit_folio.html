@@ -20,10 +20,13 @@
                 {% for painting in paintings if painting.position == 1 %}
                     {% if painting.image %}
                         <div class = "image_container">
-                            <div class="delete_option">
-                                {{ form.delete_image( class = "delete_button") }}
-                            </div>
                             <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                            <form method = 'POST'>
+                                <div class="delete_option">
+                                    {{ form.hidden_tag() }}
+                                    {{ delete_form.delete_image( class = "delete_button") }}
+                                </div>
+                            </form>
                         </div>
                         
                     {% else %}
