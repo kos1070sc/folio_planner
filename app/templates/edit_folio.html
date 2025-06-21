@@ -23,12 +23,13 @@
                             <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
                             <form method = 'POST'>
                                 <div class="delete_option">
-                                    {{ form.hidden_tag() }}
+                                    {{ delete_form.hidden_tag() }}
+                                    <!-- hidden input that gets the id of painting for deleting the image -->
+                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
                                     {{ delete_form.delete_image( class = "delete_button") }}
                                 </div>
                             </form>
                         </div>
-                        
                     {% else %}
                         <form method = 'POST' enctype="multipart/form-data">
                             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->

@@ -230,8 +230,23 @@ def edit_folio(user_id, folio_id):
     if session_user_id != folio.user_id:
         flash("⚠️ You can only edit your own folio")
         return redirect(url_for("dashboard", user_id=session_user_id))
-    # image upload if form is submitted
-    if form.validate_on_submit():
+    # handles delete form first to avoid accidentally processing an upload
+    # check if the form being sent is actually the delete form
+    if "delete_image" in request.form and delete_form.validate_on_submit():
+        painting = models.Painting.query.get(painting_id)
+        # get path to delete
+        delete_path = f"app/{painting.image}"
+        # delete the image
+        os.remove(delete_path)
+        # assign none to painting image to delete from database
+        painting.image = None
+        db.session.commit()
+        flash("Image deleted successfully")
+        return redirect(url_for("edit_folio",
+                        user_id=session_user_id,
+                        folio_id=folio_id))
+    # handles image upload form
+    elif form.validate_on_submit():
         # grab the uploaded image file form upload file form
         file = request.files['painting_image']
         # check if there's anything uploaded
@@ -287,17 +302,6 @@ def edit_folio(user_id, folio_id):
                                     folio_id=folio_id))
         else:
             flash("File type not supported")
-    
-    if delete_form.validate_on_submit():
-        painting = models.Painting.query.get(painting_id)
-        # get path to delete
-        delete_path = f"app/{painting.image}"
-        # delete the image
-        os.remove(delete_path)
-        # assign none to painting image to delete from database
-        painting.image = None
-        db.session.commit()
-        flash("Image deleted successfully")
 
 
     # get all paintings from that folio and order them by their position
