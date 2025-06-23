@@ -298,15 +298,19 @@ h1 {
 
 /* edit_folio.html */
 
+.folio_container{
+    background-color: white;
+}
+
 .folio{
     display: flex;
     flex-wrap: nowrap;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    gap: 10px; /* this adds space between panels */
+
 }
 
 .panel_1, .panel_2, .panel_3{
-    height:712.8px;
+    height:701.28px;
     width: 504px;
     outline-style: solid;
     outline-width: 2px;

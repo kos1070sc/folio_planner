@@ -281,8 +281,8 @@ def edit_folio(user_id, folio_id):
             while True:
                 numbered_filename = f"{filename_part}_{file_number}{extension_part}"
                 # check if this path is taken
-                if os.path.exists(numbered_filename):
-                    # if yes loops continue
+                if os.path.exists(f"app/static/images/{numbered_filename}"):
+                    # if yes file number increases by 1
                     file_number += 1
                 else:
                     break
@@ -297,6 +297,7 @@ def edit_folio(user_id, folio_id):
             painting.image = database_path
             db.session.commit()
             flash("Image uploaded successfully")
+            print(database_path)
             return redirect(url_for("edit_folio",
                                     user_id=session_user_id,
                                     folio_id=folio_id))
