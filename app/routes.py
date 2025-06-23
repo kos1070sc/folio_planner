@@ -2,7 +2,7 @@ from app import app
 from flask import render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
-from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload, DeleteImage
+from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload, DeleteImage, DeleteFolio
 import os
 import secrets
 # Creates a random key that is 64 characters long to encrypt session data
@@ -167,13 +167,35 @@ def create_new():
                                    user_id=session_user_id)
     return render_template("create_new.html",
                            form=form,
-                           user_id=session_user_id)
+                           user_id=session_user_id,
+                           )
 
 
-@app.route("/my_folios/<int:user_id>")
+@app.route("/my_folios/<int:user_id>", methods=["GET", "POST"])
 def my_folios(user_id):
+    delete_form = DeleteFolio()
+    folio_id = request.form.get("folio_id")
     # get the user id
     session_user_id = session.get("user_id")
+    # delete folio
+    if delete_form.validate_on_submit():
+        # get folio object
+        folio = models.Folio.query.get(folio_id)
+        # check if folio exists and belongs to user
+        if folio and folio.user_id == session_user_id:
+            # delete all paintings within that folio first
+            paintings = models.Painting.query.filter_by(folio_id=folio_id)
+            for painting in paintings:
+                db.session.delete(painting)
+            # then delete the folio
+            db.session.delete(folio)
+            # commit database
+            db.session.commit()
+            flash(f"{folio.theme} folio delete successfully")
+            return redirect(url_for("my_folios", user_id=session_user_id))
+        else:
+            flash("Error: Folio not found or access denied")
+            return redirect(url_for("my_folios", user_id=session_user_id))
     # if there is not user id - redirect user to login
     if not session_user_id:
         flash("Please login first")
@@ -185,7 +207,11 @@ def my_folios(user_id):
     else:
         folio = models.Folio.query.filter_by(user_id=user_id)
     # need to pass user_id to my_folios.html for user_layout.html to use
-        return render_template("my_folios.html", folio=folio, user_id=user_id)
+        return render_template("my_folios.html",
+                               folio=folio,
+                               user_id=user_id,
+                               delete_form=delete_form,
+                               folio_id=folio_id)
 
 
 @app.route("/dashboard/<int:user_id>")
