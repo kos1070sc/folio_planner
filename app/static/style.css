@@ -453,7 +453,55 @@ h1 {
     background-color: rgb(253, 92, 92);
 }
 
+
 /* my_folios.html */
+.create_new_button_container{
+    background-color: gold;
+    border-radius: 40px;
+    position: absolute;
+    left: 12%;
+    display: flex;
+    border-style: solid;
+    text-decoration: none;
+    overflow: hidden; /* So that the cirle won't stick out */
+    padding-right: 50px;
+    align-items: center;
+    transition: 0.3s ease;
+}
+
+/* Spin animation for create new plus symbol */
+@keyframes Spin{
+    0%{transform: rotate(0deg);}
+    100%{transform: rotate(360deg);}
+}
+
+.create_new_button_container:hover{
+    background-color: rgb(255, 226, 60);
+    transform: translateY(-4px);
+}
+
+.create_new_button_container:hover .plus_container{
+    animation: Spin 0.8s ease-in-out 1;
+}
+
+.plus_container{
+    border-radius: 40px;
+    border-style: solid;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* gives some space to create new text */
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
+
+.plus_container h3{
+    position: absolute;
+    top: 3px;
+}
+
 .folios_area{
     width: 90%;
     max-width: 1200px;
@@ -478,14 +526,69 @@ h1 {
     background-color: white;
     height: 200px;
     position: relative;
+    transition: 0.3s ease;
+}
+
+.folio_card:hover{
+    transform: translateY(-7px);
+    /* border-color: white;
+    border-width: 5px; */
+    box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
 }
 
 .folio_card h3{
-    position: absolute;
-    bottom: 20px;
-    /* Stick to left and right edge */
-    left: 0;
-    right: 0;
-    text-align: center;
+    position:absolute;
+    /* move right 50% of parent widht */
+    left: 50%;
+    /* move down 50% of parents height */
+    top: 50%;
+    /* move left 50% of childs width and move up 50% parents height */
+    transform: translate(-50%, -50%);
+}
+
+.delete_folio_button_container{
+    position:absolute;
+    right: -50px;
+    top: 10px;
+    display: none;
+    opacity: 0;
+}
+
+@keyframes MoveLeft{
+    0%{
+        transform: translateX(0px);
+        opacity: 0;
+    }
+
+    /* bouncing effect */
+    80%{
+        transform: translateX(-65px);
+        opacity: 0.9;
+
+    }
+
+    100% {
+        transform: translateX(-60px);
+        opacity: 1;
+    }
+
+}
+.folio_card:hover .delete_folio_button_container{
+    display: block;
+    animation: MoveLeft 0.3s ease-in-out forwards;
+}
+
+
+.delete_folio_button{
+    background-color: red;
+    opacity: 1;
+    border-radius: 7px;
+    padding: 5px 12px;
+    border: none;
+    cursor: pointer; /* becomes a pointer when hovered over*/
+}
+
+.delete_folio_button:hover{
+    background-color: rgb(253, 92, 92);
 }
 

@@ -65,5 +65,5 @@ class DeleteImage(FlaskForm):
     delete_image = SubmitField("Delete Image")
 
 # Delete Folio
-class DeleteFolio(FlaskForm):
-    delete_folio = SubmitField("Delete Folio")
+class MyFolio(FlaskForm):
+    delete_folio = SubmitField("Delete")

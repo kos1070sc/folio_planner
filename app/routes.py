@@ -2,7 +2,7 @@ from app import app
 from flask import render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
-from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload, DeleteImage, DeleteFolio
+from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload, DeleteImage, MyFolio
 import os
 import secrets
 # Creates a random key that is 64 characters long to encrypt session data
@@ -173,7 +173,7 @@ def create_new():
 
 @app.route("/my_folios/<int:user_id>", methods=["GET", "POST"])
 def my_folios(user_id):
-    delete_form = DeleteFolio()
+    delete_form = MyFolio()
     folio_id = request.form.get("folio_id")
     # get the user id
     session_user_id = session.get("user_id")

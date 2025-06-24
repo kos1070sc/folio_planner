@@ -1,23 +1,33 @@
 {%extends "user_layout.html"%}
 {%block content%}
-
-<h1>My folios</h1>
+<h1>My Folios</h1>
+<a href="http://127.0.0.1:5000/create_new">
+    <div class="create_new_button_container">
+        <div class = "plus_container">
+            <h3>➕</h3>
+        </div>
+        <h3>Create New</h3>
+    </div>
+</a>
+<br><br><br>
 <!-- folios display area -->
 <div class = "folios_area">
     {% if folio %}
         <div class="folio_grid">
             	{% for folio in folio%}
-                <div class = "folio_card">
+                    <a href="http://127.0.0.1:5000/edit_folio/{{user_id}}/{{folio.id}}">
+                    <div class = "folio_card">
+                        <h3>{{ folio.theme }}</h3>
                         <form method = 'POST'>
-                            <div>
+                            <div class = "delete_folio_button_container">
                                 {{ delete_form.hidden_tag() }}
                                 <!-- hidden input that gets the folio id to delete it -->
                                 <input type="hidden" name = "folio_id" value = "{{folio.id}}">
-                                {{ delete_form.delete_folio() }}
+                                {{ delete_form.delete_folio(class="delete_folio_button") }}
                             </div>
                         </form>
-                    <h3> <a href="http://127.0.0.1:5000/edit_folio/{{user_id}}/{{folio.id}}">{{ folio.theme }}</a></h3>
-                </div>
+                    </div>
+                </a>
                 {% endfor %}
         </div>
     {% else %}
