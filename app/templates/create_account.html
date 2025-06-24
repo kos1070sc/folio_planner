@@ -38,10 +38,10 @@
             {% endfor %}
         {% endif %}
 
-     <!-- flash error messages -->
-        {% for message in get_flashed_messages() %}
-            <div class = "error_message_container">
-                <p class = "error_message">{{ message }}</p>
+        <!-- flash messages -->
+        {% for catergory, message in get_flashed_messages(with_categories=true) %}
+            <div class = "flash_{{ catergory }}">
+                <p class = "message_{{ catergory }}">{{ message }}</p>
             </div>
         {% endfor %}
         <form method = 'POST'>

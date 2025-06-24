@@ -36,12 +36,12 @@ def create_account():
         password = form.password.data
     # checks if the user has entered both a username and password
         if not username or not password:
-            flash("⚠️ Please enter a user and password")
+            flash("⚠️ Please enter a user and password", "error")
             return redirect(url_for("create_account"))
         # checks if username is already in the database
         # queries the database for the first match
         elif models.User.query.filter_by(name=username).first():
-            flash("⚠️ Usermame already exist. Please choose another one")
+            flash("⚠️ Usermame already exist. Please choose another one", "error")
             return redirect(url_for("create_account"))
         else:
             print("yes")
@@ -52,7 +52,7 @@ def create_account():
             # commit to the database
             db.session.add(new_user)
             db.session.commit()
-            flash("Account created please login")
+            flash("Account created please login", "error")
             return redirect(url_for("login"))
     return render_template("create_account.html", form=form)
 
@@ -66,7 +66,7 @@ def login():
         password = form.password.data
         # checks if the user has entered both a username and password
         if not username or not password:
-            flash("⚠️ Please enter a username and a password")
+            flash("⚠️ Please enter a username and a password", "error")
             return redirect(url_for('login'))
         # looks for the user in the database
         user = models.User.query.filter_by(name=username).first()
@@ -78,7 +78,7 @@ def login():
             print(session)
             return redirect(url_for("dashboard", user_id=session["user_id"]))
         else:
-            flash("⚠️ Incorrect name or password")
+            flash("⚠️ Incorrect name or password", "error")
             return redirect(url_for('login'))
     else:
         return render_template('login.html', form=form)
@@ -90,7 +90,7 @@ def create_new():
     session_user_id = session.get("user_id")
     # if there is not user id - redirect user to login
     if not session_user_id:
-        flash("Please login first")
+        flash("Please login first", "error")
         return redirect(url_for("login"))
     if form.validate_on_submit():
         theme = form.theme.data
@@ -156,12 +156,13 @@ def create_new():
             db.session.commit()
             # let user edit their newly created folio
             # passes on the folio object as well
-            return render_template("edit_folio.html",
-                                   user_id=session_user_id,
-                                   folio=new_folio)
+            return redirect(url_for("edit_folio",
+                                    user_id=session_user_id,
+                                    folio_id=new_folio.id))
+
         # display an error message if no theme
         else:
-            flash("⚠️ Please enter a theme")
+            flash("⚠️ Please enter a theme", "error")
             return render_template("create_new.html",
                                    form=form,
                                    user_id=session_user_id)
@@ -191,18 +192,18 @@ def my_folios(user_id):
             db.session.delete(folio)
             # commit database
             db.session.commit()
-            flash(f"{folio.theme} folio delete successfully")
+            flash(f"{folio.theme} folio delete successfully", "success")
             return redirect(url_for("my_folios", user_id=session_user_id))
         else:
-            flash("Error: Folio not found or access denied")
+            flash("Error: Folio not found or access denied", "error")
             return redirect(url_for("my_folios", user_id=session_user_id))
     # if there is not user id - redirect user to login
     if not session_user_id:
-        flash("Please login first")
+        flash("Please login first", "error")
         return redirect(url_for("login"))
     # check if session id matches id in url
     elif session_user_id != user_id:
-        flash("You can only view your own folios")
+        flash("You can only view your own folios", "error")
         return redirect(url_for("dashboard", user_id=session_user_id))
     else:
         folio = models.Folio.query.filter_by(user_id=user_id)
@@ -220,11 +221,11 @@ def dashboard(user_id):
     session_user_id = session.get("user_id")
     # if there is not user id - redirect user to login
     if not session_user_id:
-        flash("Please login first")
+        flash("Please login first", "error")
         return redirect(url_for("login"))
     # check if session id matches id in url
     elif session_user_id != user_id:
-        flash("You can only view your own dashboard")
+        flash("You can only view your own dashboard", "error")
         return redirect(url_for("dashboard", user_id=session_user_id))
     else:
         user_info = models.User.query.get(session['user_id'])
@@ -241,20 +242,20 @@ def edit_folio(user_id, folio_id):
     painting_id = request.form.get("painting_id")
     # check if logged in
     if not session_user_id:
-        flash("⚠️ Please log in to edit a folio")
+        flash("⚠️ Please log in to edit a folio", "error")
         return redirect(url_for("login"))
     # get all info from that user based on their id from URL
     user = db.session.get(models.User, user_id)
     # If user doesn't exist show error message and redirect to dashboard
     if not user:
-        flash("⚠️ User not found")
+        flash("⚠️ User not found", "error")
         return redirect(url_for("dashboard"))
     # Get folio info by id in the url
     # 404 if not found
     folio = models.Folio.query.get_or_404(folio_id)
     # Verify if that folio belong to the user
     if session_user_id != folio.user_id:
-        flash("⚠️ You can only edit your own folio")
+        flash("⚠️ You can only edit your own folio", "error")
         return redirect(url_for("dashboard", user_id=session_user_id))
     # handles delete form first to avoid accidentally processing an upload
     # check if the form being sent is actually the delete form
@@ -267,7 +268,7 @@ def edit_folio(user_id, folio_id):
         # assign none to painting image to delete from database
         painting.image = None
         db.session.commit()
-        flash("Image deleted successfully")
+        flash("Image deleted successfully", "success")
         return redirect(url_for("edit_folio",
                         user_id=session_user_id,
                         folio_id=folio_id))
@@ -277,7 +278,7 @@ def edit_folio(user_id, folio_id):
         file = request.files['painting_image']
         # check if there's anything uploaded
         if file.filename == "":
-            flash("⚠️ No selected file")
+            flash("⚠️ No selected file", "error")
             return redirect(url_for("edit_folio",
                                     user_id=session_user_id,
                                     folio_id=folio_id))
@@ -322,13 +323,13 @@ def edit_folio(user_id, folio_id):
             # update image path column
             painting.image = database_path
             db.session.commit()
-            flash("Image uploaded successfully")
+            flash("Image uploaded successfully", "success")
             print(database_path)
             return redirect(url_for("edit_folio",
                                     user_id=session_user_id,
                                     folio_id=folio_id))
         else:
-            flash("File type not supported")
+            flash("File type not supported", "error")
 
 
     # get all paintings from that folio and order them by their position

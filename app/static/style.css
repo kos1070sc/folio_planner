@@ -278,7 +278,7 @@ h1 {
     font-size: 1.3rem;
 }
 
-.error_message_container{
+.flash_error{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -292,7 +292,25 @@ h1 {
     transform: translateX(5rem);
 }
 
-.error_message{
+.message_error{
+    text-align: center;
+}
+
+.flash_success{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 0px 15px 0px;
+    background-color: rgb(206, 253, 195);
+    border-radius: 10px;
+    width: 75%;
+    border-style: solid;
+    border-color: green;
+    border-width: 2px;
+    transform: translateX(5rem);
+}
+
+.message_sucess{
     text-align: center;
 }
 

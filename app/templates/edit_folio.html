@@ -7,12 +7,15 @@
 </head>
 {%extends "user_layout.html"%}
 {%block content%}
+<br>
 <h1 class = "title">Edit Folio - {{ folio.theme }}</h1>
-{% for message in get_flashed_messages() %}
-    <div class = "error_message_container">
-        <p class = "error_message">{{ message }}</p>
+<!-- flash messages -->
+{% for catergory, message in get_flashed_messages(with_categories=true) %}
+    <div class = "flash_{{ catergory }}">
+        <p class = "message_{{ catergory }}">{{ message }}</p>
     </div>
 {% endfor %}
+<br>
 <div class = "folio_container">
     <div class = folio>
         <div class ="panel_1">

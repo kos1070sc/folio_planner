@@ -1,6 +1,14 @@
 {%extends "user_layout.html"%}
 {%block content%}
 <h1>My Folios</h1>
+<br>
+<!-- flash messages -->
+{% for catergory, message in get_flashed_messages(with_categories=true) %}
+    <div class = "flash_{{ catergory }}">
+        <p class = "message_{{ catergory }}">{{ message }}</p>
+    </div>
+{% endfor %}
+<br>
 <a href="http://127.0.0.1:5000/create_new">
     <div class="create_new_button_container">
         <div class = "plus_container">
