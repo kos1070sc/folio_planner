@@ -277,42 +277,76 @@ h1 {
 ::placeholder{
     font-size: 1.3rem;
 }
-
-.flash_error{
+.flash_error, .flash_success{
     display: flex;
-    justify-content: center;
     align-items: center;
     padding: 15px 0px 15px 0px;
-    background-color: rgb(253, 195, 195);
     border-radius: 10px;
     width: 75%;
-    border-style: solid;
-    border-color: red;
     border-width: 2px;
-    transform: translateX(5rem);
+    margin: auto; /* centeres horizonatally  */
+    max-width: 400px;
+    padding-left: 20px;
 }
 
-.message_error{
+/* Shake animation for the error message */
+@keyframes Shake{
+    0%{
+        transform: translateX(0);
+    }
+    10%{
+        transform: translateX(10px);
+    }
+    20%{
+        transform: translateX(-10px);
+    }
+    30%{
+        transform: translateX(8px);
+    }
+    40%{
+        transform: translateX(-8px);
+    }
+    50%{
+        transform: translateX(6px);
+    }
+    60%{
+        transform: translateX(-6px);
+    }
+    70%{
+        transform: translateX(4px);
+    }
+    80%{
+        transform: translateX(-4px);
+    }
+    90%{
+        transform: translateX(2px);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}
+
+.flash_error{
+    border-color: red;
+    background-color: rgb(253, 195, 195);
+    border-left-color: red;
+    border-left-width: 6px;
+    border-left-style: solid;
+    animation: Shake 0.5s linear;
+}
+
+.message_error, .message_sucess{
     text-align: center;
 }
 
 .flash_success{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 15px 0px 15px 0px;
     background-color: rgb(206, 253, 195);
-    border-radius: 10px;
-    width: 75%;
-    border-style: solid;
     border-color: green;
-    border-width: 2px;
-    transform: translateX(5rem);
+    border-left-color: green;
+    border-left-width: 4px;
+    border-left-style: solid;
 }
 
-.message_sucess{
-    text-align: center;
-}
 
 /* edit_folio.html */
 
