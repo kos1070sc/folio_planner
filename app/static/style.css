@@ -175,22 +175,12 @@ h1 {
 .content{
     display: flex;
     width: 85%; 
-
-
     margin: 0 auto 2rem auto;
     padding: 2rem;
-
-
     margin: auto; /* Centers horizontally */
     padding: 0 calc(7.5% - 20px); /* Balanced padding on both sides 0 for top/bottom */
-    /* backdrop-filter: blur(20px);  */
-    /* Frosted glass effect for the container */
-
-    
     box-shadow: 0px, 2px, 15px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-
-
     justify-content: center;
     align-items: center;
     box-sizing: border-box; /* Includes the padding in width calculation */
@@ -644,3 +634,89 @@ h1 {
     background-color: rgb(253, 92, 92);
 }
 
+/* help.html */
+.step_1, .step_2, .step_3, .welcome_message_container{
+    background-color: white;
+    border-radius:25px;
+    max-width: 600px;
+    width: 600px;
+    border-left-color:rgb(227, 140, 220);
+    box-shadow: 3px 3px rgb(68, 51, 78);
+    border-left-width: 10px;
+    border-left-style: solid;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transition: transform 3s ease-in-out;
+}
+
+.welcome_message_container{
+    animation: RightToLeftFadeIn 1.5s ease-in-out;
+    animation-fill-mode: forwards; /* keep end state of the animation after it is played */
+}
+
+.step_1{
+    animation: RightToLeftFadeIn 1.5s 0.5s ease-in-out;
+    animation-fill-mode: forwards; /* keep end state of the animation after it is played */
+}
+
+.step_2{
+    animation: RightToLeftFadeIn 1.5s 1s ease-in-out;
+    animation-fill-mode: forwards; /* keep end state of the animation after it is played */
+}
+
+.step_3{
+    animation: RightToLeftFadeIn 1.5s 1.5s ease-in-out;
+    animation-fill-mode: forwards; /* keep end state of the animation after it is played */
+}
+
+@keyframes RightToLeftFadeIn {
+    0%{ 
+        transform: translateX(-300px);
+        opacity: 0;
+    }
+
+    90%{
+        transform: translateX(0px);
+        opacity: 0.9;
+    }
+
+    100%{
+        opacity: 1;
+    }
+}
+
+.step_1 p, .step_2 p, .step_3 p, .welcome_message_container p{
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.step_1 li, .step_2 li, .step_3 li, .welcome_message_container li{
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.step_1 h2, .step_2 h2, .step_3 h2, .welcome_message_container h2{
+        margin-bottom: 10px;
+}
+
+.step_1:hover, .step_2:hover, .step_3:hover, .welcome_message_container:hover{
+    transform: scale(1.05);
+    box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
+}
+
+.number{
+    background-color: rgb(227, 140, 220);
+    /* make 2 rem for number to fit */
+    height: 2rem;
+    width: 2rem;
+    /* border radius half of width to make it circular */
+    border-radius: 1rem;
+    display: inline-block;  /* Allows width/height to apply */
+    text-align: center;
+    margin-right: 1rem;
+    /* make the line height match the height of the circle */
+    line-height: 2rem;
+}

@@ -1,26 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
-	<link rel = "stylesheet" href = "/static/style.css">
-</head>
-<body class = "root_body">
-    <!-- navbar -->
-		<nav >
-			<div class = "root_navbar">
-				<a class = "left_link" href = "http://127.0.0.1:5000/">Homepage</a>
-				<a class = "left_link" href = "http://127.0.0.1:5000/">Create New</a>
-				<a class = "left_link" href = "http://127.0.0.1:5000/">Settings</a>
-				<a class = "left_link" href= "http://127.0.0.1:5000/">Help</a>
-				<div class = spacer></div>
-				<a class = "right_link" href="http://127.0.0.1:5000/create_account">Create account</a>
-				<a class = "right_link" href="http://127.0.0.1:5000/login">Login</a>
-			</div> <!-- navbar -->
-			<!-- pages in navbar -->
-		</nav>
-        <h1 class = "root_main_heading">Yr 13 Painting Folio Planner</h1>
-        <h2 class = "root_subheading">Create, plan and express your ideas here</h2>
-</body>
-</html>
+{%extends "layout.html"%}
+{%block content%}
+	<h1 class = "root_main_heading">Yr 13 Painting Folio Planner</h1>
+	<h2 class = "root_subheading">Create, plan and express your ideas here</h2>
+{%endblock%}

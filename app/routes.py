@@ -342,8 +342,13 @@ def edit_folio(user_id, folio_id):
                            delete_form=delete_form)
     # Query the database for image paths
 
-
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect(url_for('root'))
+
+@app.route("/help")
+def help():
+    # check if user logged to know what template to extend
+    user_id = session.get("user_id")
+    return render_template("help.html", user_logged_in=user_id, user_id=user_id)
