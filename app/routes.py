@@ -352,3 +352,9 @@ def help():
     # check if user logged to know what template to extend
     user_id = session.get("user_id")
     return render_template("help.html", user_logged_in=user_id, user_id=user_id)
+
+# 404 page
+@app.errorhandler(404)
+def page_not_found(error):
+    user_id = session.get("user_id")
+    return render_template("404.html", user_logged_in=user_id, user_id=user_id)

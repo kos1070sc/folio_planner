@@ -189,10 +189,6 @@ h1 {
 }
 
 
-
-
-
-
 /* create_account.html */
 .submit_button{
     background-color: gold;
@@ -254,6 +250,11 @@ h1 {
     font-size: 1.2rem;
 }
 
+.login_link{
+    color: gold;
+    margin-left: 1rem;
+}
+
 
 .text_box{
     height: 3rem;
@@ -261,7 +262,6 @@ h1 {
     border-radius: 30px;
     font-size:  1.3rem;
     padding-left: 5%;
-    
 }
 
 ::placeholder{
@@ -511,6 +511,12 @@ h1 {
     transition: 0.3s ease;
 }
 
+.page_heading{
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
 /* Spin animation for create new plus symbol */
 @keyframes Spin{
     0%{transform: rotate(0deg);}
@@ -518,7 +524,7 @@ h1 {
 }
 
 .create_new_button_container:hover{
-    background-color: rgb(255, 226, 60);
+    background-color:rgb(189, 161, 2);
     transform: translateY(-4px);
 }
 
@@ -649,7 +655,6 @@ h1 {
     padding-bottom: 10px;
     margin-bottom: 1.5rem;
     opacity: 0;
-    transition: transform 3s ease-in-out;
 }
 
 .welcome_message_container{
@@ -705,6 +710,7 @@ h1 {
 .step_1:hover, .step_2:hover, .step_3:hover, .welcome_message_container:hover{
     transform: scale(1.05);
     box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
+    cursor: pointer;
 }
 
 .number{
@@ -720,3 +726,70 @@ h1 {
     /* make the line height match the height of the circle */
     line-height: 2rem;
 }
+
+
+/* 404.html */
+.home_button{
+    background-color: gold;
+    border-radius: 1rem;
+    padding: 1rem 1rem;
+    margin-top: 2rem;
+    transition: all 0.3s ease;
+    opacity: 0;
+    /* keep the end state of animation with 'forwards' */
+    animation: fadeslideup 1.5s 1s ease-out forwards;
+}
+
+.home_link{
+    text-decoration: none;
+}
+
+.home_button:hover{
+    background-color:rgb(189, 161, 2);
+    transform: translateY(-1px);
+}
+
+
+.page_not_found{
+    margin-top: 2rem;
+    font-size: 3rem;
+}
+
+/* dashboard.html */
+
+.welcome_user{
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    opacity: 0;
+    animation: 
+        fadeslideup 1.5s 1s ease-out forwards,
+        floating 5s ease-in-out infinite 4s; 
+}
+
+/* create_new.html */
+.create_new_form{
+
+}
+
+.theme_form{
+    height: 3rem;
+    width: 15rem;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.theme_submit{
+    background-color: gold;
+    height: 3.2rem;
+    border-radius: 10px;
+    width: 5rem;
+    font-size: 1.1rem;
+}
+
+
+.theme_submit:hover{
+    background-color:rgb(189, 161, 2);
+    transform: translateY(-1px);
+}
+

@@ -1,7 +1,8 @@
 {%extends "user_layout.html"%}
 {%block content%}
-<h1>My Folios</h1>
-<br>
+<div class = "page_heading">
+    <h1>My Folios</h1>
+</div>
 <!-- flash messages -->
 {% for catergory, message in get_flashed_messages(with_categories=true) %}
     <div class = "flash_{{ catergory }}">

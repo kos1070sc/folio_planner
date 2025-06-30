@@ -8,6 +8,9 @@
 {%extends "user_layout.html"%}
 {%block content%}
 
+<div class = "page_heading">
+    <h1>Create New</h1>
+</div>
 {% if form.theme.errors %}
     {% for error in form.theme.errors %}
         <div class = "error_message_container">
@@ -15,10 +18,9 @@
         </div>
     {% endfor %}
 {% endif %}
-<form method = "POST" action="/create_new">
+<form method = "POST" action="/create_new" class = "create_new_form">
     {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
-
-    {{ form.theme(id = "theme", class_="text_box", placeholder="What is the theme?")}} 
-    {{ form.submit(id = "submit", class_="submit_button")}} 
+    {{ form.theme(id = "theme", class_="theme_form", placeholder="What is the theme?")}} 
+    {{ form.submit(id = "submit", class_="theme_submit")}} 
 </form>
 {%endblock%}
