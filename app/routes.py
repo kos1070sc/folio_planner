@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, url_for, session, flash
+from flask import render_template, request, redirect, url_for, session, flash, render_template_string
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload, DeleteImage, MyFolio
@@ -52,7 +52,7 @@ def create_account():
             # commit to the database
             db.session.add(new_user)
             db.session.commit()
-            flash("Account created please login", "error")
+            flash("Account created please login", "success")
             return redirect(url_for("login"))
     return render_template("create_account.html", form=form)
 
@@ -60,7 +60,6 @@ def create_account():
 @app.route('/login', methods=["GET", "POST"])
 def login():
     form = LoginForm()  # get the form thingy
-    # check entered meets the requirements
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
@@ -75,13 +74,48 @@ def login():
             # create session
             session['user_id'] = user.id
             session['user_name'] = user.name
-            print(session)
             return redirect(url_for("dashboard", user_id=session["user_id"]))
         else:
             flash("⚠️ Incorrect name or password", "error")
             return redirect(url_for('login'))
     else:
         return render_template('login.html', form=form)
+    
+
+@app.route("/admin/login", methods=['GET', 'POST'])
+def admin_login():
+    form = LoginForm()  # get the form thingy
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        # checks if the user has entered both a username and password
+        if not username or not password:
+            flash("⚠️ Please enter a username and a password", "error")
+            return redirect(url_for('admin_login'))
+        # looks for account in the database
+        user = models.User.query.filter_by(name=username).first()
+        # in case user is none
+        if not user:
+            flash("⚠️ Incorrect name or password", "error")
+            return redirect(url_for('admin_login'))
+        # get privilege value of the account
+        privilege = user.privilege
+        # check if username and passwords matches with database
+        if user and user.check_password(password):
+            # admin privileges is 1
+            if privilege != 1:
+                flash('''⚠️ This is account does not have admin privileges.
+                        Please use user login''',
+                        "error")
+            else:
+                # create session
+                session['admin_id'] = user.id
+                session['admin_name'] = user.name
+                return render_template_string("Welcome admin")
+        else:
+            flash("⚠️ Incorrect name or password", "error")
+            return redirect(url_for('admin_login'))
+    return render_template("admin_login.html", form=form)
 
 
 @app.route("/create_new", methods=["GET", "POST"])
