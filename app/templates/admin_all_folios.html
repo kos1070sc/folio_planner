@@ -1,0 +1,38 @@
+{%extends "admin_layout.html"%}
+{%block content%}
+    <h1>Here are {{user.name}}'s folios</h1>
+    <br><br>
+    <!-- flash messages -->
+    {% for catergory, message in get_flashed_messages(with_categories=true) %}
+        <div class = "flash_{{ catergory }}">
+            <p class = "message_{{ catergory }}">{{ message }}</p>
+        </div>
+    {% endfor %}
+    <!-- folios display area -->
+<div class = "folios_area">
+    {% if folio %}
+        <div class="folio_grid">
+            	{% for folio in folio %}
+                    <a href="http://127.0.0.1:5000/admin/folio/{{user.id}}/{{folio.id}}">
+                    <div class = "folio_card">
+                        <h3>{{ folio.theme }}</h3>
+                        <form method = 'POST'>
+                            <div class = "delete_folio_button_container">
+                                {{ delete_form.hidden_tag() }}
+                                <!-- hidden input that gets the folio id to delete it -->
+                                <input type="hidden" name = "folio_id" value = "{{folio.id}}">
+                                {{ delete_form.delete_folio(class="delete_folio_button") }}
+                            </div>
+                        </form>
+                    </div>
+                </a>
+                {% endfor %}
+        </div>
+    {% else %}
+    <div class="empty_message">
+        <p>You don't have any folios yet</p>
+        <a href="{{ url_for('create_new')}}">Click here to create one</a>
+    </div>
+    {% endif %}
+</div>
+{%endblock%}

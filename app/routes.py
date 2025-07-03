@@ -72,6 +72,7 @@ def login():
         # check if username and passwords matches with database
         if user and user.check_password(password):
             # create session
+            # store id and name in session
             session['user_id'] = user.id
             session['user_name'] = user.name
             return redirect(url_for("dashboard", user_id=session["user_id"]))
@@ -80,42 +81,6 @@ def login():
             return redirect(url_for('login'))
     else:
         return render_template('login.html', form=form)
-    
-
-@app.route("/admin/login", methods=['GET', 'POST'])
-def admin_login():
-    form = LoginForm()  # get the form thingy
-    if form.validate_on_submit():
-        username = form.username.data
-        password = form.password.data
-        # checks if the user has entered both a username and password
-        if not username or not password:
-            flash("⚠️ Please enter a username and a password", "error")
-            return redirect(url_for('admin_login'))
-        # looks for account in the database
-        user = models.User.query.filter_by(name=username).first()
-        # in case user is none
-        if not user:
-            flash("⚠️ Incorrect name or password", "error")
-            return redirect(url_for('admin_login'))
-        # get privilege value of the account
-        privilege = user.privilege
-        # check if username and passwords matches with database
-        if user and user.check_password(password):
-            # admin privileges is 1
-            if privilege != 1:
-                flash('''⚠️ This is account does not have admin privileges.
-                        Please use user login''',
-                        "error")
-            else:
-                # create session
-                session['admin_id'] = user.id
-                session['admin_name'] = user.name
-                return render_template_string("Welcome admin")
-        else:
-            flash("⚠️ Incorrect name or password", "error")
-            return redirect(url_for('admin_login'))
-    return render_template("admin_login.html", form=form)
 
 
 @app.route("/create_new", methods=["GET", "POST"])
@@ -383,9 +348,143 @@ def logout():
 
 @app.route("/help")
 def help():
-    # check if user logged to know what template to extend
+    # check if user logged to know what template to use
     user_id = session.get("user_id")
     return render_template("help.html", user_logged_in=user_id, user_id=user_id)
+
+# admin pages
+@app.route("/admin/login", methods=['GET', 'POST'])
+def admin_login():
+    form = LoginForm()  # get the form thingy
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        # checks if the user has entered both a username and password
+        if not username or not password:
+            flash("⚠️ Please enter a username and a password", "error")
+            return redirect(url_for('admin_login'))
+        # looks for account in the database
+        user = models.User.query.filter_by(name=username).first()
+        # in case user is none
+        if not user:
+            flash("⚠️ Incorrect name or password", "error")
+            return redirect(url_for('admin_login'))
+        # get privilege value of the account
+        privilege = user.privilege
+        # check if username and passwords matches with database
+        if user and user.check_password(password):
+            # admin privileges is 1
+            if privilege != 1:
+                flash('''⚠️ This is account does not have admin privileges.
+                        Please use user login''',
+                        "error")
+            else:
+                # create session
+                # store id and name with session
+                session['admin_id'] = user.id
+                session['admin_name'] = user.name
+                return redirect(url_for("admin_dashboard"))
+        else:
+            flash("⚠️ Incorrect name or password", "error")
+            return redirect(url_for('admin_login'))
+    return render_template("admin_login.html", form=form)
+
+@app.route("/admin/dashboard")
+def admin_dashboard():
+    session_admin_id = session.get("admin_id")
+    # check if logged in as admin
+    if not session_admin_id:
+        # clear all session data in case non admin is trying this page
+        session.clear()
+        return redirect(url_for("root"))
+    return render_template("admin_dashboard.html")
+
+@app.route("/admin/view_users")
+def admin_view_users():
+    session_admin_id = session.get("admin_id")
+    # check if logged in as admin
+    if not session_admin_id:
+        # clear all session data in case non admin is trying this page
+        session.clear()
+        return redirect(url_for("root"))
+    users = models.User.query.all()
+    return render_template("admin_users.html", users=users)
+
+
+@app.route("/admin/all_folios/<int:user_id>", methods=["GET", "POST"])
+def admin_view_user_folios(user_id):
+    delete_form = MyFolio()
+    session_admin_id = session.get("admin_id")
+    user = models.User.query.get(user_id)
+    folio = models.Folio.query.filter_by(user_id=user_id)
+    folio_id = request.form.get("folio_id")
+    if delete_form.validate_on_submit():
+        # get folio object
+        folio = models.Folio.query.get(folio_id)
+        # check if folio exists
+        if folio:
+            # delete all paintings within that folio first
+            paintings = models.Painting.query.filter_by(folio_id=folio_id)
+            for painting in paintings:
+                db.session.delete(painting)
+            # then delete the folio
+            db.session.delete(folio)
+            # commit database
+            db.session.commit()
+            flash(f"{folio.theme} folio delete successfully", "success")
+            return redirect(url_for("admin_view_user_folios", user_id=user_id,))
+        else:
+            flash("Error: Folio not found", "error")
+            return redirect(url_for("admin_view_user_folios", user_id=user_id,))
+    # if there is not user id - redirect user to login
+    # check if logged in as admin
+    if not session_admin_id:
+        # clear all session data in case non admin is trying this page
+        session.clear()
+        return redirect(url_for("root"))
+    # check if user exists
+    if not user:
+        flash("⚠️ User not found", "error")
+        return redirect(url_for("admin_dashboard"))
+    return render_template("admin_all_folios.html",
+                           user=user,
+                           delete_form=delete_form,
+                           folio=folio)
+
+@app.route("/admin/folio/<int:user_id>/<int:folio_id>")
+def admin_view_folio(user_id, folio_id):
+    delete_form = DeleteImage()
+    session_admin_id = session.get("admin_id")
+    painting_id = request.form.get("painting_id")
+    folio = models.Folio.query.get(folio_id)
+    # get all paintings from that folio and order them by their position
+    paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
+    # check if logged in as admin
+    if not session_admin_id:
+        # clear all session data in case non admin is trying this page
+        session.clear()
+        return redirect(url_for("root"))
+    # handles image delete
+    # admins will not be able to upload images
+    if delete_form.validate_on_submit():
+        painting = models.Painting.query.get(painting_id)
+        # get path to delete
+        delete_path = f"app/{painting.image}"
+        # delete the image
+        os.remove(delete_path)
+        # assign none to painting image to delete from database
+        painting.image = None
+        db.session.commit()
+        flash("Image deleted successfully", "success")
+        return redirect(url_for("admin_view_folio",
+                        user_id=user_id,
+                        folio_id=folio_id))
+    return render_template("admin_folio.html",
+                           user_id=user_id,
+                           painting=paintings,
+                           folio=folio,
+                           delete_form=delete_form)
+
 
 # 404 page
 @app.errorhandler(404)

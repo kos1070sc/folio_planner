@@ -1,0 +1,12 @@
+{%extends "admin_layout.html"%}
+{%block content%}
+    {% for user in users %}
+        <!-- flash messages -->
+        {% for catergory, message in get_flashed_messages(with_categories=true) %}
+            <div class = "flash_{{ catergory }}">
+                <p class = "message_{{ catergory }}">{{ message }}</p>
+            </div>
+        {% endfor %}
+        <a href="http://127.0.0.1:5000/admin/all_folios/{{user.id}}">{{user.name}}</a>
+    {% endfor %}
+{%endblock%}

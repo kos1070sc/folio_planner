@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel = "stylesheet" href = "/static/style.css">
+</head>
+<body class = "layout_body">
+    <!-- navbar -->
+		<nav>
+			<div class = "navbar">
+				<a class = "left_link" href = "http://127.0.0.1:5000">Dash Board</a>
+				<a class = "left_link" href = "http://127.0.0.1:5000/admin/view_users">Users</a>
+                <a class = "left_link" href = "http://127.0.0.1:5000">Bin</a>
+				<div class = admin_spacer></div>
+				<a class = "right_link" href="http://127.0.0.1:5000"><img src="/static/images/profile.png" alt="profile_pic"></a>
+				<a class = "right_link" href="http://127.0.0.1:5000/logout">Log Out</a>
+			</div> <!-- navbar -->
+			<!-- pages in navbar -->
+		</nav>
+		<main class = "content">
+			<br>
+			{%block content%}{%endblock%}
+		</main> <!-- content goes here -->
+</body>
+</html>

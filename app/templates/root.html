@@ -2,4 +2,11 @@
 {%block content%}
 	<h1 class = "root_main_heading">Yr 13 Painting Folio Planner</h1>
 	<h2 class = "root_subheading">Create, plan and express your ideas here</h2>
+	<br><br>
+		<!-- flash messages -->
+	{% for catergory, message in get_flashed_messages(with_categories=true) %}
+		<div class = "flash_{{ catergory }}">
+			<p class = "message_{{ catergory }}">{{ message }}</p>
+		</div>
+	{% endfor %}
 {%endblock%}

@@ -793,3 +793,8 @@ h1 {
     transform: translateY(-1px);
 }
 
+/* admin_layout.html */
+
+.admin_spacer{
+    width: 55%;
+}
