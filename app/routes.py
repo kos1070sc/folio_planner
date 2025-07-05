@@ -451,14 +451,16 @@ def admin_view_user_folios(user_id):
                            delete_form=delete_form,
                            folio=folio)
 
-@app.route("/admin/folio/<int:user_id>/<int:folio_id>")
+@app.route("/admin/folio/<int:user_id>/<int:folio_id>",  methods=["GET", "POST"])
 def admin_view_folio(user_id, folio_id):
+    form = ImageUpload()
     delete_form = DeleteImage()
     session_admin_id = session.get("admin_id")
     painting_id = request.form.get("painting_id")
     folio = models.Folio.query.get(folio_id)
     # get all paintings from that folio and order them by their position
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
+    user = models.User.query.get(user_id)
     # check if logged in as admin
     if not session_admin_id:
         # clear all session data in case non admin is trying this page
@@ -481,9 +483,11 @@ def admin_view_folio(user_id, folio_id):
                         folio_id=folio_id))
     return render_template("admin_folio.html",
                            user_id=user_id,
-                           painting=paintings,
+                           paintings=paintings,
                            folio=folio,
-                           delete_form=delete_form)
+                           delete_form=delete_form,
+                           form=form,
+                           user=user)
 
 
 # 404 page

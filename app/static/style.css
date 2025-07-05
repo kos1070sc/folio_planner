@@ -798,3 +798,38 @@ h1 {
 .admin_spacer{
     width: 55%;
 }
+
+
+/* admin_users.html */
+
+.user_list_container{
+    background: white;
+    margin-bottom: 1rem;
+    display: flex;
+    width: 200px;
+    max-width: 200px;
+    border-radius: 10px;
+}
+
+.user_card{
+    flex: 1;
+    padding: 10px 10px;
+}
+
+.arrow{
+    background-color: gold;
+    flex: 1;
+    padding: 10px 10px;
+    border-radius: 0 10px 10px 0;
+}
+
+.arrow_link{
+    text-decoration: none;
+}
+
+/* display users with 3 collumns */
+.user_grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}

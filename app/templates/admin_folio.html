@@ -1,13 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 {%extends "admin_layout.html"%}
 {%block content%}
-    <!-- flash messages -->
-    {% for catergory, message in get_flashed_messages(with_categories=true) %}
-        <div class = "flash_{{ catergory }}">
-            <p class = "message_{{ catergory }}">{{ message }}</p>
-        </div>
-    {% endfor %}
 <br>
-<h1 class = "title">Edit Folio - {{ folio.theme }}</h1>
+<h1 class = "title">{{ user.name }}'s {{ folio.theme }} folio</h1>
 <!-- flash messages -->
 {% for catergory, message in get_flashed_messages(with_categories=true) %}
     <div class = "flash_{{ catergory }}">
@@ -21,47 +22,61 @@
             <div class = "panel_1_series_1">
                 <div class = "a4_portrait">
                     {% for painting in paintings if painting.position == 1 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
 
                 <div class = "a4_portrait">
                     {% for painting in paintings if painting.position == 2 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 2 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 2 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 
                 <div class = "a4_portrait">
                     {% for painting in paintings if painting.position == 3 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 3 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 3 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -70,33 +85,41 @@
             <div class = "panel_1_series_2">
                 <div class = "a4_landscape">
                     {% for painting in paintings if painting.position == 4 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 4 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 4 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
 
                 <div class = "a4_landscape">
                     {% for painting in paintings if painting.position == 5 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 5 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 5 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -104,33 +127,41 @@
             <div class = "panel_1_series_3">
                 <div class = "a4_portrait">
                     {% for painting in paintings if painting.position == 6 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 6 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 6 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
 
                 <div class = "a3_landscape">
                     {% for painting in paintings if painting.position == 7 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 7 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 7 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -140,32 +171,40 @@
             <div class = "panel_2_series_1">
                 <div class = "a4_landscape">
                     {% for painting in paintings if painting.position == 8 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 8 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 8 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class = "a4_landscape">
                     {% for painting in paintings if painting.position == 9 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 9 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 9 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -173,47 +212,59 @@
             <div class = "panel_2_series_2">
                 <div class = "a5_portrait">
                     {% for painting in paintings if painting.position == 10 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 10 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 10 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class = "a4_landscape">
                     {% for painting in paintings if painting.position == 11 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 11 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 11 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class = "a5_portrait">
                     {% for painting in paintings if painting.position == 12 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 12 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 12 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -221,32 +272,40 @@
             <div class = "panel_2_series_3">
                 <div class = "a3_portrait">
                     {% for painting in paintings if painting.position == 13 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 13 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 13 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class = "a3_portrait">
                     {% for painting in paintings if painting.position == 14 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 14 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 14 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -256,21 +315,26 @@
             <div class = "panel_3_series_1">
                 <div class = "a3_square">
                     {% for painting in paintings if painting.position == 15 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 15 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 15 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class = "a3_square">
                     {% for painting in paintings if painting.position == 16 %}
+                        {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 16 image" class = "folio_image">
                                 <form method = 'POST'>
@@ -282,74 +346,94 @@
                                     </div>
                                 </form>
                             </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
             <div class = "panel_3_series_2">
                 <div class = "a5_portrait">
                     {% for painting in paintings if painting.position == 17 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 17 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 17 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class = "a5_portrait">
                     {% for painting in paintings if painting.position == 18 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 18 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 18 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class = "a5_portrait">
                     {% for painting in paintings if painting.position == 19 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 19 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 19 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
                 <div class = "a5_portrait">
                     {% for painting in paintings if painting.position == 20 %}
-                        <div class = "image_container">
-                            <img src="{{painting.image}}" alt="painting 20 image" class = "folio_image">
-                            <form method = 'POST'>
-                                <div class="delete_option">
-                                    {{ delete_form.hidden_tag() }}
-                                    <!-- hidden input that gets the id of painting for deleting the image -->
-                                    <input type="hidden" name = "painting_id" value = "{{painting.id}}">
-                                    {{ delete_form.delete_image( class = "delete_button") }}
-                                </div>
-                            </form>
-                        </div>
+                        {% if painting.image %}
+                            <div class = "image_container">
+                                <img src="{{painting.image}}" alt="painting 20 image" class = "folio_image">
+                                <form method = 'POST'>
+                                    <div class="delete_option">
+                                        {{ delete_form.hidden_tag() }}
+                                        <!-- hidden input that gets the id of painting for deleting the image -->
+                                        <input type="hidden" name = "painting_id" value = "{{painting.id}}">
+                                        {{ delete_form.delete_image( class = "delete_button") }}
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
             <div class = "panel_3_series_3">
                 <div class = "a3_wide">
                     {% for painting in paintings if painting.position == 21 %}
+                        {% if painting.image %}
                         <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 21 image" class = "folio_image">
                                 <form method = 'POST'>
@@ -361,10 +445,15 @@
                                     </div>
                                 </form>
                             </div>
+                        {% else %}
+                            <h3>No images yet</h3>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>
         </div>
     </div>
 </div>
-{%endblock%}
+    {%endblock%}
+
+

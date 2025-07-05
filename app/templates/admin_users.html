@@ -1,12 +1,22 @@
 {%extends "admin_layout.html"%}
 {%block content%}
-    {% for user in users %}
-        <!-- flash messages -->
-        {% for catergory, message in get_flashed_messages(with_categories=true) %}
-            <div class = "flash_{{ catergory }}">
-                <p class = "message_{{ catergory }}">{{ message }}</p>
+    <h1>All Users</h1>
+    <br><br>
+    <!-- flash messages -->
+    {% for catergory, message in get_flashed_messages(with_categories=true) %}
+        <div class = "flash_{{ catergory }}">
+            <p class = "message_{{ catergory }}">{{ message }}</p>
+        </div>
+    {% endfor %}
+
+    <div class = "user_grid">
+        {% for user in users %}
+            <div class = "user_list_container">
+                <div class = "user_card"><h3>{{user.name}}</h3></div>
+                <a href="http://127.0.0.1:5000/admin/all_folios/{{user.id}}" class = "arrow_link">
+                    <div class = "arrow"><h3>></h3></div>
+                </a>
             </div>
         {% endfor %}
-        <a href="http://127.0.0.1:5000/admin/all_folios/{{user.id}}">{{user.name}}</a>
-    {% endfor %}
+    </div>
 {%endblock%}
