@@ -1,0 +1,18 @@
+{%extends "user_layout.html"%}
+{%block content%}
+<div class =  "page_heading">
+    <h1>Colour Pallete for {{folio.theme}}</h1>
+</div>
+
+<p>Select the first colour</p>
+<form action="">
+    {% for colour in colours %}
+    <div class =  "colour_select_container">
+        <input type = "radio" name="select_colour" id="{{colour.name}}" value="{{colour.id}}">
+        <div style="background-color: {{colour.hex_code}};" class="colour_preview"></div>
+        <label for="{{colour.name}}">{{colour.name}}</label>
+    </div>
+    {% endfor %}
+    <input type="submit" value = "Submit">
+</form>
+{%endblock%}

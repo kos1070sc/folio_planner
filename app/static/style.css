@@ -793,6 +793,17 @@ h1 {
     transform: translateY(-1px);
 }
 
+/* select_colour.html */
+
+.colour_preview{
+    height: 1rem;
+    width: 1rem;
+}
+
+.colour_select_container{
+    display: flex;
+}
+
 /* admin_layout.html */
 
 .admin_spacer{

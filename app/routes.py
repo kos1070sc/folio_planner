@@ -339,7 +339,40 @@ def edit_folio(user_id, folio_id):
                            folio=folio,
                            form=form,
                            delete_form=delete_form)
-    # Query the database for image paths
+
+@app.route("/edit_folio/<int:user_id>/<int:folio_id>/colour", methods=['GET', 'POST'])
+def select_colour(user_id, folio_id):
+    session_user_id = session.get("user_id")
+    folio = models.Folio.query.get_or_404(folio_id)
+    user =  models.User.query.get(user_id)
+    colours = models.Colour.query.all()
+    # check if logged in
+    if not session_user_id:
+        flash("⚠️ Please log in to edit a folio", "error")
+        return redirect(url_for("login"))
+    # check if user object is none 
+    if not user:
+        flash("⚠️ User not found", "error")
+        return redirect(url_for("dashboard"))
+    # check if folio object is none
+    if not folio:
+        flash("⚠️ Folio not found", "error")
+        return redirect(url_for("dashboard"))
+    # Verify if folio belongs to the user
+    if session_user_id != folio.user_id:
+        flash("⚠️ You can only edit your own folio", "error")
+        return redirect(url_for("dashboard", user_id=session_user_id))
+    return render_template("select_colour.html",
+                           colours=colours,
+                           folio=folio,
+                           user=user,
+                           user_id=session_user_id)
+    
+    
+
+    
+
+
 
 @app.route("/logout")
 def logout():
