@@ -72,3 +72,13 @@ class Painting(db.Model):
     panel = relationship("Panel")
     folio = relationship("Folio")
     user = relationship("User")
+
+
+class Bridge(db.Model):
+    __tablename__ = "Bridge"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    folio_id = db.Column(db.Integer, db.ForeignKey('Folio.id'))
+    colour_id = db.Column(db.Integer, db.ForeignKey('Colour.id'))
+    # Configure relationships with other tables
+    folio = relationship("Folio")
+    colour = relationship("Colour")

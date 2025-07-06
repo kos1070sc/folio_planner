@@ -361,7 +361,25 @@ def select_colour(user_id, folio_id):
     # Verify if folio belongs to the user
     if session_user_id != folio.user_id:
         flash("⚠️ You can only edit your own folio", "error")
-        return redirect(url_for("dashboard", user_id=session_user_id))
+        return redirect(url_for("dashboard", 
+                                user_id=session_user_id,))
+    # colour selection form
+    if request.method == 'POST':
+        selected_colours = request.form.getlist("select_colour")
+        # Validate number of colours selected
+        if len(selected_colours) < 2:
+            flash("⚠️ Please pick 2 or more colours", "error")
+            return redirect(url_for('select_colour', 
+                                    user_id=session_user_id,
+                                    folio_id=folio_id))
+        
+        elif len(selected_colours) > 4:
+            flash("⚠️ Please 4 colours or less", "error")
+            return redirect(url_for('select_colour',
+                                    user_id=session_user_id, 
+                                    folio_id=folio_id))
+        else:
+            return render_template_string("colours saved successfully")
     return render_template("select_colour.html",
                            colours=colours,
                            folio=folio,
