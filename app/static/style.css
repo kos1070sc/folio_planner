@@ -340,6 +340,27 @@ h1 {
 
 /* edit_folio.html */
 
+.select_colour_button{
+    background-color: gold;
+    padding: 10px 10px;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+}
+
+.select_colour_button:hover{
+    background-color:rgb(189, 161, 2);
+    transform: translateY(-2px);
+}
+
+.select_colour_button p{
+    color: black;
+    font-size: 1.2rem;
+}
+
+.select_colour_link{
+    text-decoration: none;
+}
+
 .folio_container{
     background-color: white;
 }
@@ -794,7 +815,6 @@ h1 {
 }
 
 /* select_colour.html */
-
 .colour_preview{
     height: 1rem;
     width: 1rem;

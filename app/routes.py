@@ -97,12 +97,14 @@ def create_new():
         if theme:
             print(theme)
             # creates new folio in database with the theme entered
-            new_folio = models.Folio(theme=theme, user_id=session_user_id)
+            new_folio = models.Folio(theme=theme,
+                                     user_id=session_user_id,
+                                     # 0 = no colour pallete assigned
+                                     # 1 = colour pallete assigned
+                                     colour_assignment=0)
             db.session.add(new_folio)
             db.session.commit()
-
             # creates 3 panels with panel_number 1 to 3
-            # puts inside a list and added to database
             for i in range(1, 4):
                 panel = models.Panel(folio_id=new_folio.id,
                                      user_id=session_user_id,
@@ -110,7 +112,7 @@ def create_new():
                 db.session.add(panel)
             db.session.commit()
 
-            # creates 21 paintings with positions 1 to 21
+            # creates 21 paintings with positions 1 to 21 with for loop
             for i in range(1, 22):
                 # paintings have different due dates
                 # these need to be assigned outside the model instuctor call
@@ -326,11 +328,10 @@ def edit_folio(user_id, folio_id):
             print(database_path)
             return redirect(url_for("edit_folio",
                                     user_id=session_user_id,
-                                    folio_id=folio_id))
+                                    folio_id=folio_id, 
+                                    ))
         else:
             flash("File type not supported", "error")
-
-
     # get all paintings from that folio and order them by their position
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
     return render_template("edit_folio.html",
@@ -350,7 +351,7 @@ def select_colour(user_id, folio_id):
     if not session_user_id:
         flash("⚠️ Please log in to edit a folio", "error")
         return redirect(url_for("login"))
-    # check if user object is none 
+    # check if user object is none
     if not user:
         flash("⚠️ User not found", "error")
         return redirect(url_for("dashboard"))
@@ -365,6 +366,7 @@ def select_colour(user_id, folio_id):
                                 user_id=session_user_id,))
     # colour selection form
     if request.method == 'POST':
+        # list contains colour ids
         selected_colours = request.form.getlist("select_colour")
         # Validate number of colours selected
         if len(selected_colours) < 2:
@@ -379,17 +381,28 @@ def select_colour(user_id, folio_id):
                                     user_id=session_user_id, 
                                     folio_id=folio_id))
         else:
-            return render_template_string("colours saved successfully")
+            # put newly selected colours into database
+            # if there are colours already assigned then delete them
+            if folio.colour_assignment == 1:
+                models.Bridge.query.filter_by(fid=folio.id).delete()
+
+            for i in selected_colours:
+                new_colours = models.Bridge(fid=folio.id, cid=i)
+                db.session.add(new_colours)
+
+            # update colour assignment column in folio table
+            # 0 = no pallete, 1 = pallete assigned
+            folio.colour_assignment = 1
+            db.session.commit()
+            flash("Colour pallete saved", "success")
+            return redirect(url_for("edit_folio",
+                                    user_id=session_user_id,
+                                    folio_id=folio.id))
     return render_template("select_colour.html",
                            colours=colours,
                            folio=folio,
                            user=user,
                            user_id=session_user_id)
-    
-    
-
-    
-
 
 
 @app.route("/logout")

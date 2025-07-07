@@ -40,6 +40,7 @@ class Folio(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
     theme = db.Column(db.String(30), unique=True, nullable=False)
+    colour_assignment = db.Column(db.Integer, nullable=False)
     # Configure relationships with other tables
     user = relationship("User")
 
@@ -77,8 +78,8 @@ class Painting(db.Model):
 class Bridge(db.Model):
     __tablename__ = "Bridge"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    folio_id = db.Column(db.Integer, db.ForeignKey('Folio.id'))
-    colour_id = db.Column(db.Integer, db.ForeignKey('Colour.id'))
+    fid = db.Column(db.Integer, db.ForeignKey('Folio.id'))
+    cid = db.Column(db.Integer, db.ForeignKey('Colour.id'))
     # Configure relationships with other tables
     folio = relationship("Folio")
     colour = relationship("Colour")

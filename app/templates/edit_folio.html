@@ -9,6 +9,11 @@
 {%block content%}
 <br>
 <h1 class = "title">Edit Folio - {{ folio.theme }}</h1>
+<br>
+<a href="{{ url_for('select_colour', user_id = user_id, folio_id = folio.id ) }}" class = "select_colour_link">
+    <div class = "select_colour_button"><p>Create a colour pallete</p></div>
+</a>
+<br>
 <!-- flash messages -->
 {% for catergory, message in get_flashed_messages(with_categories=true) %}
     <div class = "flash_{{ catergory }}">
