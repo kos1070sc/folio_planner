@@ -160,7 +160,6 @@ def create_new():
             return redirect(url_for("edit_folio",
                                     user_id=session_user_id,
                                     folio_id=new_folio.id))
-
         # display an error message if no theme
         else:
             flash("⚠️ Please enter a theme", "error")
@@ -241,6 +240,16 @@ def edit_folio(user_id, folio_id):
     delete_form = DeleteImage()
     session_user_id = session.get("user_id")
     painting_id = request.form.get("painting_id")
+    # Get folio info by id in the url
+    folio = models.Folio.query.get_or_404(folio_id)
+    colours = (
+        # query colour table
+        models.Colour.query
+        # join colour with bridge table
+        .join(models.Bridge, models.Bridge.cid==models.Colour.id)
+        # filter by the folio id
+        .filter(models.Bridge.fid==folio.id).all()
+    )
     # check if logged in
     if not session_user_id:
         flash("⚠️ Please log in to edit a folio", "error")
@@ -251,9 +260,6 @@ def edit_folio(user_id, folio_id):
     if not user:
         flash("⚠️ User not found", "error")
         return redirect(url_for("dashboard"))
-    # Get folio info by id in the url
-    # 404 if not found
-    folio = models.Folio.query.get_or_404(folio_id)
     # Verify if that folio belong to the user
     if session_user_id != folio.user_id:
         flash("⚠️ You can only edit your own folio", "error")
@@ -283,8 +289,8 @@ def edit_folio(user_id, folio_id):
             return redirect(url_for("edit_folio",
                                     user_id=session_user_id,
                                     folio_id=folio_id))
-        # funtion that checks if file is allowed
-
+        
+        # funtion that checks if the file type is allowed
         def allowed_file(filename):
             if "." not in filename:
                 return False
@@ -339,7 +345,8 @@ def edit_folio(user_id, folio_id):
                            paintings=paintings,
                            folio=folio,
                            form=form,
-                           delete_form=delete_form)
+                           delete_form=delete_form,
+                           colours=colours)
 
 @app.route("/edit_folio/<int:user_id>/<int:folio_id>/colour", methods=['GET', 'POST'])
 def select_colour(user_id, folio_id):
