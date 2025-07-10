@@ -498,6 +498,14 @@ def admin_view_user_folios(user_id):
             paintings = models.Painting.query.filter_by(folio_id=folio_id)
             for painting in paintings:
                 db.session.delete(painting)
+            print("before colours")
+            # colour pallete
+            colours = models.Bridge.query.filter_by(fid=folio_id)
+            print(colours)
+            print("after colours")
+            for colour in colours:
+                print("loop is working")
+                db.session.delete(colour)
             # then delete the folio
             db.session.delete(folio)
             # commit database

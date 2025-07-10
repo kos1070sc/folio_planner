@@ -10,7 +10,7 @@
     </div>
 {% endfor %}
 <br>
-<a href="http://127.0.0.1:5000/create_new">
+<a href="http://127.0.0.1:5000/create_new" class = "link">
     <div class="create_new_button_container">
         <div class = "plus_container">
             <h3>➕</h3>
@@ -24,7 +24,7 @@
     {% if folio %}
         <div class="folio_grid">
             	{% for folio in folio%}
-                    <a href="http://127.0.0.1:5000/edit_folio/{{user_id}}/{{folio.id}}">
+                    <a href="http://127.0.0.1:5000/edit_folio/{{user_id}}/{{folio.id}}" class = "link">
                     <div class = "folio_card">
                         <h3>{{ folio.theme }}</h3>
                         <form method = 'POST'>
