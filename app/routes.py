@@ -44,7 +44,6 @@ def create_account():
             flash("⚠️ Usermame already exist. Please choose another one", "error")
             return redirect(url_for("create_account"))
         else:
-            print("yes")
             # store username and hashed password
             # admin previlege = 0 (normal user)
             new_user = models.User(name=username, privilege=0)
@@ -89,13 +88,12 @@ def create_new():
     session_user_id = session.get("user_id")
     # if there is not user id - redirect user to login
     if not session_user_id:
-        flash("Please login first", "error")
+        flash("⚠️ Please login first", "error")
         return redirect(url_for("login"))
     if form.validate_on_submit():
         theme = form.theme.data
         # check is user has entered a theme
         if theme:
-            print(theme)
             # creates new folio in database with the theme entered
             new_folio = models.Folio(theme=theme,
                                      user_id=session_user_id,
@@ -188,6 +186,10 @@ def my_folios(user_id):
             paintings = models.Painting.query.filter_by(folio_id=folio_id)
             for painting in paintings:
                 db.session.delete(painting)
+            # delete colour pallete of folio
+            colours = models.Bridge.query.filter_by(fid=folio_id)
+            for colour in colours:
+                db.session.delete(colour)
             # then delete the folio
             db.session.delete(folio)
             # commit database
@@ -195,15 +197,15 @@ def my_folios(user_id):
             flash(f"{folio.theme} folio delete successfully", "success")
             return redirect(url_for("my_folios", user_id=session_user_id))
         else:
-            flash("Error: Folio not found or access denied", "error")
+            flash("⚠️ Error: Folio not found or access denied", "error")
             return redirect(url_for("my_folios", user_id=session_user_id))
     # if there is not user id - redirect user to login
     if not session_user_id:
-        flash("Please login first", "error")
+        flash("⚠️ Please login first", "error")
         return redirect(url_for("login"))
     # check if session id matches id in url
     elif session_user_id != user_id:
-        flash("You can only view your own folios", "error")
+        flash("⚠️ You can only view your own folios", "error")
         return redirect(url_for("dashboard", user_id=session_user_id))
     else:
         folio = models.Folio.query.filter_by(user_id=user_id)
@@ -221,11 +223,11 @@ def dashboard(user_id):
     session_user_id = session.get("user_id")
     # if there is not user id - redirect user to login
     if not session_user_id:
-        flash("Please login first", "error")
+        flash("⚠️ Please login first", "error")
         return redirect(url_for("login"))
     # check if session id matches id in url
     elif session_user_id != user_id:
-        flash("You can only view your own dashboard", "error")
+        flash("⚠️ You can only view your own dashboard", "error")
         return redirect(url_for("dashboard", user_id=session_user_id))
     else:
         user_info = models.User.query.get(session['user_id'])
@@ -331,7 +333,6 @@ def edit_folio(user_id, folio_id):
             painting.image = database_path
             db.session.commit()
             flash("Image uploaded successfully", "success")
-            print(database_path)
             return redirect(url_for("edit_folio",
                                     user_id=session_user_id,
                                     folio_id=folio_id, 
@@ -498,13 +499,9 @@ def admin_view_user_folios(user_id):
             paintings = models.Painting.query.filter_by(folio_id=folio_id)
             for painting in paintings:
                 db.session.delete(painting)
-            print("before colours")
-            # colour pallete
+            # delete colour pallete of folio
             colours = models.Bridge.query.filter_by(fid=folio_id)
-            print(colours)
-            print("after colours")
             for colour in colours:
-                print("loop is working")
                 db.session.delete(colour)
             # then delete the folio
             db.session.delete(folio)
@@ -540,6 +537,14 @@ def admin_view_folio(user_id, folio_id):
     # get all paintings from that folio and order them by their position
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
     user = models.User.query.get(user_id)
+    colours = (
+        # query colour table
+        models.Colour.query
+        # join colour with bridge table
+        .join(models.Bridge, models.Bridge.cid==models.Colour.id)
+        # filter by the folio id
+        .filter(models.Bridge.fid==folio.id).all()
+    )
     # check if logged in as admin
     if not session_admin_id:
         # clear all session data in case non admin is trying this page
@@ -566,7 +571,8 @@ def admin_view_folio(user_id, folio_id):
                            folio=folio,
                            delete_form=delete_form,
                            form=form,
-                           user=user)
+                           user=user,
+                           colours=colours)
 
 
 # 404 page
