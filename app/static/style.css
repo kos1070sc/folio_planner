@@ -2,6 +2,9 @@
     margin: 0%;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+
 
 
 /* root.html*/ 
@@ -69,6 +72,9 @@
         colourin 2s ease-in-out forwards, 
         /* floatin animation plays after colourin (2.5s) */
         floating 6s ease-in-out infinite 2.5s;
+    font-family: "Gloria Hallelujah", cursive;
+    font-weight: 1000;
+    font-style: normal;
 }
 
 .root_subheading{
@@ -79,6 +85,9 @@
         fadeslideup 1.5s ease-out 2s forwards, /* starts after the main heading animation plays */
         /* begin to float after it slides up */
         floating 5s ease-in-out infinite 4s; 
+    font-family: "Gloria Hallelujah", cursive;
+    font-weight: 600;
+    font-style: normal;
 }
 
 .root_navbar{
@@ -219,6 +228,12 @@ h1 {
     box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
     width: 30%;
     backdrop-filter: blur(10px); /* Frosted glass effect for the container */
+}
+
+.login_heading{
+    font-family: "Gloria Hallelujah", cursive;
+    font-weight: 600;
+    font-style: normal;
 }
 
 .login_body{
@@ -585,6 +600,9 @@ h1 {
     font-size: 1.2rem;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+    font-family: "Gloria Hallelujah", cursive;
+    font-weight: 600;
+    font-style: normal;
 }
 
 /* Spin animation for create new plus symbol */
@@ -835,6 +853,12 @@ h1 {
     animation: 
         fadeslideup 1.5s 1s ease-out forwards,
         floating 5s ease-in-out infinite 4s; 
+}
+
+.welcome_user h1{
+    font-family: "Gloria Hallelujah", cursive;
+    font-weight: 1000;
+    font-style: normal;
 }
 
 /* create_new.html */

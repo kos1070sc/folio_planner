@@ -186,6 +186,10 @@ def my_folios(user_id):
             paintings = models.Painting.query.filter_by(folio_id=folio_id)
             for painting in paintings:
                 db.session.delete(painting)
+            # delete panels
+            panels = models.Panel.query.filter_by(folio_id=folio_id)
+            for panel in panels:
+                db.session.delete(panel)
             # delete colour pallete of folio
             colours = models.Bridge.query.filter_by(fid=folio_id)
             for colour in colours:
