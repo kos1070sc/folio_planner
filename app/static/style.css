@@ -589,6 +589,7 @@ h1 {
     padding: 5px 12px;
     border: none;
     cursor: pointer; /* becomes a pointer when hovered over*/
+    font-size: 0.8rem;
 }
 
 .delete_button:hover{
@@ -785,6 +786,7 @@ h1 {
     animation-fill-mode: forwards; /* keep end state of the animation after it is played */
 }
 
+
 @keyframes RightToLeftFadeIn {
     0%{ 
         transform: translateX(-300px);
@@ -833,6 +835,10 @@ h1 {
     margin-right: 1rem;
     /* make the line height match the height of the circle */
     line-height: 2rem;
+}
+
+.help_h2{
+    font-size: 1.7rem;
 }
 
 

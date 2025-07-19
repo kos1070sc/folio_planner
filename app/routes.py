@@ -276,8 +276,10 @@ def edit_folio(user_id, folio_id):
         painting = models.Painting.query.get(painting_id)
         # get path to delete
         delete_path = f"app/{painting.image}"
-        # delete the image
-        os.remove(delete_path)
+        # check if image exists on disk an in database 
+        if painting.image and os.path.exists(delete_path):
+            # delete the image
+            os.remove(delete_path)
         # assign none to painting image to delete from database
         painting.image = None
         db.session.commit()
@@ -342,7 +344,7 @@ def edit_folio(user_id, folio_id):
                                     folio_id=folio_id, 
                                     ))
         else:
-            flash("File type not supported", "error")
+            flash("⚠️ File type not supported", "error")
     # get all paintings from that folio and order them by their position
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
     return render_template("edit_folio.html",
