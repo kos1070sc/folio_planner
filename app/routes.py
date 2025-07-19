@@ -382,13 +382,13 @@ def select_colour(user_id, folio_id):
         selected_colours = request.form.getlist("select_colour")
         # Validate number of colours selected
         if len(selected_colours) < 2:
-            flash("⚠️ Please pick 2 or more colours", "error")
+            flash("⚠️ Please pick 2 to 4 colours", "error")
             return redirect(url_for('select_colour', 
                                     user_id=session_user_id,
                                     folio_id=folio_id))
         
         elif len(selected_colours) > 4:
-            flash("⚠️ Please 4 colours or less", "error")
+            flash("⚠️ Please pick 2 to 4 colours", "error")
             return redirect(url_for('select_colour',
                                     user_id=session_user_id, 
                                     folio_id=folio_id))

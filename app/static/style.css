@@ -1,11 +1,19 @@
-*{
-    margin: 0%;
-}
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Delius&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lavishly+Yours&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
 
 
+
+
+*{
+    margin: 0%;
+    font-family: "Delius", cursive;
+    font-weight: 900;
+    font-size: 1.1rem;
+}
 
 /* root.html*/ 
 .root_body{
@@ -72,9 +80,10 @@
         colourin 2s ease-in-out forwards, 
         /* floatin animation plays after colourin (2.5s) */
         floating 6s ease-in-out infinite 2.5s;
-    font-family: "Gloria Hallelujah", cursive;
-    font-weight: 1000;
+    font-family: "Lavishly Yours", cursive;
+    font-weight: 900;
     font-style: normal;
+    font-size: 5rem;
 }
 
 .root_subheading{
@@ -85,9 +94,10 @@
         fadeslideup 1.5s ease-out 2s forwards, /* starts after the main heading animation plays */
         /* begin to float after it slides up */
         floating 5s ease-in-out infinite 4s; 
-    font-family: "Gloria Hallelujah", cursive;
-    font-weight: 600;
+    font-family: "Lavishly Yours", cursive;
+    font-weight: 500;
     font-style: normal;
+    font-size: 3rem;
 }
 
 .root_navbar{
@@ -152,6 +162,8 @@
 
 .left_link, .right_link{
     transition: all 0.3s ease; /* Smoother hovee transitions */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 400;
 }
 
 .left_link:hover, .right_link:hover{
@@ -231,9 +243,8 @@ h1 {
 }
 
 .login_heading{
-    font-family: "Gloria Hallelujah", cursive;
-    font-weight: 600;
-    font-style: normal;
+    font-family: cursive;
+    font-size: 2rem;
 }
 
 .login_body{
@@ -271,6 +282,10 @@ h1 {
 .login_link{
     color: gold;
     margin-left: 1rem;
+}
+
+.login_bottom_text{
+    color: white;
 }
 
 
@@ -600,9 +615,11 @@ h1 {
     font-size: 1.2rem;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
-    font-family: "Gloria Hallelujah", cursive;
-    font-weight: 600;
-    font-style: normal;
+}
+
+.page_heading h1{
+    font-family: cursive;
+    font-size: 2.5rem;
 }
 
 /* Spin animation for create new plus symbol */
@@ -622,6 +639,7 @@ h1 {
     animation: Spin 0.8s ease-in-out 1;
 }
 
+
 .plus_container{
     border-radius: 40px;
     border-style: solid;
@@ -637,7 +655,7 @@ h1 {
 
 .plus_container h3{
     position: absolute;
-    top: 3px;
+    top: 9px;
 }
 
 .folios_area{
@@ -856,9 +874,8 @@ h1 {
 }
 
 .welcome_user h1{
-    font-family: "Gloria Hallelujah", cursive;
-    font-weight: 1000;
-    font-style: normal;
+    font-family: cursive;
+    font-size: 3rem;
 }
 
 /* create_new.html */
