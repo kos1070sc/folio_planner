@@ -9,7 +9,7 @@
 <body class = "login_body">
 
     <div class = "login_container">
-        <h1>Admin Login</h1>
+        <h1 class ="admin_login">Admin Login</h1>
         <hr>
         <br><br>
     <!-- form error messages -->
@@ -44,7 +44,7 @@
             <br><br><br>
             {{ form.submit(id = "submit", class_="submit_button")}} 
             <br><br>
-            <p>Not an admin? <a href="http://127.0.0.1:5000/login" class = "login_link">User Login Here<a></p>
+            <p class = "login_bottom_text">Not an admin? <a href="http://127.0.0.1:5000/login" class = "login_link">User Login Here<a></p>
         </form>
     </div>
 

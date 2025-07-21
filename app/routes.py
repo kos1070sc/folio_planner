@@ -182,8 +182,20 @@ def my_folios(user_id):
         folio = models.Folio.query.get(folio_id)
         # check if folio exists and belongs to user
         if folio and folio.user_id == session_user_id:
-            # delete all paintings within that folio first
+            # delete image file on disk
             paintings = models.Painting.query.filter_by(folio_id=folio_id)
+            for painting in paintings:
+                # ignore the painti
+                if painting.image:
+                    print(painting.image)
+                    delete_path = f"app/{painting.image}"
+                    # check if image path exists
+                    if os.path.exists(delete_path):
+                        os.remove(delete_path)
+                    # remove image path from database
+                    painting.image = None
+                    db.session.commit()
+            # delete all paintings within that folio first
             for painting in paintings:
                 db.session.delete(painting)
             # delete panels
@@ -501,10 +513,26 @@ def admin_view_user_folios(user_id):
         folio = models.Folio.query.get(folio_id)
         # check if folio exists
         if folio:
-            # delete all paintings within that folio first
+            # delete image file on disk
             paintings = models.Painting.query.filter_by(folio_id=folio_id)
             for painting in paintings:
+                # ignore the painti
+                if painting.image:
+                    print(painting.image)
+                    delete_path = f"app/{painting.image}"
+                    # check if image path exists
+                    if os.path.exists(delete_path):
+                        os.remove(delete_path)
+                    # remove image path from database
+                    painting.image = None
+                    db.session.commit()
+            # delete all paintings within that folio
+            for painting in paintings:
                 db.session.delete(painting)
+            # delete panels
+            panels = models.Panel.query.filter_by(folio_id=folio_id)
+            for panel in panels:
+                db.session.delete(panel)
             # delete colour pallete of folio
             colours = models.Bridge.query.filter_by(fid=folio_id)
             for colour in colours:
@@ -562,8 +590,10 @@ def admin_view_folio(user_id, folio_id):
         painting = models.Painting.query.get(painting_id)
         # get path to delete
         delete_path = f"app/{painting.image}"
-        # delete the image
-        os.remove(delete_path)
+        # check if image exists on disk an in database 
+        if painting.image and os.path.exists(delete_path):
+            # delete the image
+            os.remove(delete_path)
         # assign none to painting image to delete from database
         painting.image = None
         db.session.commit()

@@ -8,7 +8,7 @@
 {%extends "admin_layout.html"%}
 {%block content%}
 <br>
-<h1 class = "title">{{ user.name }}'s {{ folio.theme }} folio</h1>
+<h1 class = "admin_headings">{{ user.name }}'s {{ folio.theme }} folio</h1>
 <!-- flash messages -->
 {% for catergory, message in get_flashed_messages(with_categories=true) %}
     <div class = "flash_{{ catergory }}">

@@ -49,9 +49,11 @@ class CreateAccount(FlaskForm):
     submit = SubmitField("Submit")
 
 
+# Create New Theme
 class CreateNew(FlaskForm):
     theme = StringField('Theme', validators=[
-        DataRequired(message = "⚠️ Please enter a theme")
+        DataRequired(message = "⚠️ Please enter a theme"),
+        Length(max=50, message = "⚠️ Please enter a theme with less than 50 characters")
     ])
     submit = SubmitField("Submit")
 

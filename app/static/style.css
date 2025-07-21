@@ -960,6 +960,14 @@ h1 {
     background-color: rgb(252, 225, 70);
 }
 
+.admin_headings{
+    font-size: 2rem;
+}
+
+.admin_login{
+    font-size: 1.8rem;
+}
+
 
 /* admin_users.html */
 
