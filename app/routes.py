@@ -185,9 +185,7 @@ def my_folios(user_id):
             # delete image file on disk
             paintings = models.Painting.query.filter_by(folio_id=folio_id)
             for painting in paintings:
-                # ignore the painti
                 if painting.image:
-                    print(painting.image)
                     delete_path = f"app/{painting.image}"
                     # check if image path exists
                     if os.path.exists(delete_path):
@@ -195,7 +193,7 @@ def my_folios(user_id):
                     # remove image path from database
                     painting.image = None
                     db.session.commit()
-            # delete all paintings within that folio first
+            # delete paintings
             for painting in paintings:
                 db.session.delete(painting)
             # delete panels
