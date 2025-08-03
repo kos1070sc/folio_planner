@@ -107,6 +107,19 @@
     font-size: 2rem;
 }
 
+.sign_up_container{
+    background-color: gold;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+}
+
+.sign_up_container:hover{
+    box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
+    transform: scale(1.05);
+    transform: translateY(-2px);
+    background-color: rgb(252, 225, 70);
+}
+
 .root_navbar{
     display: flex;
     align-items: center; /* align the items in the center vertically */

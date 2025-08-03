@@ -20,7 +20,7 @@ class LoginForm(FlaskForm):
         #sets the min length of password 
         Length(min = 8, message = "⚠️ Please enter a password of at least 8 characters please")
         ]) 
-    submit = SubmitField("Submit")
+    submit = SubmitField("Login")
 
 #form for create account
 class CreateAccount(FlaskForm):
@@ -46,7 +46,7 @@ class CreateAccount(FlaskForm):
         # check if the same as password
         EqualTo('password', message="⚠️ Password must match")
         ]) 
-    submit = SubmitField("Submit")
+    submit = SubmitField("Create Account")
 
 
 # Create New Theme

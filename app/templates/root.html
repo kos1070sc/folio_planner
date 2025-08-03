@@ -2,6 +2,10 @@
 {%block content%}
 	<h1 class = "root_main_heading">Yr 13 Painting Folio Planner</h1>
 	<h2 class = "root_subheading">Create, plan and express your ideas here</h2>
+	<br>
+	<div class = 'sign_up_container'>
+		<a class = "link" href="http://127.0.0.1:5000/create_account">Sign Up for Planner</a>
+	</div>
 	<br><br>
 		<!-- flash messages -->
 	{% for catergory, message in get_flashed_messages(with_categories=true) %}
@@ -9,4 +13,48 @@
 			<p class = "message_{{ catergory }}">{{ message }}</p>
 		</div>
 	{% endfor %}
+	<div class = "welcome_message_container">
+		<h2 class = "help_h2">Folio Planner — Quick Start Guide</h2>
+		<p>
+			Welcome. This guide will show you how to use the Folio Planner, 
+			step by step. With the planner, you can:
+		</p>
+		<li>Create your folio </li>
+		<li>Choose a theme</li>
+		<li>Upload reference images</li>
+		<li>Keep track of deadlines</li>
+		<p>Follow the steps below to get started.</p>
+	</div>
+
+	<div class = "step_1">
+		<h2 class = "help_h2"><span class = "number">1</span>Create your folio</h2>
+		<p>Start by creating a new folio.</p>
+		<ol>
+			<li>Click on Create New in the navigation bar.</li>
+			<li>Enter your folio theme — this is the main idea or concept for your work.</li>
+			<li>Click Submit to save your folio and begin planning.</li>
+		</ol>
+		<p>Once your folio is created, you'll move on to uploading your reference images.</p>
+	</div>
+
+	<div class = "step_2">
+		<h2 class = "help_h2"><span class = "number">2</span>Upload reference images</h2>
+		<p>Reference images help you visualise your paintings on the folio.</p>
+		<ol>
+			<li>Open your folio.</li>
+			<li>Click Upload Image next to the painting you’re planning.</li>
+			<li>Select an image from your device.</li>
+			<li>Click Submit to save the image to your folio.</li>
+		</ol>
+		<p>You can update or replace images at any time.</p>
+	</div>
+
+	<div class = "step_3">
+		<h2 class = "help_h2"><span class = "number">3</span>Keep track of dealines</h2>
+		<p>Your folio automatically shows the term and week each painting is due.</p>
+		<li>See upcoming deadlines</li>
+		<li>Stay on track with your work</li>
+		<li>Avoid last-minute stress</li>
+		<p>Planning ahead makes your folio more manageable.</p>
+	</div>
 {%endblock%}
