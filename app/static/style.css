@@ -292,6 +292,23 @@ h1 {
     padding:0%;
 }
 
+.home{
+    background-color: gold;
+    border-radius: 1rem;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    max-width: 6rem;
+    transition: 0.3s ease-in-out;
+    padding: 1% 1%;
+}
+
+.home:hover{
+    box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
+    transform: scale(1.05);
+    transform: translate(-50%, -2px);
+    background-color: rgb(252, 225, 70);
+}
+
 .login_container form{
     text-align: center;
     padding: 10% 10% 10% 10%;
