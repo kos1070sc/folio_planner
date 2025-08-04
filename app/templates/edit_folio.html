@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="/static/scripts.js"></script>
 </head>
 {%extends "user_layout.html"%}
 {%block content%}
-<div class = "page_heading">
+<button onclick="goBack()" class = "back_button">⮐ Back</button>
+<div class = "edit_folio_page_heading">
     <h1>Edit Folio: {{ folio.theme }}</h1>
 </div>
 <!-- flash messages -->

@@ -412,6 +412,34 @@ h1 {
 
 
 /* edit_folio.html */
+.back_button{
+    margin-right: 90%;
+    transform: translateY(160%);
+    background: 0;
+    transition: 0.3s ease-in-out;
+    font-size: 1.1rem;
+    padding: 0.5% 0.5%;
+    border: none;
+    border-bottom: solid;
+}
+
+.back_button:hover{
+    transform: translateY(155%);
+    box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
+    border-radius: 0.2rem;
+}
+
+.edit_folio_page_heading{
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.edit_folio_page_heading h1{
+    font-family: "Kanit", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 2.5rem;
+}
 
 .select_colour_button{
     background-color: gold;
