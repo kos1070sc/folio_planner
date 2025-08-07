@@ -111,6 +111,7 @@
     background-color: gold;
     padding: 1rem 2rem;
     border-radius: 1rem;
+    transition: 0.3s ease-in-out;
 }
 
 .sign_up_container:hover{

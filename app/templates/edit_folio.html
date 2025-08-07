@@ -8,7 +8,7 @@
 </head>
 {%extends "user_layout.html"%}
 {%block content%}
-<button onclick="goBack()" class = "back_button">⮐ Back</button>
+<button class = "back_button"><a class = "link" href="{{ url_for('my_folios', user_id = user_id)}}">⮐ Back</a></button>
 <div class = "edit_folio_page_heading">
     <h1>Edit Folio: {{ folio.theme }}</h1>
 </div>
@@ -50,7 +50,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 1 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST' onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -80,7 +80,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 2 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST' onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -110,7 +110,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 3 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST' onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -143,7 +143,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 4 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST' onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -173,7 +173,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 5 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -205,7 +205,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 6 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -235,7 +235,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 7 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -269,7 +269,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 8 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -298,7 +298,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 9 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -330,7 +330,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 10 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -359,7 +359,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 11 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -388,7 +388,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 12 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -420,7 +420,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 13 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -449,7 +449,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 14 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -483,7 +483,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 15 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -512,7 +512,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 16 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST' onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -543,7 +543,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 17 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -572,7 +572,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 18 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -601,7 +601,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 19 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -630,7 +630,7 @@
                         {% if painting.image %}
                             <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 20 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
@@ -661,7 +661,7 @@
                         {% if painting.image %}
                         <div class = "image_container">
                                 <img src="{{painting.image}}" alt="painting 21 image" class = "folio_image">
-                                <form method = 'POST'>
+                                <form method = 'POST'onsubmit="return confirm('Are you sure you want to delete this image?');">
                                     <div class="delete_option">
                                         {{ delete_form.hidden_tag() }}
                                         <!-- hidden input that gets the id of painting for deleting the image -->
