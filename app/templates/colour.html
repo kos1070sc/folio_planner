@@ -1,15 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Colour List</h1>
-    <ul>
+{% if user_logged_in %}
+    {% extends "user_layout.html"%}
+{% else %}
+    {% extends "layout.html" %}
+{% endif %}
+{%block content%}
+<div class = "page_heading">
+    <h1>Colours</h1>
+</div>
+    <div class = "colour_container">
         {% for colour in colours %}
-            <li>{{ colour.name }} ({{ colour.hex_code }})</li>
+            <div class = "colour_background" style = "background-color: {{colour.hex_code}};">
+                <p>{{colour.name}}</p>
+            </div>
         {% endfor %}
-    </ul>
-</body>
+    </div>
+    <br><br><br>
+{%endblock%}

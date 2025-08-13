@@ -9,10 +9,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 
-
-
-
-
 *{
     margin: 0%;
     font-family: "Delius", cursive;
@@ -1077,4 +1073,38 @@ h1 {
     display:grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+}
+
+/* colour.html */
+
+.colour_container{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.colour_background{
+    padding: 0.5rem 5rem;
+    transition: 0.3s ease-in-out;
+    height: 4rem;
+}
+
+.colour_background:hover{
+    transform: scale(1.2);
+    box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
+}
+
+.colour_background:hover p{
+    transform: scale(1.2);
+    opacity: 1;
+}
+
+.colour_background p{
+    font-weight: bolder;
+    background-color: rgba(255, 255, 255, 0.3);
+    font-size: 1.1rem;
+    opacity: 0;
+    transition: 0.3s ease-in-out;
+    margin-top: 10% ;
+    text-align: center;
 }

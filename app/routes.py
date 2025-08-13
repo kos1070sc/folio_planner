@@ -23,8 +23,12 @@ def root():
 
 @app.route('/colour')
 def colour():
+    user_id = session.get("user_id")
     colours = models.Colour.query.all()
-    return render_template("colour.html", colours=colours)
+    return render_template("colour.html", 
+                           colours=colours, 
+                           user_logged_in=user_id,
+                           user_id=user_id)
 
 
 @app.route('/create_account',  methods=["GET", "POST"])
