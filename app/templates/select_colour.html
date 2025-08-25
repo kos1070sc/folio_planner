@@ -1,5 +1,6 @@
 {%extends "user_layout.html"%}
 {%block content%}
+<button class = "back_button"><a class = "link" href="http://127.0.0.1:5000/edit_folio/{{ user_id }}/{{ folio.id }}">⮐ Back</a></button>
 <div class =  "page_heading">
     <h1>Colour Pallete for {{folio.theme}}</h1>
 </div>
@@ -21,20 +22,18 @@
                 <label for="{{colour.name}}">{{colour.name}}</label>
             </div>
         {% endfor %} -->
-
-    <div class = "colour_container">
+    <input type="submit" value = "Submit" class = "submit_colour">
+    <br><br>
+    <div class = "select_colour_container">
         {% for colour in colours %}
-            <div class = "colour_background" style = "background-color: {{colour.hex_code}};">
-                <p> 
-                    <span> 
+            <div class = "select_colour_background" style = "background-color: {{colour.hex_code}};">
+                <div class = "colour_name_container">
                         <input type = "checkbox" name="select_colour" id="{{colour.name}}" value="{{colour.id}}" class = "checkbox">
-                    </span>
-                    {{colour.name}}
-                </p>
+                        <p class = "colour_name">{{colour.name}}</p>
+                </div>
             </div>
         {% endfor %}
     </div>
-        <input type="submit" value = "Submit" class = "submit_colour">
     </form>
 </div>
 {%endblock%}
