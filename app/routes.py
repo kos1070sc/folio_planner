@@ -33,26 +33,25 @@ def colour():
 
 @app.route('/create_account',  methods=["GET", "POST"])
 def create_account():
-    form = CreateAccount()  # get the form thingy
-    # check entered meets the requirements
+    form = CreateAccount()
+    # validate username and password
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-    # checks if the user has entered both a username and password
+    # check if both username and password have been entered
         if not username or not password:
             flash("⚠️ Please enter a user and password", "error")
             return redirect(url_for("create_account"))
-        # checks if username is already in the database
+        # see if username is already taken
         # queries the database for the first match
         elif models.User.query.filter_by(name=username).first():
             flash("⚠️ Usermame already exist. Please choose another one", "error")
             return redirect(url_for("create_account"))
         else:
             # store username and hashed password
-            # admin previlege = 0 (normal user)
+            # previlege set to 0 (normal user)
             new_user = models.User(name=username, privilege=0)
             new_user.set_password(password)
-            # commit to the database
             db.session.add(new_user)
             db.session.commit()
             flash("Account created please login", "success")
@@ -62,17 +61,17 @@ def create_account():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    form = LoginForm()  # get the form thingy
+    form = LoginForm()
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        # checks if the user has entered both a username and password
+        # check if both username and password are entered
         if not username or not password:
             flash("⚠️ Please enter a username and a password", "error")
             return redirect(url_for('login'))
-        # looks for the user in the database
+        # search for the user in the database
         user = models.User.query.filter_by(name=username).first()
-        # check if username and passwords matches with database
+        # check if username is valid and password matches
         if user and user.check_password(password):
             # create session
             # store id and name in session
@@ -90,7 +89,7 @@ def login():
 def create_new():
     form = CreateNew()
     session_user_id = session.get("user_id")
-    # if there is not user id - redirect user to login
+    # see if user is logged in
     if not session_user_id:
         flash("⚠️ Please login first", "error")
         return redirect(url_for("login"))
@@ -113,8 +112,7 @@ def create_new():
                                      panel_number=i)
                 db.session.add(panel)
             db.session.commit()
-
-            # creates 21 paintings with positions 1 to 21 with for loop
+            # creates 21 paintings with positions 1 to 21
             for i in range(1, 22):
                 # paintings have different due dates
                 # these need to be assigned outside the model instuctor call
@@ -154,11 +152,9 @@ def create_new():
                     composition=composition_assignment,
                     image=None
                 )
-                # send to database
                 db.session.add(painting)
             db.session.commit()
-            # let user edit their newly created folio
-            # passes on the folio object as well
+            # redirect user to edit page after folio creation
             return redirect(url_for("edit_folio",
                                     user_id=session_user_id,
                                     folio_id=new_folio.id))
@@ -178,23 +174,21 @@ def create_new():
 def my_folios(user_id):
     delete_form = MyFolio()
     folio_id = request.form.get("folio_id")
-    # get the user id
     session_user_id = session.get("user_id")
-    # delete folio
+    # delete folio form handling
     if delete_form.validate_on_submit():
         # get folio object
         folio = models.Folio.query.get(folio_id)
         # check if folio exists and belongs to user
         if folio and folio.user_id == session_user_id:
-            # delete image file on disk
             paintings = models.Painting.query.filter_by(folio_id=folio_id)
             for painting in paintings:
                 if painting.image:
                     delete_path = f"app/{painting.image}"
-                    # check if image path exists
+                    # delete image from disk
                     if os.path.exists(delete_path):
                         os.remove(delete_path)
-                    # remove image path from database
+                    # remove image path from db
                     painting.image = None
                     db.session.commit()
             # delete paintings
@@ -204,20 +198,19 @@ def my_folios(user_id):
             panels = models.Panel.query.filter_by(folio_id=folio_id)
             for panel in panels:
                 db.session.delete(panel)
-            # delete colour pallete of folio
+            # delete colour pallete
             colours = models.Bridge.query.filter_by(fid=folio_id)
             for colour in colours:
                 db.session.delete(colour)
             # then delete the folio
             db.session.delete(folio)
-            # commit database
             db.session.commit()
             flash(f"{folio.theme} folio delete successfully", "success")
             return redirect(url_for("my_folios", user_id=session_user_id))
         else:
             flash("⚠️ Error: Folio not found or access denied", "error")
             return redirect(url_for("my_folios", user_id=session_user_id))
-    # if there is not user id - redirect user to login
+    # check if user logged in
     if not session_user_id:
         flash("⚠️ Please login first", "error")
         return redirect(url_for("login"))
@@ -227,7 +220,6 @@ def my_folios(user_id):
         return redirect(url_for("dashboard", user_id=session_user_id))
     else:
         folio = models.Folio.query.filter_by(user_id=user_id)
-    # need to pass user_id to my_folios.html for user_layout.html to use
         return render_template("my_folios.html",
                                folio=folio,
                                user_id=user_id,
@@ -237,9 +229,8 @@ def my_folios(user_id):
 
 @app.route("/dashboard/<int:user_id>")
 def dashboard(user_id):
-    # get the user id
     session_user_id = session.get("user_id")
-    # if there is not user id - redirect user to login
+    # check if user logged in
     if not session_user_id:
         flash("⚠️ Please login first", "error")
         return redirect(url_for("login"))
@@ -260,41 +251,34 @@ def edit_folio(user_id, folio_id):
     delete_form = DeleteImage()
     session_user_id = session.get("user_id")
     painting_id = request.form.get("painting_id")
-    # Get folio info by id in the url
     folio = models.Folio.query.get_or_404(folio_id)
+    # get colour pallete of folio
     colours = (
-        # query colour table
         models.Colour.query
-        # join colour with bridge table
         .join(models.Bridge, models.Bridge.cid==models.Colour.id)
-        # filter by the folio id
         .filter(models.Bridge.fid==folio.id).all()
     )
     # check if logged in
     if not session_user_id:
         flash("⚠️ Please log in to edit a folio", "error")
         return redirect(url_for("login"))
-    # get all info from that user based on their id from URL
     user = db.session.get(models.User, user_id)
-    # If user doesn't exist show error message and redirect to dashboard
     if not user:
         flash("⚠️ User not found", "error")
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("dashboard", user_id=session_user_id))
     # Verify if that folio belong to the user
     if session_user_id != folio.user_id:
         flash("⚠️ You can only edit your own folio", "error")
         return redirect(url_for("dashboard", user_id=session_user_id))
-    # handles delete form first to avoid accidentally processing an upload
-    # check if the form being sent is actually the delete form
+    # check if the form sent is the delete form
     if "delete_image" in request.form and delete_form.validate_on_submit():
         painting = models.Painting.query.get(painting_id)
-        # get path to delete
+        # image path to delete
         delete_path = f"app/{painting.image}"
-        # check if image exists on disk an in database 
+        # delete image if it exists on the disk
         if painting.image and os.path.exists(delete_path):
-            # delete the image
             os.remove(delete_path)
-        # assign none to painting image to delete from database
+        # remove image path from the database
         painting.image = None
         db.session.commit()
         flash("Image deleted successfully", "success")
@@ -303,9 +287,9 @@ def edit_folio(user_id, folio_id):
                         folio_id=folio_id))
     # handles image upload form
     elif form.validate_on_submit():
-        # grab the uploaded image file form upload file form
+        # grab image file from upload form
         file = request.files['painting_image']
-        # check if there's anything uploaded
+        # see if anything uploaded
         if file.filename == "":
             flash("⚠️ No selected file", "error")
             return redirect(url_for("edit_folio",
@@ -316,7 +300,7 @@ def edit_folio(user_id, folio_id):
         def allowed_file(filename):
             if "." not in filename:
                 return False
-            # split the file name into two parts between the .
+            # split the file name into two parts between the '.'
             # then get the extension
             file_extension = filename.rsplit('.', 1)[1].lower()
             # list of allowed extensions
@@ -325,12 +309,13 @@ def edit_folio(user_id, folio_id):
                 return True
             else:
                 return False
-        # check if the file exists and if it has the allowed extension
+            
+        # see if file extension is allowed
         if file and allowed_file(file.filename):
             # make filename cleaner (no spaces, special chaaracters)
             # to this to block malicious filenames that could excute code
             orginal_filename = secure_filename(file.filename)
-            # split the filename into two parts so that we can rename it later
+            # split filename into two parts for renaming later
             filename_part, extension_part = os.path.splitext(orginal_filename)
             # assigns a number to filename in case there is a double up
             file_number = 1
@@ -344,12 +329,10 @@ def edit_folio(user_id, folio_id):
                     break
             save_path = f"app/static/images/{numbered_filename}"
             database_path = f"/static/images/{numbered_filename}"
-            # save file
             file.save(save_path)
             # get painting id to update the image path
-            # fetch that painting
             painting = models.Painting.query.get(painting_id)
-            # update image path column
+            # update image path column in db
             painting.image = database_path
             db.session.commit()
             flash("Image uploaded successfully", "success")
@@ -359,7 +342,7 @@ def edit_folio(user_id, folio_id):
                                     ))
         else:
             flash("⚠️ File type not supported", "error")
-    # get all paintings from that folio and order them by their position
+    # get all paintings and order them in accending position number
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
     return render_template("edit_folio.html",
                            user_id=session_user_id,
@@ -369,25 +352,26 @@ def edit_folio(user_id, folio_id):
                            delete_form=delete_form,
                            colours=colours)
 
+
 @app.route("/edit_folio/<int:user_id>/<int:folio_id>/colour", methods=['GET', 'POST'])
 def select_colour(user_id, folio_id):
     session_user_id = session.get("user_id")
     folio = models.Folio.query.get_or_404(folio_id)
-    user =  models.User.query.get(user_id)
+    user = models.User.query.get(user_id)
     colours = models.Colour.query.all()
     # check if logged in
     if not session_user_id:
         flash("⚠️ Please log in to edit a folio", "error")
         return redirect(url_for("login"))
-    # check if user object is none
+    # verify user id in url
     if not user:
         flash("⚠️ User not found", "error")
         return redirect(url_for("dashboard"))
-    # check if folio object is none
+    # verify folio id in url
     if not folio:
         flash("⚠️ Folio not found", "error")
         return redirect(url_for("dashboard"))
-    # Verify if folio belongs to the user
+    # verify if folio belongs to the user
     if session_user_id != folio.user_id:
         flash("⚠️ You can only edit your own folio", "error")
         return redirect(url_for("dashboard", 
