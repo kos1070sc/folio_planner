@@ -642,7 +642,7 @@ h1 {
 }
 
 .image_container:hover .folio_image{
-    opacity: 0.4;
+    opacity: 0.3;
 }
 
 .image_container:hover .delete_option{
