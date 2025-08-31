@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, url_for, session, flash, render_template_string
+from flask import render_template, request, redirect, url_for, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload, DeleteImage, MyFolio
@@ -11,7 +11,8 @@ app.secret_key = secrets.token_hex(32)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 db = SQLAlchemy()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "folio.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir,
+                                                                    "folio.db")
 db.init_app(app)
 import app.models as models
 
@@ -25,8 +26,8 @@ def root():
 def colour():
     user_id = session.get("user_id")
     colours = models.Colour.query.all()
-    return render_template("colour.html", 
-                           colours=colours, 
+    return render_template("colour.html",
+                           colours=colours,
                            user_logged_in=user_id,
                            user_id=user_id)
 
@@ -255,8 +256,8 @@ def edit_folio(user_id, folio_id):
     # get colour pallete of folio
     colours = (
         models.Colour.query
-        .join(models.Bridge, models.Bridge.cid==models.Colour.id)
-        .filter(models.Bridge.fid==folio.id).all()
+        .join(models.Bridge, models.Bridge.cid == models.Colour.id)
+        .filter(models.Bridge.fid == folio.id).all()
     )
     # check if logged in
     if not session_user_id:
@@ -287,7 +288,7 @@ def edit_folio(user_id, folio_id):
                         folio_id=folio_id))
     # handles image upload form
     elif form.validate_on_submit():
-        # grab image file from upload form
+        # get image file
         file = request.files['painting_image']
         # see if anything uploaded
         if file.filename == "":
@@ -295,8 +296,8 @@ def edit_folio(user_id, folio_id):
             return redirect(url_for("edit_folio",
                                     user_id=session_user_id,
                                     folio_id=folio_id))
-        
-        # funtion that checks if the file type is allowed
+
+        # function checking filetype
         def allowed_file(filename):
             if "." not in filename:
                 return False
@@ -309,15 +310,14 @@ def edit_folio(user_id, folio_id):
                 return True
             else:
                 return False
-            
         # see if file extension is allowed
         if file and allowed_file(file.filename):
             # make filename cleaner (no spaces, special chaaracters)
             # to this to block malicious filenames that could excute code
             orginal_filename = secure_filename(file.filename)
-            # split filename into two parts for renaming later
+            # split filename into two parts for renaming
             filename_part, extension_part = os.path.splitext(orginal_filename)
-            # assigns a number to filename in case there is a double up
+            # assign number to filename incase of a double up
             file_number = 1
             while True:
                 numbered_filename = f"{filename_part}_{file_number}{extension_part}"
@@ -332,13 +332,13 @@ def edit_folio(user_id, folio_id):
             file.save(save_path)
             # get painting id to update the image path
             painting = models.Painting.query.get(painting_id)
-            # update image path column in db
+            # update image path in db
             painting.image = database_path
             db.session.commit()
             flash("Image uploaded successfully", "success")
             return redirect(url_for("edit_folio",
                                     user_id=session_user_id,
-                                    folio_id=folio_id, 
+                                    folio_id=folio_id,
                                     ))
         else:
             flash("⚠️ File type not supported", "error")
@@ -374,7 +374,7 @@ def select_colour(user_id, folio_id):
     # verify if folio belongs to the user
     if session_user_id != folio.user_id:
         flash("⚠️ You can only edit your own folio", "error")
-        return redirect(url_for("dashboard", 
+        return redirect(url_for("dashboard",
                                 user_id=session_user_id,))
     # colour selection form
     if request.method == 'POST':
@@ -383,25 +383,22 @@ def select_colour(user_id, folio_id):
         # Validate number of colours selected
         if len(selected_colours) < 2:
             flash("⚠️ Please pick 2 to 4 colours", "error")
-            return redirect(url_for('select_colour', 
+            return redirect(url_for('select_colour',
                                     user_id=session_user_id,
                                     folio_id=folio_id))
-        
         elif len(selected_colours) > 4:
             flash("⚠️ Please pick 2 to 4 colours", "error")
             return redirect(url_for('select_colour',
-                                    user_id=session_user_id, 
+                                    user_id=session_user_id,
                                     folio_id=folio_id))
         else:
             # put newly selected colours into database
             # if there are colours already assigned then delete them
             if folio.colour_assignment == 1:
                 models.Bridge.query.filter_by(fid=folio.id).delete()
-
             for i in selected_colours:
                 new_colours = models.Bridge(fid=folio.id, cid=i)
                 db.session.add(new_colours)
-
             # update colour assignment column in folio table
             # 0 = no pallete, 1 = pallete assigned
             folio.colour_assignment = 1
@@ -422,16 +419,19 @@ def logout():
     session.clear()
     return redirect(url_for('root'))
 
+
 @app.route("/help")
 def help():
-    # check if user logged to know what template to use
     user_id = session.get("user_id")
-    return render_template("help.html", user_logged_in=user_id, user_id=user_id)
+    return render_template("help.html",
+                           user_logged_in=user_id,
+                           user_id=user_id)
+
 
 # admin pages
 @app.route("/admin/login", methods=['GET', 'POST'])
 def admin_login():
-    form = LoginForm()  # get the form thingy
+    form = LoginForm()
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
@@ -441,7 +441,6 @@ def admin_login():
             return redirect(url_for('admin_login'))
         # looks for account in the database
         user = models.User.query.filter_by(name=username).first()
-        # in case user is none
         if not user:
             flash("⚠️ Incorrect name or password", "error")
             return redirect(url_for('admin_login'))
@@ -449,14 +448,11 @@ def admin_login():
         privilege = user.privilege
         # check if username and passwords matches with database
         if user and user.check_password(password):
-            # admin privileges is 1
+            # admin privilege is 1, 0 is normal user
             if privilege != 1:
                 flash('''⚠️ This is account does not have admin privileges.
-                        Please use user login''',
-                        "error")
+                        Please use user login''', "error")
             else:
-                # create session
-                # store id and name with session
                 session['admin_id'] = user.id
                 session['admin_name'] = user.name
                 return redirect(url_for("admin_dashboard"))
@@ -465,22 +461,22 @@ def admin_login():
             return redirect(url_for('admin_login'))
     return render_template("admin_login.html", form=form)
 
+
 @app.route("/admin/dashboard")
 def admin_dashboard():
     session_admin_id = session.get("admin_id")
     # check if logged in as admin
     if not session_admin_id:
-        # clear all session data in case non admin is trying this page
         session.clear()
         return redirect(url_for("root"))
     return render_template("admin_dashboard.html")
+
 
 @app.route("/admin/view_users")
 def admin_view_users():
     session_admin_id = session.get("admin_id")
     # check if logged in as admin
     if not session_admin_id:
-        # clear all session data in case non admin is trying this page
         session.clear()
         return redirect(url_for("root"))
     users = models.User.query.all()
@@ -495,16 +491,13 @@ def admin_view_user_folios(user_id):
     folio = models.Folio.query.filter_by(user_id=user_id)
     folio_id = request.form.get("folio_id")
     if delete_form.validate_on_submit():
-        # get folio object
         folio = models.Folio.query.get(folio_id)
         # check if folio exists
         if folio:
             # delete image file on disk
             paintings = models.Painting.query.filter_by(folio_id=folio_id)
             for painting in paintings:
-                # ignore the painti
                 if painting.image:
-                    print(painting.image)
                     delete_path = f"app/{painting.image}"
                     # check if image path exists
                     if os.path.exists(delete_path):
@@ -525,17 +518,16 @@ def admin_view_user_folios(user_id):
                 db.session.delete(colour)
             # then delete the folio
             db.session.delete(folio)
-            # commit database
             db.session.commit()
             flash(f"{folio.theme} folio delete successfully", "success")
-            return redirect(url_for("admin_view_user_folios", user_id=user_id,))
+            return redirect(url_for("admin_view_user_folios",
+                                    user_id=user_id,))
         else:
             flash("Error: Folio not found", "error")
-            return redirect(url_for("admin_view_user_folios", user_id=user_id,))
-    # if there is not user id - redirect user to login
+            return redirect(url_for("admin_view_user_folios",
+                                    user_id=user_id,))
     # check if logged in as admin
     if not session_admin_id:
-        # clear all session data in case non admin is trying this page
         session.clear()
         return redirect(url_for("root"))
     # check if user exists
@@ -546,6 +538,7 @@ def admin_view_user_folios(user_id):
                            user=user,
                            delete_form=delete_form,
                            folio=folio)
+
 
 @app.route("/admin/folio/<int:user_id>/<int:folio_id>",  methods=["GET", "POST"])
 def admin_view_folio(user_id, folio_id):
@@ -558,16 +551,12 @@ def admin_view_folio(user_id, folio_id):
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
     user = models.User.query.get(user_id)
     colours = (
-        # query colour table
         models.Colour.query
-        # join colour with bridge table
-        .join(models.Bridge, models.Bridge.cid==models.Colour.id)
-        # filter by the folio id
-        .filter(models.Bridge.fid==folio.id).all()
+        .join(models.Bridge, models.Bridge.cid == models.Colour.id)
+        .filter(models.Bridge.fid == folio.id).all()
     )
     # check if logged in as admin
     if not session_admin_id:
-        # clear all session data in case non admin is trying this page
         session.clear()
         return redirect(url_for("root"))
     # handles image delete
@@ -576,7 +565,7 @@ def admin_view_folio(user_id, folio_id):
         painting = models.Painting.query.get(painting_id)
         # get path to delete
         delete_path = f"app/{painting.image}"
-        # check if image exists on disk an in database 
+        # check if image exists on disk an in database
         if painting.image and os.path.exists(delete_path):
             # delete the image
             os.remove(delete_path)
