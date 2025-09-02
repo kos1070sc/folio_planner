@@ -507,6 +507,35 @@ h1 {
     background-color: rgb(252, 225, 70);
 }
 
+.file_input {
+    width: 100%;
+    max-width: 250px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file_input:hover {
+    background-color: white;
+}
+
+/* hide the ugly default button text */
+.file_input::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.file_input::before {
+    content: "📤 Upload";
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: gold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+
 .folio_container{
     background-color: white;
 }

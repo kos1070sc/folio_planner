@@ -44,7 +44,6 @@ def create_account():
             flash("⚠️ Please enter a user and password", "error")
             return redirect(url_for("create_account"))
         # see if username is already taken
-        # queries the database for the first match
         elif models.User.query.filter_by(name=username).first():
             flash("⚠️ Usermame already exist. Please choose another one", "error")
             return redirect(url_for("create_account"))
