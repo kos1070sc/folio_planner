@@ -514,15 +514,18 @@ h1 {
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
-}
-
-.file_input:hover {
-    background-color: white;
+    margin-top: 0.9rem;
+    margin-left: 0.1rem;
 }
 
 /* hide the ugly default button text */
 .file_input::-webkit-file-upload-button {
-    visibility: hidden;
+    opacity: 0;
+    min-width: 500px;
+}
+
+.file_input:hover{
+    transform: translateY(-2px);
 }
 
 .file_input::before {
@@ -530,9 +533,10 @@ h1 {
     padding: 8px 12px;
     border-radius: 6px;
     background-color: gold;
-    font-size: 14px;
+    font-size: 1rem;
     cursor: pointer;
 }
+
 
 
 

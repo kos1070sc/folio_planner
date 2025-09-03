@@ -68,7 +68,10 @@
                                 <!-- hidden input that gets the id of painting for iamge upload -->
                                 <input type="hidden" name = "painting_id" value = "{{painting.id}}">
                                 <div class = "upload">
-                                    {{ form.painting_image(class="file_input", onchange="this.form.submit()")}} 
+                                    {{ form.painting_image(class="file_input", 
+                                    id="file_input_{{painting.position}}", 
+                                    onchange="this.form.submit()",
+                                    )}} 
                                 </div>
                             </form>
                         {% endif %}
