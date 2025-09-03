@@ -10,14 +10,14 @@
     <!-- navbar -->
 		<nav>
 			<div class = "navbar">
-				<a class = "left_link" href = "{{ url_for('dashboard', user_id=user_id) }}">Dash Board</a>
-				<a class = "left_link" href = "{{ url_for('my_folios', user_id=user_id) }}">My Folios</a>
-				<a class = "left_link" href = "http://127.0.0.1:5000/create_new">Create New</a>
-				<a class = "left_link" href= "http://127.0.0.1:5000/help">Help</a>
-				<a class = "left_link" href= "http://127.0.0.1:5000/colour">Colour</a>
+				<a class = "left_link" href = "{{ url_for('dashboard') }}">Dash Board</a>
+				<a class = "left_link" href = "{{ url_for('my_folios') }}">My Folios</a>
+				<a class = "left_link" href = "{{ url_for('create_new') }}">Create New</a>
+				<a class = "left_link" href= "{{ url_for('help') }}">Help</a>
+				<a class = "left_link" href= "{{ url_for('colour') }}">Colour</a>
 				<div class = spacer></div>
-				<a class = "right_link" href="http://127.0.0.1:5000/dashboard/{{user_id}}"><img src="/static/images/profile.png" alt="Herrr"></a>
-				<a class = "right_link" href="http://127.0.0.1:5000/logout">Log Out</a>
+				<a class = "right_link" href="{{ url_for('dashboard') }}"><img src="/static/images/profile.png" alt="Herrr"></a>
+				<a class = "right_link" href="{{ url_for('logout') }}">Log Out</a>
 			</div> <!-- navbar -->
 			<!-- pages in navbar -->
 		</nav>

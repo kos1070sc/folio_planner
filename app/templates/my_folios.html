@@ -24,7 +24,7 @@
     {% if folio %}
         <div class="folio_grid">
             	{% for folio in folio%}
-                    <a href="http://127.0.0.1:5000/edit_folio/{{user_id}}/{{folio.id}}" class = "link">
+                    <a href="http://127.0.0.1:5000/edit_folio/{{folio.id}}" class = "link">
                     <div class = "folio_card">
                         <h3>{{ folio.theme }}</h3>
                         <form method = 'POST' onsubmit="return confirm('Are you sure you want to delete this folio?');">

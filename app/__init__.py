@@ -15,4 +15,3 @@ def add_session_user():
     user_id = session.get("user_id")
     # returns as a dictionary so that its avaible for all jinja templates 
     return dict(user_id=user_id)
-

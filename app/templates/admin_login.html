@@ -36,6 +36,9 @@
                 <p class = "message_{{ catergory }}">{{ message }}</p>
             </div>
         {% endfor %}
+        <button class = "home">
+            <a href="http://127.0.0.1:5000" class = "link">🏠 Home</a>
+        </button>
         <form method = 'POST'>
             {{ form.hidden_tag() }} <!-- This projects against CSRF attacks-->
             {{ form.username(id = "username", class_="text_box", placeholder="Username")}} 

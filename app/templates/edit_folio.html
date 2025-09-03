@@ -7,7 +7,7 @@
 </head>
 {%extends "user_layout.html"%}
 {%block content%}
-<button class = "back_button"><a class = "link" href="{{ url_for('my_folios', user_id = user_id)}}">⮐ Back</a></button>
+<button class = "back_button"><a class = "link" href="{{ url_for('my_folios')}}">⮐ Back</a></button>
 <div class = "edit_folio_page_heading">
     <h1>Edit Folio: {{ folio.theme }}</h1>
 </div>
@@ -20,7 +20,7 @@
 {% endfor %}
 {% if colours %}
         <div class = "edit_colour_container">
-            <a href="{{ url_for('select_colour', user_id = user_id, folio_id = folio.id ) }}" class = "link">
+            <a href="{{ url_for('select_colour', folio_id = folio.id ) }}" class = "link">
                 <div class = "edit_colour"><h2>🖊️ Edit</h2></div>
             </a>
             <h2>Colour Pallete:</h2>
@@ -35,7 +35,7 @@
         {% endfor %}
     </div>
 {% else %}
-    <a href="{{ url_for('select_colour', user_id = user_id, folio_id = folio.id ) }}" class = "link">
+    <a href="{{ url_for('select_colour', folio_id = folio.id ) }}" class = "link">
         <div class = "select_colour_button"><p>Create a colour pallete</p></div>
     </a>
 {% endif %}

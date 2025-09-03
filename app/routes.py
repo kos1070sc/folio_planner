@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, url_for, session, flash
+from flask import render_template, request, redirect, url_for, session, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload, DeleteImage, MyFolio
@@ -77,7 +77,7 @@ def login():
             # store id and name in session
             session['user_id'] = user.id
             session['user_name'] = user.name
-            return redirect(url_for("dashboard", user_id=session["user_id"]))
+            return redirect(url_for("dashboard"))
         else:
             flash("⚠️ Incorrect name or password", "error")
             return redirect(url_for('login'))
@@ -170,8 +170,8 @@ def create_new():
                            )
 
 
-@app.route("/my_folios/<int:user_id>", methods=["GET", "POST"])
-def my_folios(user_id):
+@app.route("/my_folios", methods=["GET", "POST"])
+def my_folios():
     delete_form = MyFolio()
     folio_id = request.form.get("folio_id")
     session_user_id = session.get("user_id")
@@ -206,47 +206,38 @@ def my_folios(user_id):
             db.session.delete(folio)
             db.session.commit()
             flash(f"{folio.theme} folio delete successfully", "success")
-            return redirect(url_for("my_folios", user_id=session_user_id))
+            return redirect(url_for("my_folios"))
         else:
             flash("⚠️ Error: Folio not found or access denied", "error")
-            return redirect(url_for("my_folios", user_id=session_user_id))
+            return redirect(url_for("my_folios"))
     # check if user logged in
     if not session_user_id:
         flash("⚠️ Please login first", "error")
         return redirect(url_for("login"))
-    # check if session id matches id in url
-    elif session_user_id != user_id:
-        flash("⚠️ You can only view your own folios", "error")
-        return redirect(url_for("dashboard", user_id=session_user_id))
     else:
-        folio = models.Folio.query.filter_by(user_id=user_id)
+        folio = models.Folio.query.filter_by(user_id=session_user_id)
         return render_template("my_folios.html",
                                folio=folio,
-                               user_id=user_id,
                                delete_form=delete_form,
                                folio_id=folio_id)
 
 
-@app.route("/dashboard/<int:user_id>")
-def dashboard(user_id):
+@app.route("/dashboard")
+def dashboard():
     session_user_id = session.get("user_id")
     # check if user logged in
     if not session_user_id:
         flash("⚠️ Please login first", "error")
         return redirect(url_for("login"))
-    # check if session id matches id in url
-    elif session_user_id != user_id:
-        flash("⚠️ You can only view your own dashboard", "error")
-        return redirect(url_for("dashboard", user_id=session_user_id))
     else:
         user_info = models.User.query.get(session['user_id'])
         return render_template("dashboard.html",
                                user_info=user_info,
-                               user_id=user_id)
+                               user_id=session_user_id)
 
 
-@app.route("/edit_folio/<int:user_id>/<int:folio_id>", methods=['GET', 'POST'])
-def edit_folio(user_id, folio_id):
+@app.route("/edit_folio/<int:folio_id>", methods=['GET', 'POST'])
+def edit_folio(folio_id):
     form = ImageUpload()
     delete_form = DeleteImage()
     session_user_id = session.get("user_id")
@@ -262,14 +253,14 @@ def edit_folio(user_id, folio_id):
     if not session_user_id:
         flash("⚠️ Please log in to edit a folio", "error")
         return redirect(url_for("login"))
-    user = db.session.get(models.User, user_id)
+    user = db.session.get(models.User, session_user_id)
     if not user:
         flash("⚠️ User not found", "error")
-        return redirect(url_for("dashboard", user_id=session_user_id))
+        return redirect(url_for("dashboard"))
     # Verify if that folio belong to the user
     if session_user_id != folio.user_id:
-        flash("⚠️ You can only edit your own folio", "error")
-        return redirect(url_for("dashboard", user_id=session_user_id))
+        abort(404)
+        return redirect(url_for("dashboard"))
     # check if the form sent is the delete form
     if "delete_image" in request.form and delete_form.validate_on_submit():
         painting = models.Painting.query.get(painting_id)
@@ -283,7 +274,6 @@ def edit_folio(user_id, folio_id):
         db.session.commit()
         flash("Image deleted successfully", "success")
         return redirect(url_for("edit_folio",
-                        user_id=session_user_id,
                         folio_id=folio_id))
     # handles image upload form
     elif form.validate_on_submit():
@@ -293,7 +283,6 @@ def edit_folio(user_id, folio_id):
         if file.filename == "":
             flash("⚠️ No selected file", "error")
             return redirect(url_for("edit_folio",
-                                    user_id=session_user_id,
                                     folio_id=folio_id))
 
         # function checking filetype
@@ -336,7 +325,6 @@ def edit_folio(user_id, folio_id):
             db.session.commit()
             flash("Image uploaded successfully", "success")
             return redirect(url_for("edit_folio",
-                                    user_id=session_user_id,
                                     folio_id=folio_id,
                                     ))
         else:
@@ -344,7 +332,6 @@ def edit_folio(user_id, folio_id):
     # get all paintings and order them in accending position number
     paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
     return render_template("edit_folio.html",
-                           user_id=session_user_id,
                            paintings=paintings,
                            folio=folio,
                            form=form,
@@ -352,11 +339,11 @@ def edit_folio(user_id, folio_id):
                            colours=colours)
 
 
-@app.route("/edit_folio/<int:user_id>/<int:folio_id>/colour", methods=['GET', 'POST'])
-def select_colour(user_id, folio_id):
+@app.route("/edit_folio/<int:folio_id>/colour", methods=['GET', 'POST'])
+def select_colour(folio_id):
     session_user_id = session.get("user_id")
     folio = models.Folio.query.get_or_404(folio_id)
-    user = models.User.query.get(user_id)
+    user = models.User.query.get(session_user_id)
     colours = models.Colour.query.all()
     # check if logged in
     if not session_user_id:
@@ -372,9 +359,7 @@ def select_colour(user_id, folio_id):
         return redirect(url_for("dashboard"))
     # verify if folio belongs to the user
     if session_user_id != folio.user_id:
-        flash("⚠️ You can only edit your own folio", "error")
-        return redirect(url_for("dashboard",
-                                user_id=session_user_id,))
+        abort(404)
     # colour selection form
     if request.method == 'POST':
         # list contains colour ids
@@ -383,12 +368,10 @@ def select_colour(user_id, folio_id):
         if len(selected_colours) < 2:
             flash("⚠️ Please pick 2 to 4 colours", "error")
             return redirect(url_for('select_colour',
-                                    user_id=session_user_id,
                                     folio_id=folio_id))
         elif len(selected_colours) > 4:
             flash("⚠️ Please pick 2 to 4 colours", "error")
             return redirect(url_for('select_colour',
-                                    user_id=session_user_id,
                                     folio_id=folio_id))
         else:
             # put newly selected colours into database
@@ -404,13 +387,11 @@ def select_colour(user_id, folio_id):
             db.session.commit()
             flash("Colour pallete saved", "success")
             return redirect(url_for("edit_folio",
-                                    user_id=session_user_id,
                                     folio_id=folio.id))
     return render_template("select_colour.html",
                            colours=colours,
                            folio=folio,
-                           user=user,
-                           user_id=session_user_id)
+                           user=user,)
 
 
 @app.route("/logout")
@@ -449,8 +430,7 @@ def admin_login():
         if user and user.check_password(password):
             # admin privilege is 1, 0 is normal user
             if privilege != 1:
-                flash('''⚠️ This is account does not have admin privileges.
-                        Please use user login''', "error")
+                flash('''⚠️ Incorrect name or password''', "error")
             else:
                 session['admin_id'] = user.id
                 session['admin_name'] = user.name

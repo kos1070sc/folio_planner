@@ -1,6 +1,6 @@
 {%extends "user_layout.html"%}
 {%block content%}
-<button class = "back_button"><a class = "link" href="http://127.0.0.1:5000/edit_folio/{{ user_id }}/{{ folio.id }}">⮐ Back</a></button>
+<button class = "back_button"><a class = "link" href="http://127.0.0.1:5000/edit_folio/{{ folio.id }}">⮐ Back</a></button>
 <div class =  "page_heading">
     <h1>Colour Pallete for {{folio.theme}}</h1>
 </div>
@@ -14,14 +14,7 @@
 {% endfor %}
 <h2>Please select colours for this folio (2-4 colours)</h2>
 <div class = "colour_form">
-    <form action="{{ url_for('select_colour', user_id = user.id, folio_id = folio.id ) }}" method = "POST" name = "select_colour">
-        <!-- {% for colour in colours %}
-            <div class =  "colour_select_container">
-                <input type = "checkbox" name="select_colour" id="{{colour.name}}" value="{{colour.id}}" class = "checkbox">
-                <div style="background-color: {{colour.hex_code}};" class="colour_preview"></div>
-                <label for="{{colour.name}}">{{colour.name}}</label>
-            </div>
-        {% endfor %} -->
+    <form action="{{ url_for('select_colour', folio_id = folio.id ) }}" method = "POST" name = "select_colour">
     <input type="submit" value = "Submit" class = "submit_colour">
     <br><br>
     <div class = "select_colour_container">
