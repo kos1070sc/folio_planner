@@ -215,7 +215,20 @@ def my_folios():
         flash("⚠️ Please login first", "error")
         return redirect(url_for("login"))
     else:
-        folio = models.Folio.query.filter_by(user_id=session_user_id)
+        folio = models.Folio.query.filter_by(user_id=session_user_id).all()
+        # get the first image in the folio to set as thumbnail
+        for f in folio:
+            first_painting = (
+                models.Painting.query.filter_by(folio_id=f.id)
+                .filter(models.Painting.image.isnot(None)).first()
+            )
+            # attach first image attribute to each instances
+            # these will the be image paths for the folio thumbnail
+            if first_painting:
+                f.first_image = first_painting.image
+            else:
+                f.first_image = None
+            print(f.first_image)
         return render_template("my_folios.html",
                                folio=folio,
                                delete_form=delete_form,

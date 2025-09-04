@@ -26,7 +26,14 @@
             	{% for folio in folio%}
                     <a href="http://127.0.0.1:5000/edit_folio/{{folio.id}}" class = "link">
                     <div class = "folio_card">
-                        <h3>{{ folio.theme }}</h3>
+                        <div class = 'folio_card_image_container'>
+                            {% if folio.first_image %}
+                                <img src="{{folio.first_image}}" alt="Folio Thumbnail" class = 'folio_card_image'>
+                            {% else %}
+                                <img src="/static/images/gradient 6.jpg" alt="Placeholder Image" class = 'folio_card_image'>
+                            {% endif %}
+                        </div>
+                        <div class = "theme_container"><h3>🎨 {{ folio.theme }}</h3></div>
                         <form method = 'POST' onsubmit="return confirm('Are you sure you want to delete this folio?');">
                             <div class = "delete_folio_button_container">
                                 {{ delete_form.hidden_tag() }}
