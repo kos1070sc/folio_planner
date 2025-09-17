@@ -44,7 +44,8 @@ def create_account():
             return redirect(url_for("create_account"))
         # see if username is already taken
         elif models.User.query.filter_by(name=username).first():
-            flash("⚠️ Usermame already exist. Please choose another one", "error")
+            flash("⚠️ Usermame already exist. Please choose another one",
+                  "error")
             return redirect(url_for("create_account"))
         else:
             # store username and hashed password
@@ -338,7 +339,8 @@ def edit_folio(folio_id):
         else:
             flash("⚠️ File type not supported", "error")
     # get all paintings and order them in accending position number
-    paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
+    paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(
+        models.Painting.position).all()
     return render_template("edit_folio.html",
                            paintings=paintings,
                            folio=folio,
@@ -536,7 +538,8 @@ def admin_view_folio(user_id, folio_id):
     painting_id = request.form.get("painting_id")
     folio = models.Folio.query.get(folio_id)
     # get all paintings from that folio and order them by their position
-    paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(models.Painting.position).all()
+    paintings = models.Painting.query.filter_by(folio_id=folio_id).order_by(
+        models.Painting.position).all()
     user = models.User.query.get(user_id)
     colours = (
         models.Colour.query
