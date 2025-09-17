@@ -91,7 +91,7 @@ def create_new():
     session_user_id = session.get("user_id")
     # see if user is logged in
     if not session_user_id:
-        flash("⚠️ Please login first", "error")
+        flash("Please login first to create a new folio", "success")
         return redirect(url_for("login"))
     if form.validate_on_submit():
         theme = form.theme.data
