@@ -1184,3 +1184,38 @@ h1 {
     margin-top: 10% ;
     text-align: center;
 }
+
+/* admin_all_folio.html */
+.admin_folio_card{
+    border-width: 1px;
+    border-style: solid;
+    border-color: #dadce0;
+    border-radius: 10px;
+    text-align: center;
+    background-color: white;
+    height: 200px;
+    position: relative;
+    transition: 0.3s ease;
+}
+
+.admin_folio_card:hover{
+    transform: translateY(-7px);
+    /* border-color: white;
+    border-width: 5px; */
+    box-shadow: 0px 0px 5px 5px rgb(220, 188, 250);
+}
+
+.admin_folio_card h3{
+    position:absolute;
+    /* move right 50% of parent widht */
+    left: 50%;
+    /* move down 50% of parents height */
+    top: 50%;
+    /* move left 50% of childs width and move up 50% parents height */
+    transform: translate(-50%, -50%);
+}
+
+.admin_folio_card:hover .delete_folio_button_container{
+    display: block;
+    animation: MoveLeft 0.3s ease-in-out forwards;
+}

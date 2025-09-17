@@ -1,0 +1,23 @@
+{% if user_logged_in %}
+    {% extends "user_layout.html"%}
+{% else %}
+    {% extends "layout.html" %}
+{% endif %}
+{%block content%}
+<h1 class = "page_not_found">Something went wrong</h1>
+<h1 class = "page_not_found">Please try again later</h1>
+
+{% if user_logged_in %}
+<a href="http://127.0.0.1:5000/dashboard" class = "link">
+    <div class = "home_button">
+        <h2>Back to dashboard</h2>
+    </div>
+</a>
+{% else %}
+<a href="http://127.0.0.1:5000" class = "link">
+    <div class = "home_button">
+        <h2>Go back home</h2>
+    </div>
+</a>
+{% endif %}
+{%endblock%}

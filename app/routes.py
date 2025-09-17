@@ -5,8 +5,7 @@ from werkzeug.utils import secure_filename
 from app.forms import LoginForm, CreateAccount, CreateNew, ImageUpload, DeleteImage, MyFolio
 import os
 import secrets
-# Creates a random key that is 64 characters long to encrypt session data
-# This makes more secure and protects against seesion hijacking
+# Encrypt session data
 app.secret_key = secrets.token_hex(32)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -290,7 +289,6 @@ def edit_folio(folio_id):
                         folio_id=folio_id))
     # handles image upload form
     elif form.validate_on_submit():
-        # get image file
         file = request.files['painting_image']
         # see if anything uploaded
         if file.filename == "":
@@ -298,40 +296,37 @@ def edit_folio(folio_id):
             return redirect(url_for("edit_folio",
                                     folio_id=folio_id))
 
-        # function checking filetype
+        # function checking if filetype is valid
         def allowed_file(filename):
             if "." not in filename:
                 return False
             # split the file name into two parts between the '.'
             # then get the extension
             file_extension = filename.rsplit('.', 1)[1].lower()
-            # list of allowed extensions
             allowed_extensions = ['png', 'jpg', 'jpeg']
             if file_extension in allowed_extensions:
                 return True
             else:
                 return False
-        # see if file extension is allowed
+        # check if file extension is valid
         if file and allowed_file(file.filename):
             # make filename cleaner (no spaces, special chaaracters)
-            # to this to block malicious filenames that could excute code
             orginal_filename = secure_filename(file.filename)
-            # split filename into two parts for renaming
+            # split filename into two parts for renaming later
             filename_part, extension_part = os.path.splitext(orginal_filename)
             # assign number to filename incase of a double up
             file_number = 1
             while True:
                 numbered_filename = f"{filename_part}_{file_number}{extension_part}"
-                # check if this path is taken
+                # check for filename double up
                 if os.path.exists(f"app/static/images/{numbered_filename}"):
-                    # if yes file number increases by 1
+                    # if yes file number at the end changes to make path unique
                     file_number += 1
                 else:
                     break
             save_path = f"app/static/images/{numbered_filename}"
             database_path = f"/static/images/{numbered_filename}"
             file.save(save_path)
-            # get painting id to update the image path
             painting = models.Painting.query.get(painting_id)
             # update image path in db
             painting.image = database_path
@@ -362,20 +357,19 @@ def select_colour(folio_id):
     if not session_user_id:
         flash("⚠️ Please log in to edit a folio", "error")
         return redirect(url_for("login"))
-    # verify user id in url
+    # verify user id
     if not user:
         flash("⚠️ User not found", "error")
         return redirect(url_for("dashboard"))
-    # verify folio id in url
+    # verify folio id
     if not folio:
         flash("⚠️ Folio not found", "error")
         return redirect(url_for("dashboard"))
     # verify if folio belongs to the user
     if session_user_id != folio.user_id:
         abort(404)
-    # colour selection form
+    # colour selection handling
     if request.method == 'POST':
-        # list contains colour ids
         selected_colours = request.form.getlist("select_colour")
         # Validate number of colours selected
         if len(selected_colours) < 2:
@@ -388,7 +382,7 @@ def select_colour(folio_id):
                                     folio_id=folio_id))
         else:
             # put newly selected colours into database
-            # if there are colours already assigned then delete them
+            # if there are colours already assigned then remove them
             if folio.colour_assignment == 1:
                 models.Bridge.query.filter_by(fid=folio.id).delete()
             for i in selected_colours:
@@ -441,9 +435,11 @@ def admin_login():
         privilege = user.privilege
         # check if username and passwords matches with database
         if user and user.check_password(password):
-            # admin privilege is 1, 0 is normal user
+            # verify admin previlege
+            # admin = 1, normal user = 0
             if privilege != 1:
-                flash('''⚠️ Incorrect name or password''', "error")
+                flash('''⚠️ Something went wrong, please try again''', "error")
+                return redirect(url_for("root"))
             else:
                 session['admin_id'] = user.id
                 session['admin_name'] = user.name
@@ -578,8 +574,18 @@ def admin_view_folio(user_id, folio_id):
                            colours=colours)
 
 
-# 404 page
+# error handling
 @app.errorhandler(404)
 def page_not_found(error):
     user_id = session.get("user_id")
-    return render_template("404.html", user_logged_in=user_id, user_id=user_id)
+    return render_template("404.html",
+                           user_logged_in=user_id,
+                           user_id=user_id)
+
+
+@app.errorhandler(500)
+def server_error(error):
+    user_id = session.get("user_id")
+    return render_template("500.html",
+                           user_logged_in=user_id,
+                           user_id=user_id), 500
